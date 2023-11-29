@@ -1,10 +1,14 @@
 import supabase from "./supabase";
 
-export async function getBooks() {
-  const { data, error } = await supabase
+export async function getBooks({ filter, sortBy }) {
+  let query = supabase
     .from("books")
     .select("*, extra_info(id, text, link)")
-    .order("id", { ascending: false });
+    .order("created_at", { ascending: false });
+
+  if (filter !== null) query = query.eq(filter.field, filter.value);
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);

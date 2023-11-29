@@ -10,7 +10,14 @@ const StyledBooksTableOperations = styled.div`
 function BooksTableOperations() {
   return (
     <StyledBooksTableOperations>
-      <Filter />
+      <Filter
+        options={[
+          { label: "All", value: "all" },
+          { label: "Read", value: "read" },
+          { label: "Wanted", value: "wanted" },
+        ]}
+        filteredField="status"
+      />
     </StyledBooksTableOperations>
   );
 }

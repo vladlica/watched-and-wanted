@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { css } from "styled-components";
+import { useSearchParams } from "react-router-dom";
 
 const StyledFilter = styled.div`
   display: flex;
@@ -30,12 +31,27 @@ const FilterButton = styled.button`
   }
 `;
 
-function Filter() {
+function Filter({ options, filteredField }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentFilter = searchParams.get(filteredField) || options.at(0).value;
+
+  function handleClick(value) {
+    searchParams.set(filteredField, value);
+    setSearchParams(searchParams);
+  }
+
   return (
     <StyledFilter>
-      <FilterButton $active={true}>All</FilterButton>
-      <FilterButton>Read</FilterButton>
-      <FilterButton>Wanted</FilterButton>
+      {options?.map((option) => (
+        <FilterButton
+          key={option.value}
+          onClick={() => handleClick(option.value)}
+          $active={option.value === currentFilter}
+          disabled={option.value === currentFilter}
+        >
+          {option.label}
+        </FilterButton>
+      ))}
     </StyledFilter>
   );
 }
