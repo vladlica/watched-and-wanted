@@ -6,11 +6,11 @@ const SearchBarContainer = styled.form`
   display: flex;
 `;
 const SearchBar = styled.input`
-  border: 1px solid var(--color-grey-400);
+  border: 1px solid var(--color-grey-100);
   padding: 0.3rem 1.2rem;
-  /* border-radius: 15px; */
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
+  box-shadow: var(--shadow-md);
 
   &:focus {
     outline: 2px solid var(--color-orange-600);
@@ -24,7 +24,7 @@ const SearchBar = styled.input`
 
 const SearchButton = styled.button`
   background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-400);
+  border: 1px solid var(--color-grey-100);
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   padding: 0.5rem;

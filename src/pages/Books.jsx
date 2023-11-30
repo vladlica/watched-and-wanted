@@ -9,7 +9,6 @@ function Books() {
     <>
       <Row direction="horizontal">
         <h1>Books</h1>
-        <BooksTableSearchBar />
         <BooksTableOperations />
       </Row>
 
