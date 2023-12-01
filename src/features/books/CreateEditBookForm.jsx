@@ -9,6 +9,7 @@ import Input from "../../ui/Input";
 import Select from "../../ui/Select";
 import Button from "../../ui/Button";
 import {
+  capitalizeFirstWord,
   convertDateToISO,
   convertExtraInfoFromDatabase,
   convertExtraInfoObjectToArray,
@@ -99,9 +100,9 @@ function CreateEditBookForm({ book, onClose }) {
     } = data;
 
     const bookInfo = {
-      author,
-      title,
-      series,
+      author: capitalizeFirstWord(author),
+      title: capitalizeFirstWord(title),
+      series: capitalizeFirstWord(series),
       numVolumes: +numVolumes,
       numPages: +numPages,
       status,

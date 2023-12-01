@@ -11,9 +11,13 @@ export function useBooks() {
       ? null
       : { field: "status", value: filterValue };
 
+  const sortByValue = searchParams.get("sortBy") || "created_at-desc";
+  const [field, direction] = sortByValue.split("-");
+  const sortBy = { field, direction };
+
   const { isLoading, data: books } = useQuery({
-    queryKey: ["books", filter],
-    queryFn: () => getBooks({ filter }),
+    queryKey: ["books", filter, sortBy],
+    queryFn: () => getBooks({ filter, sortBy }),
   });
 
   return { isLoading, books };

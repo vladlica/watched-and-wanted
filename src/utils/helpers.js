@@ -7,6 +7,7 @@ export function getInitials(fullName) {
 }
 
 export function capitalizeFirstWord(string) {
+  if (string === "") return "";
   return string.at(0).toUpperCase() + string.slice(1);
 }
 
