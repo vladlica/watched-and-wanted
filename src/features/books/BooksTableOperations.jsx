@@ -48,6 +48,7 @@ function BooksTableOperations() {
           },
         ]}
       />
+
       <BooksTableSearchBar />
     </StyledBooksTableOperations>
   );

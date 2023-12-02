@@ -2,6 +2,7 @@ import Table from "../../ui/Table";
 import BookRow from "./BookRow";
 import Spinner from "../../ui/Spinner";
 import { useBooks } from "./useBooks";
+import Pagination from "../../ui/Pagination";
 
 function BooksTable() {
   const { isLoading, books } = useBooks();
@@ -22,6 +23,9 @@ function BooksTable() {
         data={books}
         render={(book) => <BookRow book={book} key={book.id} />}
       />
+      <Table.Footer>
+        <Pagination count={books.length} />
+      </Table.Footer>
     </Table>
   );
 }
