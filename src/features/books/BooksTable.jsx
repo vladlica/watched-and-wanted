@@ -5,7 +5,7 @@ import { useBooks } from "./useBooks";
 import Pagination from "../../ui/Pagination";
 
 function BooksTable() {
-  const { isLoading, books } = useBooks();
+  const { isLoading, books, count } = useBooks();
 
   if (isLoading) return <Spinner />;
 
@@ -24,7 +24,7 @@ function BooksTable() {
         render={(book) => <BookRow book={book} key={book.id} />}
       />
       <Table.Footer>
-        <Pagination count={books.length} />
+        <Pagination count={count} />
       </Table.Footer>
     </Table>
   );
