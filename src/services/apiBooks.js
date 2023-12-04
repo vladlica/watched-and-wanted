@@ -1,12 +1,17 @@
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
-export async function getBooks({ filter, sortBy, page }) {
+export async function getBooks({ filter, sortBy, page, search }) {
   let query = supabase
     .from("books")
     .select("*, extra_info(id, text, link)", { count: "exact" });
 
   if (filter) query = query.eq(filter.field, filter.value);
+
+  if (search)
+    query = query.or(
+      `author.ilike.%${search}%, title.ilike.%${search}%, series.ilike.%${search}%`
+    );
 
   if (sortBy)
     query = query.order(sortBy.field, {

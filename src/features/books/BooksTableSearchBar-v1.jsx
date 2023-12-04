@@ -1,42 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { HiOutlineMagnifyingGlass, HiXMark } from "react-icons/hi2";
+import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
 
 const SearchBarContainer = styled.form`
   display: flex;
 `;
 
-const Container = styled.div`
-  position: relative;
-`;
-
-const CancelTextButton = styled.button`
-  position: absolute;
-  right: 0.4rem;
-  top: 50%;
-  transform: translate(0, -50%);
-  border: none;
-  background-color: var(--color-grey-0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: var(--color-grey-100);
-  }
-
-  & svg {
-    width: 2rem;
-    height: 2rem;
-  }
-`;
-
 const SearchBar = styled.input`
   border: 1px solid var(--color-grey-100);
-  padding: 0.3rem 2.6rem 0.3rem 1.2rem;
+  padding: 0.3rem 1.2rem;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   box-shadow: var(--shadow-md);
@@ -65,23 +38,33 @@ const SearchButton = styled.button`
 function BooksTableSearchBar() {
   const [search, setSearch] = useState("");
   const searchBarRef = useRef();
+  let timer = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(function () {
     searchBarRef.current.focus();
   }, []);
 
-  function handleCancelText() {
-    setSearch("");
-    searchParams.delete("search");
-    setSearchParams(searchParams);
+  function onChange(e) {
+    if (timer.current) clearTimeout(timer.current);
+    setSearch(e.target.value);
+
+    timer.current = setTimeout(() => {
+      if (searchParams.get("page")) searchParams.set("page", 1);
+
+      if (e.target.value) searchParams.set("search", e.target.value.trim());
+      else searchParams.delete("search");
+
+      setSearchParams(searchParams);
+    }, 500);
   }
 
   function onSubmit(e) {
     e.preventDefault();
+
     if (searchParams.get("page")) searchParams.set("page", 1);
 
-    if (search) searchParams.set("search", search.trim());
+    if (search) searchParams.set("search", search);
     else searchParams.delete("search");
 
     setSearchParams(searchParams);
@@ -89,20 +72,13 @@ function BooksTableSearchBar() {
 
   return (
     <SearchBarContainer onSubmit={onSubmit}>
-      <Container>
-        <SearchBar
-          type="text"
-          placeholder="Search for a book"
-          ref={searchBarRef}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {search.trim() && (
-          <CancelTextButton type="button" onClick={handleCancelText}>
-            <HiXMark />
-          </CancelTextButton>
-        )}
-      </Container>
+      <SearchBar
+        type="text"
+        placeholder="Search for a book"
+        ref={searchBarRef}
+        value={search}
+        onChange={onChange}
+      />
 
       <SearchButton>
         <HiOutlineMagnifyingGlass />
