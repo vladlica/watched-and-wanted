@@ -3,12 +3,29 @@ import styled from "styled-components";
 import { HiOutlineMagnifyingGlass, HiXMark } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
 
-const SearchBarContainer = styled.form`
+const SearchForm = styled.form`
   display: flex;
 `;
 
-const Container = styled.div`
+const SearchBarContainer = styled.div`
   position: relative;
+`;
+
+const SearchBar = styled.input`
+  border: 1px solid var(--color-grey-100);
+  padding: 0.3rem 3rem 0.3rem 1.2rem;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  box-shadow: var(--shadow-md);
+
+  &:focus {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: -2px;
+  }
+
+  &::placeholder {
+    color: var(--color-grey-400);
+  }
 `;
 
 const CancelTextButton = styled.button`
@@ -39,23 +56,6 @@ const CancelTextButton = styled.button`
   }
 `;
 
-const SearchBar = styled.input`
-  border: 1px solid var(--color-grey-100);
-  padding: 0.3rem 3rem 0.3rem 1.2rem;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-  box-shadow: var(--shadow-md);
-
-  &:focus {
-    outline: 2px solid var(--color-orange-600);
-    outline-offset: -2px;
-  }
-
-  &::placeholder {
-    color: var(--color-grey-400);
-  }
-`;
-
 const SearchButton = styled.button`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
@@ -67,7 +67,7 @@ const SearchButton = styled.button`
   justify-content: center;
 `;
 
-function BooksTableSearchBar() {
+function Search({ placeholder }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") ?? "");
   const searchBarRef = useRef();
@@ -93,11 +93,11 @@ function BooksTableSearchBar() {
   }
 
   return (
-    <SearchBarContainer onSubmit={onSubmit}>
-      <Container>
+    <SearchForm onSubmit={onSubmit}>
+      <SearchBarContainer>
         <SearchBar
           type="text"
-          placeholder="Search for a book"
+          placeholder={placeholder}
           ref={searchBarRef}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -107,13 +107,13 @@ function BooksTableSearchBar() {
             <HiXMark />
           </CancelTextButton>
         )}
-      </Container>
+      </SearchBarContainer>
 
       <SearchButton>
         <HiOutlineMagnifyingGlass />
       </SearchButton>
-    </SearchBarContainer>
+    </SearchForm>
   );
 }
 
-export default BooksTableSearchBar;
+export default Search;

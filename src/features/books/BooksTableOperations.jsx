@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Filter from "../../ui/Filter";
 import SortBy from "../../ui/SortBy";
-import BooksTableSearchBar from "./BooksTableSearchBar";
+import Search from "../../ui/Search";
 
 const StyledBooksTableOperations = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ function BooksTableOperations() {
         ]}
       />
 
-      <BooksTableSearchBar />
+      <Search placeholder="Search for a book" />
     </StyledBooksTableOperations>
   );
 }
