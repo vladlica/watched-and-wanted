@@ -78,6 +78,8 @@ function Search({ placeholder }) {
 
   function handleCancelText() {
     setSearch("");
+    if (searchParams.get("page")) searchParams.set("page", 1);
+
     searchParams.delete("search");
     setSearchParams(searchParams);
   }

@@ -19,6 +19,8 @@ function SortBy({ options }) {
   const sortBy = searchParams.get("sortBy") || options.at(0).value;
 
   function handleChange(e) {
+    if (searchParams.get("page")) searchParams.set("page", 1);
+
     searchParams.set("sortBy", e.target.value);
     setSearchParams(searchParams);
   }
