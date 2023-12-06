@@ -15,8 +15,10 @@ import { useToggleBookStatus } from "./useToggleBookStatus";
 import { format } from "date-fns";
 import Tag from "../../ui/Tag";
 import CreateEditBookForm from "./CreateEditBookForm";
+import { useNavigate } from "react-router-dom";
 
 function BookRow({ book }) {
+  const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -68,6 +70,7 @@ function BookRow({ book }) {
           title="View details about the book"
           $place="table"
           disabled={isToggling}
+          onClick={() => navigate(`/books/${book.id}`)}
         >
           <HiOutlineEye />
         </ButtonIcon>

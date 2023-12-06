@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Dashboard from "./pages/Dashboard";
 import Books from "./pages/Books";
+import Book from "./pages/Book";
 import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import YoutubeChannels from "./pages/YoutubeChannels";
@@ -32,6 +33,7 @@ function App() {
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/books" element={<Books />} />
+            <Route path="/books/:bookId" element={<Book />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/series" element={<Series />} />
             <Route path="/channels" element={<YoutubeChannels />} />

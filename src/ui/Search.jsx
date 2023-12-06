@@ -67,7 +67,7 @@ const SearchButton = styled.button`
   justify-content: center;
 `;
 
-function Search({ placeholder }) {
+function Search({ placeholder = "Search" }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") ?? "");
   const searchBarRef = useRef();

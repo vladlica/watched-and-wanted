@@ -1,5 +1,7 @@
+import BookDetails from "../features/books/BookDetails";
+
 function Book() {
-  return <div>Book</div>;
+  return <BookDetails />;
 }
 
 export default Book;
