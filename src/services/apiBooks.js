@@ -4,7 +4,7 @@ import supabase from "./supabase";
 export async function getBooks({ filter, sortBy, page, search }) {
   let query = supabase
     .from("books")
-    .select("*, extra_info(id, text, link)", { count: "exact" });
+    .select("*, extra_info(*)", { count: "exact" });
 
   if (filter) query = query.eq(filter.field, filter.value);
 
@@ -32,6 +32,21 @@ export async function getBooks({ filter, sortBy, page, search }) {
   }
 
   return { data, count };
+}
+
+export async function getBook(id) {
+  const { data, error } = await supabase
+    .from("books")
+    .select("*, extra_info(*)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Book not found");
+  }
+
+  return data;
 }
 
 export async function createBook(newBook, extraInfo) {
