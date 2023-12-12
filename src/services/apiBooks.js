@@ -46,6 +46,20 @@ export async function getBook(id) {
     throw new Error("Book not found");
   }
 
+  if (data.series) {
+    const { data: booksSameSeries } = await supabase
+      .from("books")
+      .select("*")
+      .eq("series", data.series)
+      .neq("id", id);
+
+    if (error) {
+      console.error(error);
+    }
+
+    if (booksSameSeries?.length) data.booksSameSeries = booksSameSeries;
+  }
+
   return data;
 }
 

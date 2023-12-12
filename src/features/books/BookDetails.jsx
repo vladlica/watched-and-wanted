@@ -233,7 +233,7 @@ function BookDetails() {
           {book.extra_info.length > 0 ? (
             <List>
               {book.extra_info.map((extraInfo) => (
-                <li>
+                <li key={extraInfo.id}>
                   {extraInfo.link ? (
                     <>
                       <HiOutlineLink />
@@ -265,27 +265,26 @@ function BookDetails() {
           )}
         </ListContainer>
 
-        <ListContainer>
-          <h2>Books from the same series</h2>
-          <List>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Codul lui Da Vinci</span>
-            </li>
-            <li>
-              <Tag color="silver">Wanted</Tag>
-              <span>Ingeri si Demoni</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-          </List>
-        </ListContainer>
+        {book.series && (
+          <ListContainer>
+            <h2>Books from the same series</h2>
+
+            {book?.booksSameSeries ? (
+              <List>
+                {book.booksSameSeries.map((item) => (
+                  <li key={item.id}>
+                    <Tag color={`${statusToTagColor[item.status]}`}>
+                      {item.status}
+                    </Tag>
+                    <span>{item.title}</span>
+                  </li>
+                ))}
+              </List>
+            ) : (
+              <p>No data to show</p>
+            )}
+          </ListContainer>
+        )}
 
         <ListContainer>
           <h2>Books from the same author</h2>
