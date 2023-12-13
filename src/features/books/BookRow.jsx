@@ -45,7 +45,7 @@ function BookRow({ book }) {
       <div>
         {book.finishDate && book.status === "read" ? (
           <Tag color={statusToTagColor[book.status]}>
-            {format(new Date(book.finishDate), "dd MMM yyyy")}
+            {format(new Date(book.finishDate), "dd MMM yyyy ")}
           </Tag>
         ) : (
           "-"

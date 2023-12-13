@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
@@ -47,17 +48,57 @@ export async function getBook(id) {
   }
 
   if (data.series) {
-    const { data: booksSameSeries } = await supabase
+    const { data: booksSameSeries, error: error1 } = await supabase
       .from("books")
       .select("*")
       .eq("series", data.series)
       .neq("id", id);
 
-    if (error) {
-      console.error(error);
+    if (error1) {
+      console.error(error1);
     }
 
     if (booksSameSeries?.length) data.booksSameSeries = booksSameSeries;
+  }
+
+  const { data: booksSameAuthor, error: error2 } = await supabase
+    .from("books")
+    .select("*")
+    .eq("author", data.author)
+    .neq("series", data.series)
+    .neq("id", id);
+
+  if (error2) {
+    console.error(error2);
+  }
+
+  if (booksSameAuthor?.length) data.booksSameAuthor = booksSameAuthor;
+
+  if (data.finishDate) {
+    const startDate = new Date(
+      +format(new Date(data.finishDate), "yyyy"),
+      0,
+      1
+    );
+
+    const endDate = new Date(
+      +format(new Date(data.finishDate), "yyyy") + 1,
+      0,
+      1
+    );
+
+    const { data: booksSameYear, error: error3 } = await supabase
+      .from("books")
+      .select("*")
+      .gte("finishDate", startDate.toISOString())
+      .lt("finishDate", endDate.toISOString())
+      .neq("id", id);
+
+    if (error3) {
+      console.error(error3);
+    }
+
+    if (booksSameYear?.length) data.booksSameYear = booksSameYear;
   }
 
   return data;

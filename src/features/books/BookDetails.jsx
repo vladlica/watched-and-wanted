@@ -126,6 +126,50 @@ const List = styled.ul`
     color: var(--color-orange-600);
   }
 
+  & a:link,
+  a:visited {
+    color: var(--color-grey-600);
+    font-weight: 600;
+  }
+
+  & a:hover,
+  a:active {
+    text-decoration: underline;
+    color: var(--color-orange-600);
+  }
+`;
+
+const List1 = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    border: 1px solid var(--color-grey-200);
+    border-radius: 25px;
+    padding: 1rem;
+
+    word-break: break-all;
+  }
+
+  & svg {
+    width: 2rem;
+    height: 2rem;
+    color: var(--color-orange-600);
+  }
+
+  & a:link,
+  a:visited {
+    color: var(--color-grey-600);
+    font-weight: 600;
+  }
+
   & a:hover,
   a:active {
     text-decoration: underline;
@@ -276,7 +320,7 @@ function BookDetails() {
                     <Tag color={`${statusToTagColor[item.status]}`}>
                       {item.status}
                     </Tag>
-                    <span>{item.title}</span>
+                    <Link to={`/books/${item.id}`}>{item.title}</Link>
                   </li>
                 ))}
               </List>
@@ -288,74 +332,37 @@ function BookDetails() {
 
         <ListContainer>
           <h2>Books from the same author</h2>
-          <List>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Codul lui Da Vinci</span>
-            </li>
-            <li>
-              <Tag color="silver">Wanted</Tag>
-              <span>Ingeri si Demoni</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-            <li>
-              <Tag color="silver">Wanted</Tag>
-              <span>Ingeri si Demoni</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-          </List>
+          {book?.booksSameAuthor ? (
+            <List>
+              {book.booksSameAuthor.map((item) => (
+                <li key={item.id}>
+                  <Tag color={`${statusToTagColor[item.status]}`}>
+                    {item.status}
+                  </Tag>
+                  <Link to={`/books/${item.id}`}>{item.title}</Link>
+                </li>
+              ))}
+            </List>
+          ) : (
+            <p>No data to show</p>
+          )}
         </ListContainer>
 
         <ListContainer>
           <h2>Books read in the same year</h2>
-          <List>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Codul lui Da Vinci</span>
-            </li>
-            <li>
-              <Tag color="silver">Wanted</Tag>
-              <span>Ingeri si Demoni</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-            <li>
-              <Tag color="silver">Wanted</Tag>
-              <span>Ingeri si Demoni</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <span>Inferno</span>
-            </li>
-            <li>
-              <Tag color="silver">Wanted</Tag>
-              <span>Ingeri si Demoni</span>
-            </li>
-            <li>
-              <Tag color="green">Read</Tag>
-              <Link to="/books/130">Inferno</Link>
-            </li>
-          </List>
+          {book?.booksSameYear ? (
+            <List1>
+              {book.booksSameYear.map((item) => (
+                <li key={item.id}>
+                  <Link to={`/books/${item.id}`}>{item.title}</Link>
+
+                  <Tag color="blue">by {item.author}</Tag>
+                </li>
+              ))}
+            </List1>
+          ) : (
+            <p>No data to show</p>
+          )}
         </ListContainer>
       </ListsContainer>
     </>
