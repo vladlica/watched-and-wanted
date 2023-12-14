@@ -24,7 +24,7 @@ const LettersAvatar = styled.div`
 
 function UserAvatar() {
   const userAvatar = undefined;
-  const userFullName = "tylor daniels";
+  const userFullName = "tylor daniels adam";
 
   if (!userAvatar)
     return <LettersAvatar>{getInitials(userFullName)}</LettersAvatar>;

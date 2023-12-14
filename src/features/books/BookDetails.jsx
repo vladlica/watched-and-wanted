@@ -117,7 +117,8 @@ const List = styled.ul`
     border-radius: 25px;
     padding: 1rem;
 
-    word-break: break-all;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
 
   & svg {
@@ -128,14 +129,12 @@ const List = styled.ul`
 
   & a:link,
   a:visited {
-    color: var(--color-grey-600);
-    font-weight: 600;
+    color: var(--color-orange-700);
   }
 
   & a:hover,
   a:active {
     text-decoration: underline;
-    color: var(--color-orange-600);
   }
 `;
 
@@ -155,7 +154,8 @@ const List1 = styled.ul`
     border-radius: 25px;
     padding: 1rem;
 
-    word-break: break-all;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
 
   & svg {
@@ -166,14 +166,12 @@ const List1 = styled.ul`
 
   & a:link,
   a:visited {
-    color: var(--color-grey-600);
-    font-weight: 600;
+    color: var(--color-orange-700);
   }
 
   & a:hover,
   a:active {
     text-decoration: underline;
-    color: var(--color-orange-600);
   }
 `;
 

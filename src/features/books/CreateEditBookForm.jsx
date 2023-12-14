@@ -294,6 +294,7 @@ function CreateEditBookForm({ book, onClose }) {
                 }}
                 showButtonBar
                 minDate={getValues().startDate}
+                maxDate={new Date()}
                 disabled={!isRead || isCreating || isUpdating}
                 ref={finishedDateRef}
               />
