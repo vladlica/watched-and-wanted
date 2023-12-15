@@ -12,6 +12,11 @@ import Tag from "../../ui/Tag";
 import { useBook } from "./useBook";
 import Spinner from "../../ui/Spinner";
 import { format } from "date-fns";
+import Row from "../../ui/Row";
+import Button from "../../ui/Button";
+import { useState } from "react";
+import Modal from "../../ui/Modal";
+import CreateEditBookForm from "./CreateEditBookForm";
 
 const DetailsContainer = styled.div`
   display: grid;
@@ -57,7 +62,7 @@ const Value = styled.span`
   font-weight: 600;
 `;
 
-const HeaderContainer = styled.div`
+const HeaderLeft = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -177,12 +182,18 @@ const List1 = styled.ul`
 
 const TagsList = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: center;
+`;
+
+const ButtonsList = styled.div`
+  display: flex;
+  gap: 1rem;
 `;
 
 function BookDetails() {
   const { isLoading, book, error, isError } = useBook();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   if (isLoading) return <Spinner />;
 
@@ -199,22 +210,50 @@ function BookDetails() {
 
   return (
     <>
-      <HeaderContainer>
-        <TagsList>
-          <Tag color={`${statusToTagColor[book.status]}`}>{book.status}</Tag>
-          <Tag color="blue">{book.author}</Tag>
-          {book.series && <Tag color="orange">{book.series} Series</Tag>}
-          {book.finishDate && (
-            <Tag color="indigo">
-              Finished in {format(new Date(book.finishDate), "yyyy")}
-            </Tag>
-          )}
-          {/* <Tag color="red">Longest book of 2023</Tag> */}
-        </TagsList>
+      <Row direction="horizontal">
+        <HeaderLeft>
+          <TagsList>
+            <Tag color={`${statusToTagColor[book.status]}`}>{book.status}</Tag>
+            <Tag color="blue">{book.author}</Tag>
+            {book.series && <Tag color="orange">{book.series} Series</Tag>}
+            {book.finishDate && (
+              <Tag color="indigo">
+                Finished in {format(new Date(book.finishDate), "yyyy")}
+              </Tag>
+            )}
+            {book.isLongestBook && book.finishDate && (
+              <Tag color="yellow">
+                Longest book of {format(new Date(book.finishDate), "yyyy")}
+              </Tag>
+            )}
+            {book.isShortestBook && book.finishDate && (
+              <Tag color="yellow">
+                Shortest book of {format(new Date(book.finishDate), "yyyy")}
+              </Tag>
+            )}
+            {book.numDays && <Tag color="red">Read in {book.numDays} days</Tag>}
+          </TagsList>
 
-        <h1>{book.title}</h1>
-        {book.series && <p>{book.series} Series</p>}
-      </HeaderContainer>
+          <h1>{book.title}</h1>
+          {book.series && <p>{book.series} Series</p>}
+        </HeaderLeft>
+
+        <ButtonsList>
+          <Button $variation="primary" onClick={() => setIsEditModalOpen(true)}>
+            Edit book
+          </Button>
+          {isEditModalOpen && (
+            <Modal onClose={() => setIsEditModalOpen(false)}>
+              <CreateEditBookForm
+                book={book}
+                onClose={() => setIsEditModalOpen(false)}
+              />
+            </Modal>
+          )}
+          <Button $variation="danger">Delete book</Button>
+          <Button $variation="secondary">Back</Button>
+        </ButtonsList>
+      </Row>
 
       <DetailsContainer>
         <Detail>
@@ -268,7 +307,6 @@ function BookDetails() {
           </RightBox>
         </Detail>
       </DetailsContainer>
-
       <ListsContainer>
         <ListContainer>
           <h2>Comments and links</h2>

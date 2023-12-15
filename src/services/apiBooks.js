@@ -1,6 +1,7 @@
-import { format } from "date-fns";
+import { format, intervalToDuration } from "date-fns";
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
+import { checkIfLongestAndShortestBook } from "../utils/helpers";
 
 export async function getBooks({ filter, sortBy, page, search }) {
   let query = supabase
@@ -99,6 +100,25 @@ export async function getBook(id) {
     }
 
     if (booksSameYear?.length) data.booksSameYear = booksSameYear;
+
+    if (data.status === "read") {
+      const { isLongestBook, isShortestBook } = checkIfLongestAndShortestBook(
+        data.numPages,
+        booksSameYear
+      );
+
+      data.isLongestBook = isLongestBook;
+      data.isShortestBook = isShortestBook;
+    }
+
+    if (data.startDate && data.finishDate) {
+      const { days } = intervalToDuration({
+        start: new Date(data.startDate),
+        end: new Date(data.finishDate),
+      });
+
+      data.numDays = days;
+    }
   }
 
   return data;

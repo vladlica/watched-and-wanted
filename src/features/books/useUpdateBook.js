@@ -14,6 +14,10 @@ export function useUpdateBook() {
       queryClient.invalidateQueries({
         queryKey: ["books"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["book", String(data.id)],
+      });
     },
     onError: (err) => toast.error(err.message),
   });

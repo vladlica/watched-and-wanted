@@ -6,6 +6,18 @@ export function getInitials(fullName) {
     .join("");
 }
 
+export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
+  const isLongestBook = !booksSameYear.some(
+    (item) => item.status === "read" && item.numPages > numPages
+  );
+
+  const isShortestBook = !booksSameYear.some(
+    (item) => item.status === "read" && item.numPages < numPages
+  );
+
+  return { isLongestBook, isShortestBook };
+}
+
 export function capitalizeFirstWord(string) {
   if (string === "") return "";
   return string.at(0).toUpperCase() + string.slice(1);
