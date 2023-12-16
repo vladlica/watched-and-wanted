@@ -1,9 +1,21 @@
 import styled, { css } from "styled-components";
 
 const Button = styled.button`
-  padding: 1rem 2rem;
   border-radius: 25px;
   transition: all 0.3s;
+
+  ${(props) =>
+    props.$size === "small" &&
+    css`
+      padding: 0.5rem 1.5rem;
+      font-size: 1.4rem;
+    `}
+
+  ${(props) =>
+    props.$size === "medium" &&
+    css`
+      padding: 1rem 2rem;
+    `}
 
   ${(props) =>
     props.$variation === "primary" &&
@@ -41,5 +53,9 @@ const Button = styled.button`
       }
     `}
 `;
+
+Button.defaultProps = {
+  $size: "medium",
+};
 
 export default Button;

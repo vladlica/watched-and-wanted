@@ -62,14 +62,14 @@ function BookRow({ book }) {
               obj: { status: isRead ? "wanted" : "read" },
             })
           }
-          disabled={isToggling}
+          disabled={isToggling || isDeleting}
         >
           {isRead ? <HiOutlineMinusCircle /> : <HiOutlinePlusCircle />}
         </ButtonIcon>
         <ButtonIcon
           title="View details about the book"
           $place="table"
-          disabled={isToggling}
+          disabled={isToggling || isDeleting}
           onClick={() => navigate(`/books/${book.id}`)}
         >
           <HiOutlineEye />
@@ -78,7 +78,7 @@ function BookRow({ book }) {
           title="Edit book"
           $place="table"
           onClick={() => setIsEditModalOpen(true)}
-          disabled={isToggling}
+          disabled={isToggling || isDeleting}
         >
           <HiOutlinePencil />
         </ButtonIcon>
@@ -94,7 +94,7 @@ function BookRow({ book }) {
           title="Delete book"
           $place="table"
           onClick={() => setIsDeleteModalOpen(true)}
-          disabled={isToggling}
+          disabled={isToggling || isDeleting}
         >
           <HiOutlineTrash />
         </ButtonIcon>
