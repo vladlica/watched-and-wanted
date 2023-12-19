@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Modal from "../../ui/Modal";
 import Button from "../../ui/Button";
-import CreateEditBookForm from "./CreateEditBookForm";
+import Modal from "../../ui/Modal";
+import CreateEditSeriesForm from "./CreateEditSeriesForm";
 
-function AddBook() {
+function AddSeries() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   function closeModal() {
@@ -13,15 +13,15 @@ function AddBook() {
   return (
     <div>
       <Button $variation="primary" onClick={() => setIsModalOpen(true)}>
-        Add book
+        Add Series
       </Button>
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          <CreateEditBookForm onClose={closeModal} />
+          <CreateEditSeriesForm onClose={closeModal} />
         </Modal>
       )}
     </div>
   );
 }
 
-export default AddBook;
+export default AddSeries;

@@ -1,3 +1,4 @@
+import AddSeries from "../features/series/AddSeries";
 import SeriesTable from "../features/series/SeriesTable";
 import Row from "../ui/Row";
 
@@ -11,7 +12,7 @@ function Series() {
 
       <Row direction="vertical">
         <SeriesTable />
-        <span>Add Button</span>
+        <AddSeries />
       </Row>
     </>
   );

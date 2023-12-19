@@ -201,7 +201,7 @@ function CreateEditBookForm({ book, onClose }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="numVolumes">Number of volumes</Label>
+        <Label htmlFor="numVolumes">Volumes</Label>
         <Input
           type="number"
           id="numVolumes"
@@ -227,7 +227,7 @@ function CreateEditBookForm({ book, onClose }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="numPages">Number of pages</Label>
+        <Label htmlFor="numPages">Pages</Label>
         <Input
           type="number"
           id="numPages"
@@ -316,7 +316,7 @@ function CreateEditBookForm({ book, onClose }) {
 
       <FormButtonRow $justify="end">
         <Button $variation="primary" disabled={isCreating || isUpdating}>
-          {isEditSession ? "Edit book" : "Add book"}
+          {isEditSession ? "Update book" : "Create book"}
         </Button>
         <Button
           $variation="secondary"
