@@ -34,7 +34,7 @@ function SeriesRow({ series }) {
       <div>
         <Tag color={statusToTagColor[series.status]}>{series.status}</Tag>
       </div>
-      <div>{series.seasons || "-"}</div>
+      <div>{series.numSeasons || "-"}</div>
       <SvgContainer>
         {series.hasBook ? <HiOutlineCheck /> : <HiOutlineXMark />}
       </SvgContainer>

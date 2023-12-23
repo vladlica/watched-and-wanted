@@ -7,10 +7,15 @@ import Label from "../../ui/Label";
 import Error from "../../ui/Error";
 import Select from "../../ui/Select";
 import FormExtraInfoList from "../../ui/FormExtraInfoList";
-import { convertExtraInfoFromDatabase } from "../../utils/helpers";
+import {
+  capitalizeFirstWord,
+  convertExtraInfoFromDatabase,
+  convertExtraInfoObjectToArray,
+} from "../../utils/helpers";
 import FormButtonRow from "../../ui/FormButtonRow";
 import Button from "../../ui/Button";
 import styled from "styled-components";
+import { useCreateSeries } from "./useCreateSeries";
 
 const FormChecboxesRow = styled.div`
   display: flex;
@@ -34,6 +39,8 @@ const CheckboxContainer = styled.div`
 function CreateEditSeriesForm({ series, onClose }) {
   const scrollRef = useRef(null);
 
+  const { isCreating, createSeries } = useCreateSeries();
+
   const isEditSession = Boolean(series?.id);
 
   const {
@@ -42,7 +49,6 @@ function CreateEditSeriesForm({ series, onClose }) {
     handleSubmit,
     getValues,
     watch,
-    reset,
     formState,
     control,
     setValue,
@@ -51,7 +57,12 @@ function CreateEditSeriesForm({ series, onClose }) {
       ? {
           ...series,
         }
-      : { book: false, movie: false, news: false, finished: false },
+      : {
+          hasBook: false,
+          hasMovie: false,
+          hasNews: false,
+          isFinished: false,
+        },
   });
 
   const { errors } = formState;
@@ -63,19 +74,71 @@ function CreateEditSeriesForm({ series, onClose }) {
   useEffect(
     function () {
       if (!isWatched) {
-        reset({
-          numSeasons: "",
-          numEpisodes: "",
-          //reset the checkbox for news also
-        });
+        setValue("numSeasons", "");
+        setValue("numEpisodes", "");
+        setValue("hasNews", false);
       }
     },
-    [isWatched, reset]
+    [isWatched, setValue]
   );
 
   function onSubmit(data) {
     console.log("submit");
     console.log(data);
+
+    const {
+      title,
+      numSeasons,
+      numEpisodes,
+      status,
+      hasBook,
+      hasMovie,
+      hasNews,
+      isFinished,
+      ...extraInfoData
+    } = data;
+
+    const seriesInfo = {
+      title: capitalizeFirstWord(title),
+      numSeasons: +numSeasons,
+      numEpisodes: +numEpisodes,
+      status,
+      hasBook,
+      hasMovie,
+      hasNews,
+      isFinished,
+    };
+
+    if (isEditSession) {
+      delete extraInfoData.extra_info;
+      delete extraInfoData.id;
+      delete extraInfoData.created_at;
+    }
+
+    const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
+
+    console.log("----");
+    console.log(extraInfoArray);
+    console.log(seriesInfo);
+
+    // if (isEditSession)
+    //   updateBook(
+    //     { id: book.id, updatedBook: bookInfo, extraInfo: extraInfoArray },
+    //     {
+    //       onSuccess: () => {
+    //         onClose();
+    //       },
+    //     }
+    //   );
+    // else
+    createSeries(
+      { newSeries: seriesInfo, extraInfo: extraInfoArray },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   }
 
   return (
@@ -124,6 +187,7 @@ function CreateEditSeriesForm({ series, onClose }) {
             },
           })}
           // disabled={!isWatched || isCreating || isUpdating}
+          disabled={!isWatched}
         />
         {errors?.numSeasons?.message && (
           <Error>{errors.numSeasons.message}</Error>
@@ -150,74 +214,12 @@ function CreateEditSeriesForm({ series, onClose }) {
             },
           })}
           // disabled={!isWatched || isCreating || isUpdating}
+          disabled={!isWatched}
         />
         {errors?.numEpisodes?.message && (
           <Error>{errors.numEpisodes.message}</Error>
         )}
       </FormRow>
-
-      <FormChecboxesRow>
-        <CheckboxContainer>
-          <Controller
-            name="book"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                id="book"
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
-              />
-            )}
-          />
-          <Label htmlFor="book">Book</Label>
-        </CheckboxContainer>
-        <CheckboxContainer>
-          <Controller
-            name="movie"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                id="movie"
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
-              />
-            )}
-          />
-          <Label htmlFor="movie">Movie</Label>
-        </CheckboxContainer>
-        <CheckboxContainer>
-          <Controller
-            name="news"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                id="news"
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
-              />
-            )}
-          />
-          <Label htmlFor="news">News</Label>
-        </CheckboxContainer>
-        <CheckboxContainer>
-          <Controller
-            name="finished"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                id="finished"
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
-              />
-            )}
-          />
-          <Label htmlFor="finished">Finished</Label>
-        </CheckboxContainer>
-      </FormChecboxesRow>
 
       <FormExtraInfoList
         register={register}
@@ -229,6 +231,70 @@ function CreateEditSeriesForm({ series, onClose }) {
         }
         // disabled={isCreating || isUpdating}
       />
+
+      <FormChecboxesRow>
+        <CheckboxContainer>
+          <Controller
+            name="hasBook"
+            control={control}
+            render={({ field }) => (
+              <input
+                type="checkbox"
+                id="hasBook"
+                onChange={(e) => field.onChange(e.target.checked)}
+                checked={field.value}
+              />
+            )}
+          />
+          <Label htmlFor="hasBook">Book</Label>
+        </CheckboxContainer>
+        <CheckboxContainer>
+          <Controller
+            name="hasMovie"
+            control={control}
+            render={({ field }) => (
+              <input
+                type="checkbox"
+                id="hasMovie"
+                onChange={(e) => field.onChange(e.target.checked)}
+                checked={field.value}
+              />
+            )}
+          />
+          <Label htmlFor="hasMovie">Movie</Label>
+        </CheckboxContainer>
+        <CheckboxContainer>
+          <Controller
+            name="hasNews"
+            control={control}
+            render={({ field }) => (
+              <input
+                type="checkbox"
+                id="hasNews"
+                onChange={(e) => field.onChange(e.target.checked)}
+                checked={field.value}
+                disabled={!isWatched}
+              />
+            )}
+          />
+          <Label htmlFor="hasNews">News</Label>
+        </CheckboxContainer>
+        <CheckboxContainer>
+          <Controller
+            name="isFinished"
+            control={control}
+            render={({ field }) => (
+              <input
+                type="checkbox"
+                id="isFinished"
+                onChange={(e) => field.onChange(e.target.checked)}
+                checked={field.value}
+              />
+            )}
+          />
+          <Label htmlFor="isFinished">Finished</Label>
+        </CheckboxContainer>
+      </FormChecboxesRow>
 
       <FormButtonRow $justify="end">
         <Button

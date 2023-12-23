@@ -36,10 +36,6 @@ BEGIN
   -- Loop through the array of extra_info_data and insert into extra_info table
   FOREACH extra_info_record IN ARRAY p_extra_info_data
   LOOP
-    IF length(extra_info_record->>'text') > 5 THEN
-      RAISE EXCEPTION 'Text length exceeds the allowed limit for testing rollback';
-    END IF;
-
     -- Use the captured book_id in the extra_info insert
     INSERT INTO extra_info ("bookId", text, link)
     VALUES (book_record.id, extra_info_record->>'text', extra_info_record->>'link');
@@ -99,7 +95,6 @@ BEGIN
   -- Loop through the array of extra_info_data and insert into extra_info table
   FOREACH extra_info_record IN ARRAY p_extra_info_data
   LOOP
-     
     -- Insert new records into the extra_info table
     INSERT INTO extra_info ("bookId", text, link)
     VALUES (p_book_id, extra_info_record->>'text', extra_info_record->>'link');
@@ -121,6 +116,60 @@ BEGIN
   -- Return the result as JSON
   RETURN result_json;
   EXCEPTION
+  -- If an exception occurs, re-raise the exception
+  WHEN OTHERS THEN
+    -- Re-raise the exception
+    RAISE;
+END;
+$$ LANGUAGE plpgsql;
+----------------------------------------------------------------
+CREATE OR REPLACE FUNCTION insert_series_and_extra_info(
+    p_series_data jsonb[],
+    p_extra_info_data jsonb[]
+) RETURNS json AS $$
+DECLARE
+  series_record record; -- Declare a variable for the returned columns
+  extra_info_record jsonb; -- Declare a variable for the loop
+  result_json jsonb; -- Variable to store the result
+BEGIN
+  -- Extract values from the JSON object for series table
+  INSERT INTO series (title, "numSeasons", "numEpisodes", status, "hasBook", "hasMovie","hasNews", "isFinished")
+  VALUES (
+    p_series_data[1]->>'title',
+    COALESCE(NULLIF((p_series_data[1]->>'numSeasons')::text, ''), '0')::smallint,
+    COALESCE(NULLIF((p_series_data[1]->>'numEpisodes')::text, ''), '0')::smallint,
+    p_series_data[1]->>'status',
+    (p_series_data[1]->>'hasBook')::boolean,
+    (p_series_data[1]->>'hasMovie')::boolean,
+    (p_series_data[1]->>'hasNews')::boolean,
+    (p_series_data[1]->>'isFinished')::boolean 
+  )
+  RETURNING * INTO series_record;
+
+  -- Loop through the array of extra_info_data and insert into extra_info table
+  FOREACH extra_info_record IN ARRAY p_extra_info_data
+  LOOP
+    -- Use the captured series_id in the extra_info insert
+    INSERT INTO extra_info ("seriesId", text, link)
+    VALUES (series_record.id, extra_info_record->>'text', extra_info_record->>'link');
+  END LOOP;
+
+   -- Convert the series_record to JSON
+  SELECT jsonb_build_object(
+    'id', series_record.id,
+    'title', series_record.title,
+    'numSeasons', series_record."numSeasons",
+    'numEpisodes', series_record."numEpisodes",
+    'status', series_record.status,
+    'hasBook', series_record."hasBook",
+    'hasMovie', series_record."hasMovie",
+    'hasNews', series_record."hasNews",
+    'isFinished', series_record."hasMovie"
+  ) INTO result_json;
+
+  -- Return a JSON object if needed, otherwise, use RETURN;
+  RETURN result_json;
+EXCEPTION
   -- If an exception occurs, re-raise the exception
   WHEN OTHERS THEN
     -- Re-raise the exception
