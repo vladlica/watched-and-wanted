@@ -16,6 +16,7 @@ import FormButtonRow from "../../ui/FormButtonRow";
 import Button from "../../ui/Button";
 import styled from "styled-components";
 import { useCreateSeries } from "./useCreateSeries";
+import { useUpdateSeries } from "./useUpdateSeries";
 
 const FormChecboxesRow = styled.div`
   display: flex;
@@ -40,6 +41,7 @@ function CreateEditSeriesForm({ series, onClose }) {
   const scrollRef = useRef(null);
 
   const { isCreating, createSeries } = useCreateSeries();
+  const { isUpdating, updateSeries } = useUpdateSeries();
 
   const isEditSession = Boolean(series?.id);
 
@@ -121,24 +123,24 @@ function CreateEditSeriesForm({ series, onClose }) {
     console.log(extraInfoArray);
     console.log(seriesInfo);
 
-    // if (isEditSession)
-    //   updateBook(
-    //     { id: book.id, updatedBook: bookInfo, extraInfo: extraInfoArray },
-    //     {
-    //       onSuccess: () => {
-    //         onClose();
-    //       },
-    //     }
-    //   );
-    // else
-    createSeries(
-      { newSeries: seriesInfo, extraInfo: extraInfoArray },
-      {
-        onSuccess: () => {
-          onClose();
-        },
-      }
-    );
+    if (isEditSession)
+      updateSeries(
+        { id: series.id, updatedSeries: seriesInfo, extraInfo: extraInfoArray },
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        }
+      );
+    else
+      createSeries(
+        { newSeries: seriesInfo, extraInfo: extraInfoArray },
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        }
+      );
   }
 
   return (
@@ -152,7 +154,7 @@ function CreateEditSeriesForm({ series, onClose }) {
           {...register("title", {
             required: "This field is required",
           })}
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         />
         {errors?.title?.message && <Error>{errors.title.message}</Error>}
       </FormRow>
@@ -163,7 +165,7 @@ function CreateEditSeriesForm({ series, onClose }) {
           id="status"
           options={["wanted", "watched"]}
           register={{ ...register("status") }}
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         ></Select>
       </FormRow>
 
@@ -186,8 +188,7 @@ function CreateEditSeriesForm({ series, onClose }) {
               message: "The seasons number should be positive",
             },
           })}
-          // disabled={!isWatched || isCreating || isUpdating}
-          disabled={!isWatched}
+          disabled={!isWatched || isCreating || isUpdating}
         />
         {errors?.numSeasons?.message && (
           <Error>{errors.numSeasons.message}</Error>
@@ -213,8 +214,7 @@ function CreateEditSeriesForm({ series, onClose }) {
               message: "The episodes number should be positive",
             },
           })}
-          // disabled={!isWatched || isCreating || isUpdating}
-          disabled={!isWatched}
+          disabled={!isWatched || isCreating || isUpdating}
         />
         {errors?.numEpisodes?.message && (
           <Error>{errors.numEpisodes.message}</Error>
@@ -229,7 +229,7 @@ function CreateEditSeriesForm({ series, onClose }) {
         defaultValue={
           isEditSession ? convertExtraInfoFromDatabase(series.extra_info) : []
         }
-        // disabled={isCreating || isUpdating}
+        disabled={isCreating || isUpdating}
       />
 
       <FormChecboxesRow>
@@ -243,6 +243,7 @@ function CreateEditSeriesForm({ series, onClose }) {
                 id="hasBook"
                 onChange={(e) => field.onChange(e.target.checked)}
                 checked={field.value}
+                disabled={isCreating || isUpdating}
               />
             )}
           />
@@ -258,6 +259,7 @@ function CreateEditSeriesForm({ series, onClose }) {
                 id="hasMovie"
                 onChange={(e) => field.onChange(e.target.checked)}
                 checked={field.value}
+                disabled={isCreating || isUpdating}
               />
             )}
           />
@@ -273,7 +275,7 @@ function CreateEditSeriesForm({ series, onClose }) {
                 id="hasNews"
                 onChange={(e) => field.onChange(e.target.checked)}
                 checked={field.value}
-                disabled={!isWatched}
+                disabled={!isWatched || isCreating || isUpdating}
               />
             )}
           />
@@ -289,6 +291,7 @@ function CreateEditSeriesForm({ series, onClose }) {
                 id="isFinished"
                 onChange={(e) => field.onChange(e.target.checked)}
                 checked={field.value}
+                disabled={isCreating || isUpdating}
               />
             )}
           />
@@ -297,17 +300,14 @@ function CreateEditSeriesForm({ series, onClose }) {
       </FormChecboxesRow>
 
       <FormButtonRow $justify="end">
-        <Button
-          $variation="primary"
-          //  disabled={isCreating || isUpdating}
-        >
+        <Button $variation="primary" disabled={isCreating || isUpdating}>
           {isEditSession ? "Update series" : "Create series"}
         </Button>
         <Button
           $variation="secondary"
           onClick={onClose}
           type="button"
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         >
           Cancel
         </Button>

@@ -35,3 +35,31 @@ export async function createSeries(newSeries, extraInfo) {
 
   return data;
 }
+
+export async function updateSeries(id, seriesUpdates, extraInfo) {
+  let query = supabase;
+
+  if (Boolean(extraInfo)) {
+    query = query.rpc("update_series_and_extra_info", {
+      p_series_id: id,
+      p_series_data: [seriesUpdates],
+      p_extra_info_data: [extraInfo],
+    });
+  } else {
+    query = query
+      .from("series")
+      .update(seriesUpdates)
+      .eq("id", id)
+      .select()
+      .single();
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Series could not be updated");
+  }
+
+  return data;
+}

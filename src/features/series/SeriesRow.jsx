@@ -11,6 +11,9 @@ import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
 import ButtonIcon from "../../ui/ButtonIcon";
 import styled from "styled-components";
+import { useState } from "react";
+import Modal from "../../ui/Modal";
+import CreateEditSeriesForm from "./CreateEditSeriesForm";
 
 const SvgContainer = styled.div`
   & svg {
@@ -21,6 +24,7 @@ const SvgContainer = styled.div`
 `;
 
 function SeriesRow({ series }) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const statusToTagColor = {
     watched: "green",
     wanted: "silver",
@@ -59,9 +63,21 @@ function SeriesRow({ series }) {
           <HiOutlineEye />
         </ButtonIcon>
 
-        <ButtonIcon title="Edit series" $place="table">
+        <ButtonIcon
+          title="Edit series"
+          $place="table"
+          onClick={() => setIsEditModalOpen(true)}
+        >
           <HiOutlinePencil />
         </ButtonIcon>
+        {isEditModalOpen && (
+          <Modal onClose={() => setIsEditModalOpen(false)}>
+            <CreateEditSeriesForm
+              series={series}
+              onClose={() => setIsEditModalOpen(false)}
+            />
+          </Modal>
+        )}
 
         <ButtonIcon title="Delete series" $place="table">
           <HiOutlineTrash />

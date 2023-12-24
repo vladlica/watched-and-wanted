@@ -176,3 +176,64 @@ EXCEPTION
     RAISE;
 END;
 $$ LANGUAGE plpgsql;
+
+---------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION update_series_and_extra_info(
+    p_series_id integer,
+    p_series_data jsonb[],
+    p_extra_info_data jsonb[]
+) RETURNS jsonb AS $$
+DECLARE
+  updated_series_record record; -- Declare a variable for the updated series information
+  extra_info_record jsonb; -- Declare a variable for the loop
+  result_json jsonb; -- Variable to store the result
+BEGIN
+  -- Update values in the series table
+  UPDATE series
+  SET
+    title = p_series_data[1]->>'title',
+    "numSeasons" = COALESCE(NULLIF((p_series_data[1]->>'numSeasons')::text, ''), '0')::smallint,
+    "numEpisodes" = COALESCE(NULLIF((p_series_data[1]->>'numEpisodes')::text, ''), '0')::smallint,
+    status = p_series_data[1]->>'status',
+    "hasBook" = (p_series_data[1]->>'hasBook')::boolean,
+    "hasMovie" = (p_series_data[1]->>'hasMovie')::boolean,
+    "hasNews" = (p_series_data[1]->>'hasNews')::boolean,
+    "isFinished" = (p_series_data[1]->>'isFinished')::boolean
+  WHERE id = p_series_id
+  RETURNING * INTO updated_series_record;
+
+  -- Delete existing records in the extra_info table for the given series ID
+  DELETE FROM extra_info
+  WHERE "seriesId" = p_series_id;
+
+  -- Loop through the array of extra_info_data and insert into extra_info table
+  FOREACH extra_info_record IN ARRAY p_extra_info_data
+  LOOP
+    -- Insert new records into the extra_info table
+    INSERT INTO extra_info ("seriesId", text, link)
+    VALUES (p_series_id, extra_info_record->>'text', extra_info_record->>'link');
+  END LOOP;
+
+  -- Convert the updated_series_record to JSON
+  SELECT jsonb_build_object(
+    'id', updated_series_record.id,
+    'title', updated_series_record.title,
+    'numSeasons', updated_series_record."numSeasons",
+    'numEpisodes', updated_series_record."numEpisodes",
+    'status', updated_series_record.status,
+    'hasBook', updated_series_record."hasBook",
+    'hasMovie', updated_series_record."hasMovie",
+    'hasNews', updated_series_record."hasNews",
+    'isFinished', updated_series_record."isFinished"
+  ) INTO result_json;
+
+  -- Return the result as JSON
+  RETURN result_json;
+  EXCEPTION
+  -- If an exception occurs, re-raise the exception
+  WHEN OTHERS THEN
+    -- Re-raise the exception
+    RAISE;
+END;
+$$ LANGUAGE plpgsql;
