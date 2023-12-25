@@ -63,3 +63,14 @@ export async function updateSeries(id, seriesUpdates, extraInfo) {
 
   return data;
 }
+
+export async function deleteSeries(id) {
+  const { data, error } = await supabase.from("series").delete().eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Series could not be deleted");
+  }
+
+  return data;
+}

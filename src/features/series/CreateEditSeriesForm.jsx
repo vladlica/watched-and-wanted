@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
@@ -12,30 +12,12 @@ import {
   convertExtraInfoFromDatabase,
   convertExtraInfoObjectToArray,
 } from "../../utils/helpers";
-import FormButtonRow from "../../ui/FormButtonRow";
+import FormButtonsRow from "../../ui/FormButtonsRow";
+import FormChecboxesRow from "../../ui/FormCheckboxesRow";
 import Button from "../../ui/Button";
-import styled from "styled-components";
 import { useCreateSeries } from "./useCreateSeries";
 import { useUpdateSeries } from "./useUpdateSeries";
-
-const FormChecboxesRow = styled.div`
-  display: flex;
-  gap: 3rem;
-`;
-
-const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-
-  & input[type="checkbox"] {
-    height: 2rem;
-    width: 2rem;
-    outline-offset: 2px;
-    transform-origin: 0;
-    accent-color: var(--color-orange-600);
-  }
-`;
+import Checkbox from "../../ui/Checkbox";
 
 function CreateEditSeriesForm({ series, onClose }) {
   const scrollRef = useRef(null);
@@ -233,73 +215,33 @@ function CreateEditSeriesForm({ series, onClose }) {
       />
 
       <FormChecboxesRow>
-        <CheckboxContainer>
-          <Controller
-            name="hasBook"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                id="hasBook"
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
-                disabled={isCreating || isUpdating}
-              />
-            )}
-          />
-          <Label htmlFor="hasBook">Book</Label>
-        </CheckboxContainer>
-        <CheckboxContainer>
-          <Controller
-            name="hasMovie"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                id="hasMovie"
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
-                disabled={isCreating || isUpdating}
-              />
-            )}
-          />
-          <Label htmlFor="hasMovie">Movie</Label>
-        </CheckboxContainer>
-        <CheckboxContainer>
-          <Controller
-            name="hasNews"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                id="hasNews"
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
-                disabled={!isWatched || isCreating || isUpdating}
-              />
-            )}
-          />
-          <Label htmlFor="hasNews">News</Label>
-        </CheckboxContainer>
-        <CheckboxContainer>
-          <Controller
-            name="isFinished"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                id="isFinished"
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
-                disabled={isCreating || isUpdating}
-              />
-            )}
-          />
-          <Label htmlFor="isFinished">Finished</Label>
-        </CheckboxContainer>
+        <Checkbox
+          id="hasBook"
+          label="Book"
+          control={control}
+          disabled={isCreating || isUpdating}
+        />
+        <Checkbox
+          id="hasMovie"
+          label="Movie"
+          control={control}
+          disabled={isCreating || isUpdating}
+        />
+        <Checkbox
+          id="hasNews"
+          label="News"
+          control={control}
+          disabled={!isWatched || isCreating || isUpdating}
+        />
+        <Checkbox
+          id="isFinished"
+          label="Finished"
+          control={control}
+          disabled={isCreating || isUpdating}
+        />
       </FormChecboxesRow>
 
-      <FormButtonRow $justify="end">
+      <FormButtonsRow $justify="end">
         <Button $variation="primary" disabled={isCreating || isUpdating}>
           {isEditSession ? "Update series" : "Create series"}
         </Button>
@@ -311,7 +253,7 @@ function CreateEditSeriesForm({ series, onClose }) {
         >
           Cancel
         </Button>
-      </FormButtonRow>
+      </FormButtonsRow>
     </Form>
   );
 }
