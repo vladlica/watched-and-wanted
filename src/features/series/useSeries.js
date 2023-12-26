@@ -5,19 +5,34 @@ import { getSeries } from "../../services/apiSeries";
 
 export function useSeries() {
   // const queryClient = useQueryClient();
-  // const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  // const filterValue = searchParams.get("status");
-  // const filter =
-  //   !filterValue || filterValue === "all"
-  //     ? null
-  //     : { field: "status", value: filterValue };
+  let filters = [];
+  const filterStatusValue = searchParams.get("status");
+  if (filterStatusValue && filterStatusValue !== "all")
+    filters.push({ field: "status", value: filterStatusValue });
+
+  const filterHasBookValue = searchParams.get("hasBook");
+  if (filterHasBookValue && filterHasBookValue !== "all")
+    filters.push({ field: "hasBook", value: filterHasBookValue });
+
+  const filterHasMovieValue = searchParams.get("hasMovie");
+  if (filterHasMovieValue && filterHasMovieValue !== "all")
+    filters.push({ field: "hasMovie", value: filterHasMovieValue });
+
+  const filterHasNewsValue = searchParams.get("hasNews");
+  if (filterHasNewsValue && filterHasNewsValue !== "all")
+    filters.push({ field: "hasNews", value: filterHasNewsValue });
+
+  const filterIsFinishedValue = searchParams.get("isFinished");
+  if (filterIsFinishedValue && filterIsFinishedValue !== "all")
+    filters.push({ field: "isFinished", value: filterIsFinishedValue });
 
   // const search = searchParams.get("search") || null;
 
-  // const sortByValue = searchParams.get("sortBy") || "created_at-desc";
-  // const [field, direction] = sortByValue.split("-");
-  // const sortBy = { field, direction };
+  const sortByValue = searchParams.get("sortBy") || "created_at-desc";
+  const [field, direction] = sortByValue.split("-");
+  const sortBy = { field, direction };
 
   // const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
@@ -27,8 +42,8 @@ export function useSeries() {
   // });
 
   const { isLoading, data: { data: series, count } = {} } = useQuery({
-    queryKey: ["series"],
-    queryFn: getSeries,
+    queryKey: ["series", sortBy, filters],
+    queryFn: () => getSeries({ sortBy, filters }),
   });
 
   // const pageCount = Math.ceil(count / PAGE_SIZE);

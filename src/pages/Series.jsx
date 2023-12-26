@@ -1,5 +1,7 @@
 import AddSeries from "../features/series/AddSeries";
 import SeriesTable from "../features/series/SeriesTable";
+import SeriesTableFilters from "../features/series/SeriesTableFilters";
+import SeriesTableOperations from "../features/series/SeriesTableOperations";
 import Row from "../ui/Row";
 
 function Series() {
@@ -7,7 +9,11 @@ function Series() {
     <>
       <Row direction="horizontal">
         <h1>Series</h1>
-        <span>Table operations</span>
+        <SeriesTableOperations />
+      </Row>
+
+      <Row direction="horizontal">
+        <SeriesTableFilters />
       </Row>
 
       <Row direction="vertical">

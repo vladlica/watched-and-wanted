@@ -1,10 +1,20 @@
 import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
 
-export async function getSeries() {
+export async function getSeries({ sortBy, filters }) {
   let query = supabase
     .from("series")
     .select("*, extra_info(*)", { count: "exact" });
+
+  // if (filter) query = query.eq(filter.field, filter.value);
+
+  if (filters.length > 0)
+    filters.forEach((filter) => (query = query.eq(filter.field, filter.value)));
+
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
 
   const { data, error, count } = await query;
 
