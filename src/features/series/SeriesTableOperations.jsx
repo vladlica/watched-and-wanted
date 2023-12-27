@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import SortBy from "../../ui/SortBy";
-import Filter from "../../ui/Filter";
+import Search from "../../ui/Search";
 
 const StyledSeriesTableOperations = styled.div`
   display: flex;
@@ -11,42 +11,6 @@ const StyledSeriesTableOperations = styled.div`
 function SeriesTableOperations() {
   return (
     <StyledSeriesTableOperations>
-      {/* <Filter
-        options={[
-          { label: "All", value: "all" },
-          { label: "Watched", value: "watched" },
-          { label: "Wanted", value: "wanted" },
-        ]}
-        filteredField="status"
-      />
-
-      <Filter
-        options={[
-          { label: "All", value: "all" },
-          { label: "Book", value: "true" },
-          { label: "No Book", value: "false" },
-        ]}
-        filteredField="hasBook"
-      />
-
-      <Filter
-        options={[
-          { label: "All", value: "all" },
-          { label: "Movie", value: "true" },
-          { label: "No Movie", value: "false" },
-        ]}
-        filteredField="hasMovie"
-      />
-
-      <Filter
-        options={[
-          { label: "All", value: "all" },
-          { label: "News", value: "true" },
-          { label: "No News", value: "false" },
-        ]}
-        filteredField="hasNews"
-      /> */}
-
       <SortBy
         options={[
           {
@@ -63,6 +27,7 @@ function SeriesTableOperations() {
           { label: "Sort by seasons (high first)", value: "numSeasons-desc" },
         ]}
       />
+      <Search placeholder="Search series" />
     </StyledSeriesTableOperations>
   );
 }

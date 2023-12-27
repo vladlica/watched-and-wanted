@@ -49,7 +49,7 @@ function BooksTableOperations() {
         ]}
       />
 
-      <Search placeholder="Search for a book" />
+      <Search placeholder="Search book" />
     </StyledBooksTableOperations>
   );
 }

@@ -3,7 +3,7 @@ import Filter from "../../ui/Filter";
 
 const StyledSeriesTableFilters = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 2.2rem;
   align-items: center;
   justify-content: center;
 `;

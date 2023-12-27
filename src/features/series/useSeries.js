@@ -4,7 +4,7 @@ import { PAGE_SIZE } from "../../utils/constants";
 import { getSeries } from "../../services/apiSeries";
 
 export function useSeries() {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
   let filters = [];
@@ -28,38 +28,33 @@ export function useSeries() {
   if (filterIsFinishedValue && filterIsFinishedValue !== "all")
     filters.push({ field: "isFinished", value: filterIsFinishedValue });
 
-  // const search = searchParams.get("search") || null;
+  const search = searchParams.get("search") || null;
 
   const sortByValue = searchParams.get("sortBy") || "created_at-desc";
   const [field, direction] = sortByValue.split("-");
   const sortBy = { field, direction };
 
-  // const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
-
-  // const { isLoading, data: { data: books, count } = {} } = useQuery({
-  //   queryKey: ["books", filter, search, sortBy, page],
-  //   queryFn: () => getBooks({ filter, search, sortBy, page }),
-  // });
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: series, count } = {} } = useQuery({
-    queryKey: ["series", sortBy, filters],
-    queryFn: () => getSeries({ sortBy, filters }),
+    queryKey: ["series", sortBy, filters, page, search],
+    queryFn: () => getSeries({ sortBy, filters, page, search }),
   });
 
-  // const pageCount = Math.ceil(count / PAGE_SIZE);
+  const pageCount = Math.ceil(count / PAGE_SIZE);
 
-  // if (page < pageCount)
-  //   queryClient.prefetchQuery({
-  //     queryKey: ["books", filter, search, sortBy, page + 1],
-  //     queryFn: () => getBooks({ filter, search, sortBy, page: page + 1 }),
-  //   });
+  if (page < pageCount)
+    queryClient.prefetchQuery({
+      queryKey: ["series", sortBy, filters, page + 1, search],
+      queryFn: () => getSeries({ sortBy, filters, page: page + 1, search }),
+    });
 
-  // if (page !== 1) {
-  //   queryClient.prefetchQuery({
-  //     queryKey: ["books", filter, search, sortBy, page - 1],
-  //     queryFn: () => getBooks({ filter, search, sortBy, page: page - 1 }),
-  //   });
-  // }
+  if (page !== 1) {
+    queryClient.prefetchQuery({
+      queryKey: ["series", sortBy, filters, page - 1, search],
+      queryFn: () => getSeries({ sortBy, filters, page: page - 1, search }),
+    });
+  }
 
   return { isLoading, series, count };
 }
