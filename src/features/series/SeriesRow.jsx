@@ -17,6 +17,7 @@ import CreateEditSeriesForm from "./CreateEditSeriesForm";
 import { useToggleSeriesStatus } from "./useToggleSeriesStatus";
 import { useDeleteSeries } from "./useDeleteSeries";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useNavigate } from "react-router-dom";
 
 const SvgContainer = styled.div`
   & svg {
@@ -27,6 +28,7 @@ const SvgContainer = styled.div`
 `;
 
 function SeriesRow({ series }) {
+  const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -77,6 +79,7 @@ function SeriesRow({ series }) {
           title="View details about the series"
           $place="table"
           disabled={isToggling || isDeleting}
+          onClick={() => navigate(`/series/${series.id}`)}
         >
           <HiOutlineEye />
         </ButtonIcon>

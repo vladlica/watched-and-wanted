@@ -10,6 +10,7 @@ import {
   HiOutlineLink,
   HiOutlineUser,
 } from "react-icons/hi2";
+import { baseUrl } from "../../utils/constants";
 
 const StyledBookDetailsStats = styled.div`
   display: grid;
@@ -143,7 +144,6 @@ function BookDetailsStats({ book }) {
     wanted: "silver",
   };
 
-  const baseUrl = window.location.origin;
   return (
     <StyledBookDetailsStats>
       <Detail>
