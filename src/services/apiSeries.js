@@ -32,6 +32,21 @@ export async function getSeries({ sortBy, filters, page, search }) {
   return { data, count };
 }
 
+export async function getSeriesDetails(id) {
+  const { data, error } = await supabase
+    .from("series")
+    .select("*, extra_info(*)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Series not found");
+  }
+
+  return data;
+}
+
 export async function createSeries(newSeries, extraInfo) {
   let query = supabase;
 

@@ -6,7 +6,7 @@ import Books from "./pages/Books";
 import Book from "./pages/Book";
 import Movies from "./pages/Movies";
 import Series from "./pages/Series";
-import SeriesDetails from "./pages/SeriesDetails";
+import SeriesDetailsPage from "./pages/SeriesDetailsPage";
 import YoutubeChannels from "./pages/YoutubeChannels";
 import Account from "./pages/Account";
 import PageNotFound from "./pages/PageNotFound";
@@ -37,7 +37,7 @@ function App() {
             <Route path="/books/:bookId" element={<Book />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/series" element={<Series />} />
-            <Route path="/series/:seriesId" element={<SeriesDetails />} />
+            <Route path="/series/:seriesId" element={<SeriesDetailsPage />} />
             <Route path="/channels" element={<YoutubeChannels />} />
             <Route path="/anime" element={<Anime />} />
             <Route path="/account" element={<Account />} />
