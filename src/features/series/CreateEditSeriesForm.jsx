@@ -12,7 +12,7 @@ import {
   convertExtraInfoFromDatabase,
   convertExtraInfoObjectToArray,
 } from "../../utils/helpers";
-import FormButtonsRow from "../../ui/FormButtonsRow";
+import ButtonsList from "../../ui/ButtonsList";
 import FormChecboxesRow from "../../ui/FormCheckboxesRow";
 import Button from "../../ui/Button";
 import { useCreateSeries } from "./useCreateSeries";
@@ -241,7 +241,7 @@ function CreateEditSeriesForm({ series, onClose }) {
         />
       </FormChecboxesRow>
 
-      <FormButtonsRow $justify="end">
+      <ButtonsList $justify="end">
         <Button $variation="primary" disabled={isCreating || isUpdating}>
           {isEditSession ? "Update series" : "Create series"}
         </Button>
@@ -253,7 +253,7 @@ function CreateEditSeriesForm({ series, onClose }) {
         >
           Cancel
         </Button>
-      </FormButtonsRow>
+      </ButtonsList>
     </Form>
   );
 }

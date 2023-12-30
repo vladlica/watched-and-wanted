@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import FormExtraInfoList from "../../ui/FormExtraInfoList";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
-import FormButtonsRow from "../../ui/FormButtonsRow";
+import ButtonsList from "../../ui/ButtonsList";
 import Label from "../../ui/Label";
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
@@ -314,7 +314,7 @@ function CreateEditBookForm({ book, onClose }) {
         disabled={isCreating || isUpdating}
       />
 
-      <FormButtonsRow $justify="end">
+      <ButtonsList $justify="end">
         <Button $variation="primary" disabled={isCreating || isUpdating}>
           {isEditSession ? "Update book" : "Create book"}
         </Button>
@@ -326,7 +326,7 @@ function CreateEditBookForm({ book, onClose }) {
         >
           Cancel
         </Button>
-      </FormButtonsRow>
+      </ButtonsList>
     </Form>
   );
 }

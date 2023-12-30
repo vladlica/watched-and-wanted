@@ -44,6 +44,44 @@ export async function getSeriesDetails(id) {
     throw new Error("Series not found");
   }
 
+  if (data.status === "watched") {
+    const { data: arrayNumberOfSeasons, error1 } = await supabase
+      .from("series")
+      .select("numSeasons")
+      .eq("status", "watched")
+      .order("numSeasons", { ascending: false });
+
+    if (error1) {
+      console.error(error1);
+    }
+
+    if (data.numSeasons === +arrayNumberOfSeasons.at(0).numSeasons)
+      data.biggestNumberOfSeasons = true;
+    else data.biggestNumberOfSeasons = false;
+
+    if (data.numSeasons === +arrayNumberOfSeasons.at(-1).numSeasons)
+      data.smallestNumberOfSeasons = true;
+    else data.smallestNumberOfSeasons = false;
+
+    const { data: arrayNumberOfEpisodes, error2 } = await supabase
+      .from("series")
+      .select("numEpisodes")
+      .eq("status", "watched")
+      .order("numEpisodes", { ascending: false });
+
+    if (error2) {
+      console.error(error2);
+    }
+
+    if (data.numEpisodes === +arrayNumberOfEpisodes.at(0).numEpisodes)
+      data.biggestNumberOfEpisodes = true;
+    else data.biggestNumberOfEpisodes = false;
+
+    if (data.numEpisodes === +arrayNumberOfEpisodes.at(-1).numEpisodes)
+      data.smallestNumberOfEpisodes = true;
+    else data.smallestNumberOfEpisodes = false;
+  }
+
   return data;
 }
 

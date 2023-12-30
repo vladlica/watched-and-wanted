@@ -16,7 +16,7 @@ export function useUpdateSeries() {
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["series", String(data.id)],
+        queryKey: ["seriesDetails", String(data.id)],
       });
     },
     onError: (err) => toast.error(err.message),

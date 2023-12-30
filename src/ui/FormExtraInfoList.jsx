@@ -2,7 +2,7 @@ import React, { useEffect, useState, forwardRef } from "react";
 import styled from "styled-components";
 import ButtonIcon from "./ButtonIcon";
 import FormRow from "./FormRow";
-import FormButtonsRow from "./FormButtonsRow";
+import ButtonsList from "./ButtonsList";
 import Label from "./Label";
 import Input from "./Input";
 import {
@@ -109,7 +109,7 @@ const FormExtraInfoList = forwardRef(function (
         return null;
       })}
 
-      <FormButtonsRow $justify="start">
+      <ButtonsList $justify="start">
         <ButtonIcon
           $place="form"
           type="button"
@@ -128,7 +128,7 @@ const FormExtraInfoList = forwardRef(function (
         >
           <HiOutlineLink />
         </ButtonIcon>
-      </FormButtonsRow>
+      </ButtonsList>
     </>
   );
 });

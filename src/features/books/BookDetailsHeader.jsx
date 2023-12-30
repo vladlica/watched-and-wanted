@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Tag from "../../ui/Tag";
 import { format } from "date-fns";
 import Button from "../../ui/Button";
@@ -8,25 +7,9 @@ import Modal from "../../ui/Modal";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDeleteBook } from "./useDeleteBook";
-
-const HeaderDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-`;
-
-const TagsList = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-`;
-
-const ButtonsList = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
+import HeaderDetails from "../../ui/HeaderDetails";
+import TagsList from "../../ui/TagsList";
+import ButtonsList from "../../ui/ButtonsList";
 
 function BookDetailsHeader({ book }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -68,7 +51,7 @@ function BookDetailsHeader({ book }) {
         {book.series && <p>{book.series} Series</p>}
       </HeaderDetails>
 
-      <ButtonsList>
+      <ButtonsList $justify="start">
         <Button
           $variation="primary"
           $size="small"
