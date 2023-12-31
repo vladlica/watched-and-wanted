@@ -120,30 +120,13 @@ function BookRow({ book }) {
             obj: { status: isRead ? "wanted" : "read" },
           })
         }
-        viewOnClick={() => navigate(`/books/${book.id}`)}
-        editOnClick={() => setIsEditModalOpen(true)}
-        editModal={
-          isEditModalOpen && (
-            <Modal onClose={() => setIsEditModalOpen(false)}>
-              <CreateEditBookForm
-                book={book}
-                onClose={() => setIsEditModalOpen(false)}
-              />
-            </Modal>
-          )
-        }
-        deleteOnClick={() => setIsDeleteModalOpen(true)}
-        deleteModal={
-          isDeleteModalOpen && (
-            <Modal onClose={() => setIsDeleteModalOpen(false)}>
-              <ConfirmDelete
-                type="book"
-                onClose={() => setIsDeleteModalOpen(false)}
-                onConfirmDelete={() => deleteBook(book.id)}
-                disabled={isDeleting}
-              />
-            </Modal>
-          )
+        viewPath={`/books/${book.id}`}
+        contentEditModal={<CreateEditBookForm book={book} />}
+        contentDeleteModal={
+          <ConfirmDelete
+            onConfirmDelete={() => deleteBook(book.id)}
+            disabled={isDeleting}
+          />
         }
         disabled={isToggling || isDeleting}
       />

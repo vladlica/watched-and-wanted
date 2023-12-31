@@ -6,19 +6,24 @@ import {
   HiOutlineTrash,
 } from "react-icons/hi2";
 import ButtonIcon from "./ButtonIcon";
+import React, { useState } from "react";
+import Modal from "./Modal";
+import { useNavigate } from "react-router-dom";
 
 function TableActionsColumn({
   type,
   isConsumed,
   consumeType,
   toggleOnClick,
-  viewOnClick,
-  editOnClick,
-  editModal,
-  deleteOnClick,
-  deleteModal,
+  viewPath,
+  contentEditModal,
+  contentDeleteModal,
   disabled,
 }) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <div>
       <ButtonIcon
@@ -33,7 +38,7 @@ function TableActionsColumn({
       <ButtonIcon
         title={`View details about the ${type}`}
         $place="table"
-        onClick={viewOnClick}
+        onClick={() => navigate(viewPath)}
         disabled={disabled}
       >
         <HiOutlineEye />
@@ -42,22 +47,35 @@ function TableActionsColumn({
       <ButtonIcon
         title={`Edit ${type}`}
         $place="table"
-        onClick={editOnClick}
+        onClick={() => setIsEditModalOpen(true)}
         disabled={disabled}
       >
         <HiOutlinePencil />
       </ButtonIcon>
-      {editModal}
+      {isEditModalOpen && (
+        <Modal onClose={() => setIsEditModalOpen(false)}>
+          {React.cloneElement(contentEditModal, {
+            onClose: () => setIsEditModalOpen(false),
+          })}
+        </Modal>
+      )}
 
       <ButtonIcon
         title={`Delete ${type}`}
         $place="table"
-        onClick={deleteOnClick}
+        onClick={() => setIsDeleteModalOpen(true)}
         disabled={disabled}
       >
         <HiOutlineTrash />
       </ButtonIcon>
-      {deleteModal}
+      {isDeleteModalOpen && (
+        <Modal onClose={() => setIsDeleteModalOpen(false)}>
+          {React.cloneElement(contentDeleteModal, {
+            onClose: () => setIsDeleteModalOpen(false),
+            type,
+          })}
+        </Modal>
+      )}
     </div>
   );
 }

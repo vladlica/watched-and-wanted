@@ -131,30 +131,13 @@ function SeriesRow({ series }) {
             obj: { status: isWatched ? "wanted" : "watched" },
           })
         }
-        viewOnClick={() => navigate(`/series/${series.id}`)}
-        editOnClick={() => setIsEditModalOpen(true)}
-        editModal={
-          isEditModalOpen && (
-            <Modal onClose={() => setIsEditModalOpen(false)}>
-              <CreateEditSeriesForm
-                series={series}
-                onClose={() => setIsEditModalOpen(false)}
-              />
-            </Modal>
-          )
-        }
-        deleteOnClick={() => setIsDeleteModalOpen(true)}
-        deleteModal={
-          isDeleteModalOpen && (
-            <Modal onClose={() => setIsDeleteModalOpen(false)}>
-              <ConfirmDelete
-                type="series"
-                onClose={() => setIsDeleteModalOpen(false)}
-                onConfirmDelete={() => deleteSeries(series.id)}
-                disabled={isDeleting}
-              />
-            </Modal>
-          )
+        viewPath={`/series/${series.id}`}
+        contentEditModal={<CreateEditSeriesForm series={series} />}
+        contentDeleteModal={
+          <ConfirmDelete
+            onConfirmDelete={() => deleteSeries(series.id)}
+            disabled={isDeleting}
+          />
         }
         disabled={isToggling || isDeleting}
       />
