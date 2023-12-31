@@ -18,6 +18,7 @@ import { useToggleSeriesStatus } from "./useToggleSeriesStatus";
 import { useDeleteSeries } from "./useDeleteSeries";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useNavigate } from "react-router-dom";
+import TableActionsColumn from "../../ui/TableActionsColumn";
 
 const SvgContainer = styled.div`
   & svg {
@@ -61,7 +62,7 @@ function SeriesRow({ series }) {
       <SvgContainer>
         {series.isFinished ? <HiOutlineCheck /> : <HiOutlineXMark />}
       </SvgContainer>
-      <div>
+      {/* <div>
         <ButtonIcon
           title={`Mark series as ${isWatched ? "wanted" : "watched"}`}
           $place="table"
@@ -119,7 +120,44 @@ function SeriesRow({ series }) {
             />
           </Modal>
         )}
-      </div>
+      </div> */}
+      <TableActionsColumn
+        type="series"
+        isConsumed={isWatched}
+        consumeType="watched"
+        toggleOnClick={() =>
+          toggleStatus({
+            id: series.id,
+            obj: { status: isWatched ? "wanted" : "watched" },
+          })
+        }
+        viewOnClick={() => navigate(`/series/${series.id}`)}
+        editOnClick={() => setIsEditModalOpen(true)}
+        editModal={
+          isEditModalOpen && (
+            <Modal onClose={() => setIsEditModalOpen(false)}>
+              <CreateEditSeriesForm
+                series={series}
+                onClose={() => setIsEditModalOpen(false)}
+              />
+            </Modal>
+          )
+        }
+        deleteOnClick={() => setIsDeleteModalOpen(true)}
+        deleteModal={
+          isDeleteModalOpen && (
+            <Modal onClose={() => setIsDeleteModalOpen(false)}>
+              <ConfirmDelete
+                type="series"
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirmDelete={() => deleteSeries(series.id)}
+                disabled={isDeleting}
+              />
+            </Modal>
+          )
+        }
+        disabled={isToggling || isDeleting}
+      />
     </Table.Row>
   );
 }

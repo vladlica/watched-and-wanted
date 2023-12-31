@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import Tag from "../../ui/Tag";
 import CreateEditBookForm from "./CreateEditBookForm";
 import { useNavigate } from "react-router-dom";
+import TableActionsColumn from "../../ui/TableActionsColumn";
 
 function BookRow({ book }) {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ function BookRow({ book }) {
         )}
       </div>
 
-      <div>
+      {/* <div>
         <ButtonIcon
           title={`Mark book as ${isRead ? "wanted" : "read"}`}
           $place="table"
@@ -108,7 +109,44 @@ function BookRow({ book }) {
             />
           </Modal>
         )}
-      </div>
+      </div> */}
+      <TableActionsColumn
+        type="book"
+        isConsumed={isRead}
+        consumeType="read"
+        toggleOnClick={() =>
+          toggleStatus({
+            id: book.id,
+            obj: { status: isRead ? "wanted" : "read" },
+          })
+        }
+        viewOnClick={() => navigate(`/books/${book.id}`)}
+        editOnClick={() => setIsEditModalOpen(true)}
+        editModal={
+          isEditModalOpen && (
+            <Modal onClose={() => setIsEditModalOpen(false)}>
+              <CreateEditBookForm
+                book={book}
+                onClose={() => setIsEditModalOpen(false)}
+              />
+            </Modal>
+          )
+        }
+        deleteOnClick={() => setIsDeleteModalOpen(true)}
+        deleteModal={
+          isDeleteModalOpen && (
+            <Modal onClose={() => setIsDeleteModalOpen(false)}>
+              <ConfirmDelete
+                type="book"
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirmDelete={() => deleteBook(book.id)}
+                disabled={isDeleting}
+              />
+            </Modal>
+          )
+        }
+        disabled={isToggling || isDeleting}
+      />
     </Table.Row>
   );
 }
