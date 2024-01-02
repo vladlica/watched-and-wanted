@@ -16,7 +16,7 @@ function BooksTable() {
         <div>Title</div>
         <div>Series</div>
         <div>Status</div>
-        <div>Finished reading</div>
+        <div>Finished</div>
         <div></div>
       </Table.Header>
       <Table.Body

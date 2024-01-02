@@ -1,21 +1,13 @@
 import { HiOutlineCheck, HiOutlineXMark } from "react-icons/hi2";
 import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
-import styled from "styled-components";
 import CreateEditSeriesForm from "./CreateEditSeriesForm";
 import { useToggleSeriesStatus } from "./useToggleSeriesStatus";
 import { useDeleteSeries } from "./useDeleteSeries";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import TableActionsColumn from "../../ui/TableActionsColumn";
+import TableSvgContainer from "../../ui/TableSvgContainer";
 import { statusToTagColor } from "../../utils/constants";
-
-const SvgContainer = styled.div`
-  & svg {
-    width: 2rem;
-    height: 2rem;
-    color: var(--color-orange-600);
-  }
-`;
 
 function SeriesRow({ series }) {
   const { isDeleting, deleteSeries } = useDeleteSeries();
@@ -30,18 +22,18 @@ function SeriesRow({ series }) {
         <Tag color={statusToTagColor[series.status]}>{series.status}</Tag>
       </div>
       <div>{series.numSeasons || "-"}</div>
-      <SvgContainer>
+      <TableSvgContainer>
         {series.hasBook ? <HiOutlineCheck /> : <HiOutlineXMark />}
-      </SvgContainer>
-      <SvgContainer>
+      </TableSvgContainer>
+      <TableSvgContainer>
         {series.hasMovie ? <HiOutlineCheck /> : <HiOutlineXMark />}
-      </SvgContainer>
-      <SvgContainer>
+      </TableSvgContainer>
+      <TableSvgContainer>
         {series.hasNews ? <HiOutlineCheck /> : <HiOutlineXMark />}
-      </SvgContainer>
-      <SvgContainer>
+      </TableSvgContainer>
+      <TableSvgContainer>
         {series.isFinished ? <HiOutlineCheck /> : <HiOutlineXMark />}
-      </SvgContainer>
+      </TableSvgContainer>
 
       <TableActionsColumn
         type="series"
