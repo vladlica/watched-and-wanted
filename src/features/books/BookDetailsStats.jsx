@@ -9,7 +9,7 @@ import {
   HiOutlineLink,
   HiOutlineUser,
 } from "react-icons/hi2";
-import { baseUrl } from "../../utils/constants";
+import { baseUrl, statusToTagColor } from "../../utils/constants";
 import DetailsContainer from "../../ui/DetailsContainer";
 
 import DetailBox from "../../ui/DetailBox";
@@ -17,11 +17,6 @@ import DetailsListContainer from "../../ui/DetailsListContainer";
 import DetailsList from "../../ui/DetailsList";
 
 function BookDetailsStats({ book }) {
-  const statusToTagColor = {
-    read: "green",
-    wanted: "silver",
-  };
-
   return (
     <DetailsContainer>
       <DetailBox

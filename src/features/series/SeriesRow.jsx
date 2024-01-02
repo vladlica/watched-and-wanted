@@ -1,24 +1,13 @@
-import {
-  HiOutlineCheck,
-  HiOutlineEye,
-  HiOutlineMinusCircle,
-  HiOutlinePencil,
-  HiOutlinePlusCircle,
-  HiOutlineTrash,
-  HiOutlineXMark,
-} from "react-icons/hi2";
+import { HiOutlineCheck, HiOutlineXMark } from "react-icons/hi2";
 import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
-import ButtonIcon from "../../ui/ButtonIcon";
 import styled from "styled-components";
-import { useState } from "react";
-import Modal from "../../ui/Modal";
 import CreateEditSeriesForm from "./CreateEditSeriesForm";
 import { useToggleSeriesStatus } from "./useToggleSeriesStatus";
 import { useDeleteSeries } from "./useDeleteSeries";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import { useNavigate } from "react-router-dom";
 import TableActionsColumn from "../../ui/TableActionsColumn";
+import { statusToTagColor } from "../../utils/constants";
 
 const SvgContainer = styled.div`
   & svg {
@@ -29,17 +18,8 @@ const SvgContainer = styled.div`
 `;
 
 function SeriesRow({ series }) {
-  const navigate = useNavigate();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
   const { isDeleting, deleteSeries } = useDeleteSeries();
   const { isToggling, toggleStatus } = useToggleSeriesStatus();
-
-  const statusToTagColor = {
-    watched: "green",
-    wanted: "silver",
-  };
 
   const isWatched = series.status === "watched";
 
@@ -62,65 +42,7 @@ function SeriesRow({ series }) {
       <SvgContainer>
         {series.isFinished ? <HiOutlineCheck /> : <HiOutlineXMark />}
       </SvgContainer>
-      {/* <div>
-        <ButtonIcon
-          title={`Mark series as ${isWatched ? "wanted" : "watched"}`}
-          $place="table"
-          onClick={() =>
-            toggleStatus({
-              id: series.id,
-              obj: { status: isWatched ? "wanted" : "watched" },
-            })
-          }
-        >
-          {isWatched ? <HiOutlineMinusCircle /> : <HiOutlinePlusCircle />}
-        </ButtonIcon>
 
-        <ButtonIcon
-          title="View details about the series"
-          $place="table"
-          disabled={isToggling || isDeleting}
-          onClick={() => navigate(`/series/${series.id}`)}
-        >
-          <HiOutlineEye />
-        </ButtonIcon>
-
-        <ButtonIcon
-          title="Edit series"
-          $place="table"
-          onClick={() => setIsEditModalOpen(true)}
-          disabled={isToggling || isDeleting}
-        >
-          <HiOutlinePencil />
-        </ButtonIcon>
-        {isEditModalOpen && (
-          <Modal onClose={() => setIsEditModalOpen(false)}>
-            <CreateEditSeriesForm
-              series={series}
-              onClose={() => setIsEditModalOpen(false)}
-            />
-          </Modal>
-        )}
-
-        <ButtonIcon
-          title="Delete series"
-          $place="table"
-          onClick={() => setIsDeleteModalOpen(true)}
-          disabled={isToggling || isDeleting}
-        >
-          <HiOutlineTrash />
-        </ButtonIcon>
-        {isDeleteModalOpen && (
-          <Modal onClose={() => setIsDeleteModalOpen(false)}>
-            <ConfirmDelete
-              type="series"
-              onClose={() => setIsDeleteModalOpen(false)}
-              onConfirmDelete={() => deleteSeries(series.id)}
-              disabled={isDeleting}
-            />
-          </Modal>
-        )}
-      </div> */}
       <TableActionsColumn
         type="series"
         isConsumed={isWatched}

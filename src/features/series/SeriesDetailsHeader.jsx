@@ -9,16 +9,13 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import TagsList from "../../ui/TagsList";
 import HeaderDetails from "../../ui/HeaderDetails";
 import ButtonsList from "../../ui/ButtonsList";
+import { statusToTagColor } from "../../utils/constants";
 
 function SeriesDetailsHeader({ series }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { isDeleting, deleteSeries } = useDeleteSeries();
   const navigate = useNavigate();
-  const statusToTagColor = {
-    watched: "green",
-    wanted: "silver",
-  };
 
   return (
     <>

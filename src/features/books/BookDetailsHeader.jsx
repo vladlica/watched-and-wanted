@@ -10,17 +10,13 @@ import { useDeleteBook } from "./useDeleteBook";
 import HeaderDetails from "../../ui/HeaderDetails";
 import TagsList from "../../ui/TagsList";
 import ButtonsList from "../../ui/ButtonsList";
+import { statusToTagColor } from "../../utils/constants";
 
 function BookDetailsHeader({ book }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
   const { isDeleting, deleteBook } = useDeleteBook();
-
-  const statusToTagColor = {
-    read: "green",
-    wanted: "silver",
-  };
 
   return (
     <>
