@@ -1,24 +1,14 @@
+import Pagination from "../../ui/Pagination";
+import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import MovieRow from "./MovieRow";
-
-const movies = [
-  {
-    id: 1,
-    title: "Book Thief",
-    status: "watched",
-    duration: 131,
-    hasBook: false,
-  },
-  {
-    id: 2,
-    title: "Hunger Games",
-    status: "wanted",
-    duration: 0,
-    hasBook: true,
-  },
-];
+import { useMovies } from "./useMovies";
 
 function MoviesTable() {
+  const { isLoading, movies, count } = useMovies();
+
+  if (isLoading) return <Spinner />;
+
   return (
     <Table columns="2fr 1fr 1fr 0.6fr 2fr ">
       <Table.Header>
@@ -32,7 +22,9 @@ function MoviesTable() {
         data={movies}
         render={(movie) => <MovieRow movie={movie} key={movie.id} />}
       />
-      <Table.Footer>{/* <Pagination count={count} /> */}</Table.Footer>
+      <Table.Footer>
+        <Pagination count={count} />
+      </Table.Footer>
     </Table>
   );
 }
