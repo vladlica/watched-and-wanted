@@ -1,7 +1,8 @@
-import AddSeries from "../features/series/AddSeries";
+import CreateEditSeriesForm from "../features/series/CreateEditSeriesForm";
 import SeriesTable from "../features/series/SeriesTable";
 import SeriesTableFilters from "../features/series/SeriesTableFilters";
 import SeriesTableOperations from "../features/series/SeriesTableOperations";
+import AddButton from "../ui/AddButton";
 import Row from "../ui/Row";
 
 function Series() {
@@ -18,7 +19,7 @@ function Series() {
 
       <Row direction="vertical">
         <SeriesTable />
-        <AddSeries />
+        <AddButton form={<CreateEditSeriesForm />} />
       </Row>
     </>
   );

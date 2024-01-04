@@ -1,6 +1,7 @@
-import AddBook from "../features/books/AddBook";
 import BooksTable from "../features/books/BooksTable";
 import BooksTableOperations from "../features/books/BooksTableOperations";
+import CreateEditBookForm from "../features/books/CreateEditBookForm";
+import AddButton from "../ui/AddButton";
 import Row from "../ui/Row";
 
 function Books() {
@@ -13,7 +14,7 @@ function Books() {
 
       <Row direction="vertical">
         <BooksTable />
-        <AddBook />
+        <AddButton form={<CreateEditBookForm />} />
       </Row>
     </>
   );

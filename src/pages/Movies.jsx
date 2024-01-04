@@ -1,4 +1,6 @@
+import CreateEditMoviesForm from "../features/movies/CreateEditMoviesForm";
 import MoviesTable from "../features/movies/MoviesTable";
+import AddButton from "../ui/AddButton";
 import Row from "../ui/Row";
 
 function Movies() {
@@ -11,7 +13,7 @@ function Movies() {
 
       <Row direction="vertical">
         <MoviesTable />
-        <span>Add Button</span>
+        <AddButton form={<CreateEditMoviesForm />} />
       </Row>
     </>
   );
