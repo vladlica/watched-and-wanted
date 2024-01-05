@@ -237,3 +237,50 @@ BEGIN
     RAISE;
 END;
 $$ LANGUAGE plpgsql;
+
+------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION insert_movie_and_extra_info(
+    p_movie_data jsonb[],
+    p_extra_info_data jsonb[]
+) RETURNS json AS $$
+DECLARE
+  movie_record record; -- Declare a variable for the returned columns
+  extra_info_record jsonb; -- Declare a variable for the loop
+  result_json jsonb; -- Variable to store the result
+BEGIN
+  -- Extract values from the JSON object for movies table
+  INSERT INTO movies (title, status, duration, "hasBook")
+  VALUES (
+    p_movie_data[1]->>'title',
+    p_movie_data[1]->>'status',
+    COALESCE(NULLIF((p_movie_data[1]->>'duration')::text, ''), '0')::smallint,
+    (p_movie_data[1]->>'hasBook')::boolean
+  )
+  RETURNING * INTO movie_record;
+
+  -- Loop through the array of extra_info_data and insert into extra_info table
+  FOREACH extra_info_record IN ARRAY p_extra_info_data
+  LOOP
+    -- Use the captured movie_id in the extra_info insert
+    INSERT INTO extra_info ("movieId", text, link)
+    VALUES (movie_record.id, extra_info_record->>'text', extra_info_record->>'link');
+  END LOOP;
+
+   -- Convert the movie_record to JSON
+  SELECT jsonb_build_object(
+    'id', movie_record.id,
+    'title', movie_record.title,
+    'status', movie_record.status,
+    'duration', movie_record.duration,
+    'hasBook', movie_record."hasBook"
+  ) INTO result_json;
+
+  -- Return a JSON object if needed, otherwise, use RETURN;
+  RETURN result_json;
+EXCEPTION
+  -- If an exception occurs, re-raise the exception
+  WHEN OTHERS THEN
+    -- Re-raise the exception
+    RAISE;
+END;
+$$ LANGUAGE plpgsql;

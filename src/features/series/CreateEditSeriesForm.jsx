@@ -132,7 +132,7 @@ function CreateEditSeriesForm({ series, onClose }) {
         <Input
           type="text"
           id="title"
-          placeholder="Series title"
+          placeholder="Title of the series"
           {...register("title", {
             required: "This field is required",
           })}

@@ -30,3 +30,23 @@ export async function getMovies({ sortBy, filters, page, search }) {
 
   return { data, count };
 }
+
+export async function createMovie(newMovie, extraInfo) {
+  let query = supabase;
+
+  if (extraInfo?.length)
+    query = query.rpc("insert_movie_and_extra_info", {
+      p_movie_data: [newMovie],
+      p_extra_info_data: [extraInfo],
+    });
+  else query = query.from("movies").insert([newMovie]).select().single();
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Movie could not be created");
+  }
+
+  return data;
+}
