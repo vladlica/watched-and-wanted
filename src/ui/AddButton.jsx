@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
 
-function AddButton({ form }) {
+function AddButton({ form, type }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   function closeModal() {
@@ -12,7 +12,7 @@ function AddButton({ form }) {
   return (
     <div>
       <Button $variation="primary" onClick={() => setIsModalOpen(true)}>
-        Add Series
+        Add {type}
       </Button>
       {isModalOpen && (
         <Modal onClose={closeModal}>

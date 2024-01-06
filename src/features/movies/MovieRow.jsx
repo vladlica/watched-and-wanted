@@ -4,8 +4,14 @@ import TableSvgContainer from "../../ui/TableSvgContainer";
 import Tag from "../../ui/Tag";
 import { statusToTagColor } from "../../utils/constants";
 import TableActionsColumn from "../../ui/TableActionsColumn";
+import CreateEditMoviesForm from "./CreateEditMoviesForm";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useToggleMovieStatus } from "./useToggleMovieStatus";
+import { useDeleteMovie } from "./useDeleteMovie";
 
 function MovieRow({ movie }) {
+  const { isToggling, toggleStatus } = useToggleMovieStatus();
+  const { isDeleting, deleteMovie } = useDeleteMovie();
   const isWatched = movie.status === "watched";
   return (
     <Table.Row>
@@ -22,21 +28,21 @@ function MovieRow({ movie }) {
         type="movie"
         isConsumed={isWatched}
         consumeType="watched"
-        // toggleOnClick={() =>
-        //   toggleStatus({
-        //     id: series.id,
-        //     obj: { status: isWatched ? "wanted" : "watched" },
-        //   })
-        // }
+        toggleOnClick={() =>
+          toggleStatus({
+            id: movie.id,
+            obj: { status: isWatched ? "wanted" : "watched" },
+          })
+        }
         // viewPath={`/series/${series.id}`}
-        // contentEditModal={<CreateEditSeriesForm series={series} />}
-        // contentDeleteModal={
-        //   <ConfirmDelete
-        //     onConfirmDelete={() => deleteSeries(series.id)}
-        //     disabled={isDeleting}
-        //   />
-        // }
-        // disabled={isToggling || isDeleting}
+        contentEditModal={<CreateEditMoviesForm movie={movie} />}
+        contentDeleteModal={
+          <ConfirmDelete
+            onConfirmDelete={() => deleteMovie(movie.id)}
+            disabled={isDeleting}
+          />
+        }
+        disabled={isToggling || isDeleting}
       />
     </Table.Row>
   );

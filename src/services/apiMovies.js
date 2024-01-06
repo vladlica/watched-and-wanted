@@ -50,3 +50,42 @@ export async function createMovie(newMovie, extraInfo) {
 
   return data;
 }
+
+export async function updateMovie(id, movieUpdates, extraInfo) {
+  let query = supabase;
+
+  if (Boolean(extraInfo)) {
+    query = query.rpc("update_movie_and_extra_info", {
+      p_movie_id: id,
+      p_movie_data: [movieUpdates],
+      p_extra_info_data: [extraInfo],
+    });
+  } else {
+    query = query
+      .from("movies")
+      .update(movieUpdates)
+      .eq("id", id)
+      .select()
+      .single();
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Movie could not be updated");
+  }
+
+  return data;
+}
+
+export async function deleteMovie(id) {
+  const { data, error } = await supabase.from("movies").delete().eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Movie could not be deleted");
+  }
+
+  return data;
+}

@@ -19,7 +19,7 @@ function Series() {
 
       <Row direction="vertical">
         <SeriesTable />
-        <AddButton form={<CreateEditSeriesForm />} />
+        <AddButton form={<CreateEditSeriesForm />} type="Series" />
       </Row>
     </>
   );

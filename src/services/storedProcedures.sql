@@ -284,3 +284,56 @@ EXCEPTION
     RAISE;
 END;
 $$ LANGUAGE plpgsql;
+
+----------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION update_movie_and_extra_info(
+    p_movie_id integer,
+    p_movie_data jsonb[],
+    p_extra_info_data jsonb[]
+) RETURNS jsonb AS $$
+DECLARE
+  updated_movie_record record; -- Declare a variable for the updated movie information
+  extra_info_record jsonb; -- Declare a variable for the loop
+  result_json jsonb; -- Variable to store the result
+BEGIN
+  -- Update values in the movies table
+  UPDATE movies
+  SET
+    title = p_movie_data[1]->>'title',
+    duration = COALESCE(NULLIF((p_movie_data[1]->>'duration')::text, ''), '0')::smallint,
+    status = p_movie_data[1]->>'status',
+    "hasBook" = (p_movie_data[1]->>'hasBook')::boolean
+  WHERE id = p_movie_id
+  RETURNING * INTO updated_movie_record;
+
+  -- Delete existing records in the extra_info table for the given movie ID
+  DELETE FROM extra_info
+  WHERE "movieId" = p_movie_id;
+
+  -- Loop through the array of extra_info_data and insert into extra_info table
+  FOREACH extra_info_record IN ARRAY p_extra_info_data
+  LOOP
+    -- Insert new records into the extra_info table
+    INSERT INTO extra_info ("movieId", text, link)
+    VALUES (p_movie_id, extra_info_record->>'text', extra_info_record->>'link');
+  END LOOP;
+
+  -- Convert the updated_movie_record to JSON
+  SELECT jsonb_build_object(
+    'id', updated_movie_record.id,
+    'title', updated_movie_record.title,
+    'duration', updated_movie_record.duration,
+    'status', updated_movie_record.status,
+    'hasBook', updated_movie_record."hasBook"
+  ) INTO result_json;
+
+  -- Return the result as JSON
+  RETURN result_json;
+  EXCEPTION
+  -- If an exception occurs, re-raise the exception
+  WHEN OTHERS THEN
+    -- Re-raise the exception
+    RAISE;
+END;
+$$ LANGUAGE plpgsql;

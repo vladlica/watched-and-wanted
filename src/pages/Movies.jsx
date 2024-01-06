@@ -13,7 +13,7 @@ function Movies() {
 
       <Row direction="vertical">
         <MoviesTable />
-        <AddButton form={<CreateEditMoviesForm />} />
+        <AddButton form={<CreateEditMoviesForm />} type="Movie" />
       </Row>
     </>
   );

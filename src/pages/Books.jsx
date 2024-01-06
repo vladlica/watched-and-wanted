@@ -14,7 +14,7 @@ function Books() {
 
       <Row direction="vertical">
         <BooksTable />
-        <AddButton form={<CreateEditBookForm />} />
+        <AddButton form={<CreateEditBookForm />} type="Book" />
       </Row>
     </>
   );

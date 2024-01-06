@@ -17,11 +17,13 @@ import Form from "../../ui/Form";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
 import { useCreateMovie } from "./useCreateMovie";
+import { useUpdateMovie } from "./useUpdateMovies";
 
 function CreateEditMoviesForm({ movie, onClose }) {
   const scrollRef = useRef(null);
 
   const { isCreating, createMovie } = useCreateMovie();
+  const { isUpdating, updateMovie } = useUpdateMovie();
 
   const isEditSession = Boolean(movie?.id);
 
@@ -84,14 +86,24 @@ function CreateEditMoviesForm({ movie, onClose }) {
     console.log(extraInfoArray);
     console.log(movieInfo);
 
-    createMovie(
-      { newMovie: movieInfo, extraInfo: extraInfoArray },
-      {
-        onSuccess: () => {
-          onClose();
-        },
-      }
-    );
+    if (isEditSession)
+      updateMovie(
+        { id: movie.id, updatedMovie: movieInfo, extraInfo: extraInfoArray },
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        }
+      );
+    else
+      createMovie(
+        { newMovie: movieInfo, extraInfo: extraInfoArray },
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        }
+      );
   }
 
   return (
@@ -105,7 +117,7 @@ function CreateEditMoviesForm({ movie, onClose }) {
           {...register("title", {
             required: "This field is required",
           })}
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         />
         {errors?.title?.message && <Error>{errors.title.message}</Error>}
       </FormRow>
@@ -116,7 +128,7 @@ function CreateEditMoviesForm({ movie, onClose }) {
           id="status"
           options={["wanted", "watched"]}
           register={{ ...register("status") }}
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         ></Select>
       </FormRow>
 
@@ -139,8 +151,7 @@ function CreateEditMoviesForm({ movie, onClose }) {
               message: "The duration value should be positive",
             },
           })}
-          // disabled={!isWatched || isCreating || isUpdating}
-          disabled={!isWatched}
+          disabled={!isWatched || isCreating || isUpdating}
         />
         {errors?.numSeasons?.message && (
           <Error>{errors.numSeasons.message}</Error>
@@ -155,7 +166,7 @@ function CreateEditMoviesForm({ movie, onClose }) {
         defaultValue={
           isEditSession ? convertExtraInfoFromDatabase(movie.extra_info) : []
         }
-        // disabled={isCreating || isUpdating}
+        disabled={isCreating || isUpdating}
       />
 
       <FormChecboxesRow>
@@ -163,22 +174,19 @@ function CreateEditMoviesForm({ movie, onClose }) {
           id="hasBook"
           label="Book"
           control={control}
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         />
       </FormChecboxesRow>
 
       <ButtonsList $justify="end">
-        <Button
-          $variation="primary"
-          //  disabled={isCreating || isUpdating}
-        >
+        <Button $variation="primary" disabled={isCreating || isUpdating}>
           {isEditSession ? "Update movie" : "Create movie"}
         </Button>
         <Button
           $variation="secondary"
           onClick={onClose}
           type="button"
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         >
           Cancel
         </Button>
