@@ -33,6 +33,16 @@ const RightBox = styled.div`
   gap: 0.2rem;
   white-space: pre-wrap;
   word-break: break-word;
+
+  & a:link,
+  a:visited {
+    color: var(--color-orange-700);
+  }
+
+  & a:hover,
+  a:active {
+    text-decoration: underline;
+  }
 `;
 
 const Value = styled.span`
@@ -44,7 +54,7 @@ function DetailBox({ icon, details, oneLine = false }) {
     <StyledDetailBox>
       <LeftBox>{icon}</LeftBox>
       <RightBox>
-        {details.map((detail) => (
+        {details?.map((detail) => (
           <React.Fragment key={detail.label}>
             {!oneLine ? (
               <>

@@ -8,8 +8,6 @@ import { baseUrl } from "../../utils/constants";
 import { Link } from "react-router-dom";
 import DetailsContainer from "../../ui/DetailsContainer";
 import DetailBox from "../../ui/DetailBox";
-import DetailsListContainer from "../../ui/DetailsListContainer";
-import DetailsList from "../../ui/DetailsList";
 
 function SeriesDetailsStats({ series }) {
   return (
@@ -23,40 +21,36 @@ function SeriesDetailsStats({ series }) {
         details={[{ label: "Episodes", value: series.numEpisodes || "-" }]}
       />
 
-      {series.extra_info.length > 0 && (
-        <DetailsListContainer>
-          <h2>Comments and links</h2>
-          <DetailsList $type="grid">
-            {series.extra_info.map((extraInfo) => (
-              <li key={extraInfo.id}>
-                {extraInfo.link ? (
-                  <>
-                    <HiOutlineLink />
-                    {extraInfo.link.includes(baseUrl) ? (
-                      <Link to={`${extraInfo.link}`}>
-                        {extraInfo.text || extraInfo.link}
-                      </Link>
-                    ) : (
-                      <a
-                        href={`${extraInfo.link}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {extraInfo.text || extraInfo.link}
-                      </a>
-                    )}
-                  </>
+      {series.extra_info.map((extraInfo) => (
+        <DetailBox
+          key={extraInfo.id}
+          icon={
+            extraInfo.link ? <HiOutlineLink /> : <HiOutlineChatBubbleOvalLeft />
+          }
+          details={[
+            {
+              label: extraInfo.link ? "Link" : "Comment",
+              value: extraInfo.link ? (
+                extraInfo.link.includes(baseUrl) ? (
+                  <Link to={`${extraInfo.link}`}>
+                    {extraInfo.text || extraInfo.link}
+                  </Link>
                 ) : (
-                  <>
-                    <HiOutlineChatBubbleOvalLeft />
-                    <span>{extraInfo.text}</span>
-                  </>
-                )}
-              </li>
-            ))}
-          </DetailsList>
-        </DetailsListContainer>
-      )}
+                  <a
+                    href={`${extraInfo.link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {extraInfo.text || extraInfo.link}
+                  </a>
+                )
+              ) : (
+                extraInfo.text
+              ),
+            },
+          ]}
+        />
+      ))}
     </DetailsContainer>
   );
 }
