@@ -7,23 +7,26 @@ export function useMovies() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
-  // const filterValue = searchParams.get("status");
-  // const filter =
-  //   !filterValue || filterValue === "all"
-  //     ? null
-  //     : { field: "status", value: filterValue };
+  let filters = [];
+  const filterStatusValue = searchParams.get("status");
+  if (filterStatusValue && filterStatusValue !== "all")
+    filters.push({ field: "status", value: filterStatusValue });
 
-  // const search = searchParams.get("search") || null;
+  const filterHasBookValue = searchParams.get("hasBook");
+  if (filterHasBookValue && filterHasBookValue !== "all")
+    filters.push({ field: "hasBook", value: filterHasBookValue });
 
-  // const sortByValue = searchParams.get("sortBy") || "created_at-desc";
-  // const [field, direction] = sortByValue.split("-");
-  // const sortBy = { field, direction };
+  const search = searchParams.get("search") || null;
+
+  const sortByValue = searchParams.get("sortBy") || "created_at-desc";
+  const [field, direction] = sortByValue.split("-");
+  const sortBy = { field, direction };
 
   // const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: movies, count } = {} } = useQuery({
-    queryKey: ["movies"],
-    queryFn: getMovies,
+    queryKey: ["movies", sortBy, filters, search],
+    queryFn: () => getMovies({ sortBy, filters, search }),
   });
 
   // const pageCount = Math.ceil(count / PAGE_SIZE);
