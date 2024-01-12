@@ -22,27 +22,27 @@ export function useMovies() {
   const [field, direction] = sortByValue.split("-");
   const sortBy = { field, direction };
 
-  // const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: movies, count } = {} } = useQuery({
-    queryKey: ["movies", sortBy, filters, search],
-    queryFn: () => getMovies({ sortBy, filters, search }),
+    queryKey: ["movies", sortBy, filters, search, page],
+    queryFn: () => getMovies({ sortBy, filters, search, page }),
   });
 
-  // const pageCount = Math.ceil(count / PAGE_SIZE);
+  const pageCount = Math.ceil(count / PAGE_SIZE);
 
-  // if (page < pageCount)
-  //   queryClient.prefetchQuery({
-  //     queryKey: ["books", filter, search, sortBy, page + 1],
-  //     queryFn: () => getBooks({ filter, search, sortBy, page: page + 1 }),
-  //   });
+  if (page < pageCount)
+    queryClient.prefetchQuery({
+      queryKey: ["movies", sortBy, filters, search, page + 1],
+      queryFn: () => getMovies({ sortBy, filters, search, page: page + 1 }),
+    });
 
-  // if (page !== 1) {
-  //   queryClient.prefetchQuery({
-  //     queryKey: ["books", filter, search, sortBy, page - 1],
-  //     queryFn: () => getBooks({ filter, search, sortBy, page: page - 1 }),
-  //   });
-  // }
+  if (page !== 1) {
+    queryClient.prefetchQuery({
+      queryKey: ["movies", sortBy, filters, search, page - 1],
+      queryFn: () => getMovies({ sortBy, filters, search, page: page - 1 }),
+    });
+  }
 
   return { isLoading, movies, count };
 }
