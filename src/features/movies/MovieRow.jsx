@@ -34,7 +34,7 @@ function MovieRow({ movie }) {
             obj: { status: isWatched ? "wanted" : "watched" },
           })
         }
-        // viewPath={`/series/${series.id}`}
+        viewPath={`/movies/${movie.id}`}
         contentEditModal={<CreateEditMoviesForm movie={movie} />}
         contentDeleteModal={
           <ConfirmDelete

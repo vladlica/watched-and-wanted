@@ -32,6 +32,41 @@ export async function getMovies({ sortBy, filters, page, search }) {
   return { data, count };
 }
 
+export async function getMovie(id) {
+  const { data, error } = await supabase
+    .from("movies")
+    .select("*, extra_info(*)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Movie not found");
+  }
+
+  if (data.status === "watched") {
+    const { data: arrayDuration, error1 } = await supabase
+      .from("movies")
+      .select("duration")
+      .eq("status", "watched")
+      .order("duration", { ascending: false });
+
+    if (error1) {
+      console.error(error1);
+    }
+
+    if (data.duration === +arrayDuration.at(0).duration)
+      data.biggestDuration = true;
+    else data.biggestDuration = false;
+
+    if (data.duration === +arrayDuration.at(-1).duration)
+      data.smallestDuration = true;
+    else data.smallestDuration = false;
+  }
+
+  return data;
+}
+
 export async function createMovie(newMovie, extraInfo) {
   let query = supabase;
 

@@ -32,13 +32,13 @@ function SeriesDetailsHeader({ series }) {
             <Tag color="yellow">Longest series by seasons</Tag>
           )}
           {series.smallestNumberOfSeasons && (
-            <Tag color="yellow">Smalest series by seasons</Tag>
+            <Tag color="yellow">Shortest series by seasons</Tag>
           )}
           {series.biggestNumberOfEpisodes && (
             <Tag color="yellow">Longest series by episodes</Tag>
           )}
           {series.smallestNumberOfEpisodes && (
-            <Tag color="yellow">Smalest series by episodes</Tag>
+            <Tag color="yellow">Shortest series by episodes</Tag>
           )}
         </TagsList>
         <h1>{series.title}</h1>

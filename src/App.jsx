@@ -14,6 +14,7 @@ import AppLayout from "./ui/AppLayout";
 import Anime from "./pages/Anime";
 import GlobalStyles from "./styles/GlobalStyles";
 import { Toaster } from "react-hot-toast";
+import Movie from "./pages/Movie";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +37,7 @@ function App() {
             <Route path="/books" element={<Books />} />
             <Route path="/books/:bookId" element={<Book />} />
             <Route path="/movies" element={<Movies />} />
+            <Route path="/movies/:movieId" element={<Movie />} />
             <Route path="/series" element={<Series />} />
             <Route path="/series/:seriesId" element={<SeriesDetailsPage />} />
             <Route path="/channels" element={<YoutubeChannels />} />
