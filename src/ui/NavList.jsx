@@ -81,15 +81,15 @@ function NavList() {
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/movies">
-          <HiOutlineFilm />
-          <span>Movies</span>
-        </StyledNavLink>
-      </li>
-      <li>
         <StyledNavLink to="/series">
           <HiOutlineVideoCamera />
           <span>Series</span>
+        </StyledNavLink>
+      </li>
+      <li>
+        <StyledNavLink to="/movies">
+          <HiOutlineFilm />
+          <span>Movies</span>
         </StyledNavLink>
       </li>
       <li>

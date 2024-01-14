@@ -337,3 +337,98 @@ BEGIN
     RAISE;
 END;
 $$ LANGUAGE plpgsql;
+
+-----------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION insert_anime_and_extra_info(
+    p_anime_data jsonb[],
+    p_extra_info_data jsonb[]
+) RETURNS json AS $$
+DECLARE
+  anime_record record; -- Declare a variable for the returned columns
+  extra_info_record jsonb; -- Declare a variable for the loop
+  result_json jsonb; -- Variable to store the result
+BEGIN
+  -- Extract values from the JSON object for anime table
+  INSERT INTO anime (title, status, numEpisodes)
+  VALUES (
+    p_anime_data[1]->>'title',
+    p_anime_data[1]->>'status',
+    COALESCE(NULLIF((p_anime_data[1]->>'numEpisodes')::text, ''), '0')::smallint
+  )
+  RETURNING * INTO anime_record;
+
+  -- Loop through the array of extra_info_data and insert into extra_info table
+  FOREACH extra_info_record IN ARRAY p_extra_info_data
+  LOOP
+    -- Use the captured anime_id in the extra_info insert
+    INSERT INTO extra_info ("animeId", text, link)
+    VALUES (anime_record.id, extra_info_record->>'text', extra_info_record->>'link');
+  END LOOP;
+
+   -- Convert the anime_record to JSON
+  SELECT jsonb_build_object(
+    'id', anime_record.id,
+    'title', anime_record.title,
+    'status', anime_record.status,
+    'numEpisodes', anime_record."numEpisodes"
+  ) INTO result_json;
+
+  -- Return a JSON object if needed, otherwise, use RETURN;
+  RETURN result_json;
+EXCEPTION
+  -- If an exception occurs, re-raise the exception
+  WHEN OTHERS THEN
+    -- Re-raise the exception
+    RAISE;
+END;
+$$ LANGUAGE plpgsql;
+
+---------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION update_anime_and_extra_info(
+    p_anime_id integer,
+    p_anime_data jsonb[],
+    p_extra_info_data jsonb[]
+) RETURNS jsonb AS $$
+DECLARE
+  updated_anime_record record; -- Declare a variable for the updated anime information
+  extra_info_record jsonb; -- Declare a variable for the loop
+  result_json jsonb; -- Variable to store the result
+BEGIN
+  -- Update values in the anime table
+  UPDATE anime
+  SET
+    title = p_anime_data[1]->>'title',
+    "numEpisodes" = COALESCE(NULLIF((p_anime_data[1]->>'numEpisodes')::text, ''), '0')::smallint,
+    status = p_anime_data[1]->>'status'
+  WHERE id = p_anime_id
+  RETURNING * INTO updated_anime_record;
+
+  -- Delete existing records in the extra_info table for the given anime ID
+  DELETE FROM extra_info
+  WHERE "animeId" = p_anime_id;
+
+  -- Loop through the array of extra_info_data and insert into extra_info table
+  FOREACH extra_info_record IN ARRAY p_extra_info_data
+  LOOP
+    -- Insert new records into the extra_info table
+    INSERT INTO extra_info ("animeId", text, link)
+    VALUES (p_anime_id, extra_info_record->>'text', extra_info_record->>'link');
+  END LOOP;
+
+  -- Convert the updated_anime_record to JSON
+  SELECT jsonb_build_object(
+    'id', updated_anime_record.id,
+    'title', updated_anime_record.title,
+    'numEpisodes', updated_anime_record."numEpisodes",
+    'status', updated_anime_record.status
+  ) INTO result_json;
+
+  -- Return the result as JSON
+  RETURN result_json;
+  EXCEPTION
+  -- If an exception occurs, re-raise the exception
+  WHEN OTHERS THEN
+    -- Re-raise the exception
+    RAISE;
+END;
+$$ LANGUAGE plpgsql;

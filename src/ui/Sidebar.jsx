@@ -2,8 +2,6 @@ import styled from "styled-components";
 import NavList from "./NavList";
 
 const StyledSidebar = styled.div`
-  /* background-color: green; */
-  /* color: white; */
   background-color: var(--color-grey-0);
   display: flex;
   padding: 2rem;
