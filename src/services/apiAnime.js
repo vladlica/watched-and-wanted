@@ -78,3 +78,14 @@ export async function updateAnime(id, animeUpdates, extraInfo) {
 
   return data;
 }
+
+export async function deleteAnime(id) {
+  const { data, error } = await supabase.from("anime").delete().eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Anime could not be deleted");
+  }
+
+  return data;
+}
