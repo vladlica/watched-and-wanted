@@ -15,6 +15,7 @@ import Anime from "./pages/Anime";
 import GlobalStyles from "./styles/GlobalStyles";
 import { Toaster } from "react-hot-toast";
 import Movie from "./pages/Movie";
+import AnimeDetailsPage from "./pages/AnimeDetailsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +43,7 @@ function App() {
             <Route path="/series/:seriesId" element={<SeriesDetailsPage />} />
             <Route path="/channels" element={<YoutubeChannels />} />
             <Route path="/anime" element={<Anime />} />
+            <Route path="/anime/:animeId" element={<AnimeDetailsPage />} />
             <Route path="/account" element={<Account />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />

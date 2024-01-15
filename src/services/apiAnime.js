@@ -6,20 +6,20 @@ export async function getAnime({ filter, sortBy, page, search }) {
     .from("anime")
     .select("*, extra_info(*)", { count: "exact" });
 
-  // if (filter) query = query.eq(filter.field, filter.value);
+  if (filter) query = query.eq(filter.field, filter.value);
 
-  // if (search) query = query.ilike("title", `%${search}%`);
+  if (search) query = query.ilike("title", `%${search}%`);
 
-  // if (sortBy)
-  //   query = query.order(sortBy.field, {
-  //     ascending: sortBy.direction === "asc",
-  //   });
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
 
-  // if (page) {
-  //   const from = (page - 1) * PAGE_SIZE;
-  //   const to = from + PAGE_SIZE - 1;
-  //   query = query.range(from, to);
-  // }
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
 
   const { data, error, count } = await query;
 
@@ -29,6 +29,41 @@ export async function getAnime({ filter, sortBy, page, search }) {
   }
 
   return { data, count };
+}
+
+export async function getAnimeDetails(id) {
+  const { data, error } = await supabase
+    .from("anime")
+    .select("*, extra_info(*)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Anime not found");
+  }
+
+  if (data.status === "watched") {
+    const { data: arrayEpisodes, error1 } = await supabase
+      .from("anime")
+      .select("numEpisodes")
+      .eq("status", "watched")
+      .order("numEpisodes", { ascending: false });
+
+    if (error1) {
+      console.error(error1);
+    }
+
+    if (data.numEpisodes === +arrayEpisodes.at(0).numEpisodes)
+      data.biggestNumberOfEpisodes = true;
+    else data.biggestNumberOfEpisodes = false;
+
+    if (data.numEpisodes === +arrayEpisodes.at(-1).numEpisodes)
+      data.smallestNumberOfEpisodes = true;
+    else data.smallestNumberOfEpisodes = false;
+  }
+
+  return data;
 }
 
 export async function createAnime(newAnime, extraInfo) {

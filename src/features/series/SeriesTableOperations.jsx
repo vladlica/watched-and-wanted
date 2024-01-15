@@ -1,16 +1,10 @@
-import styled from "styled-components";
 import SortBy from "../../ui/SortBy";
 import Search from "../../ui/Search";
-
-const StyledSeriesTableOperations = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-`;
+import TableOperations from "../../ui/TableOperations";
 
 function SeriesTableOperations() {
   return (
-    <StyledSeriesTableOperations>
+    <TableOperations>
       <SortBy
         options={[
           {
@@ -28,7 +22,7 @@ function SeriesTableOperations() {
         ]}
       />
       <Search placeholder="Search series" />
-    </StyledSeriesTableOperations>
+    </TableOperations>
   );
 }
 

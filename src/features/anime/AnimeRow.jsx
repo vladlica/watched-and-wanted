@@ -29,7 +29,7 @@ function AnimeRow({ anime }) {
             obj: { status: isWatched ? "wanted" : "watched" },
           })
         }
-        // viewPath={`/movies/${movie.id}`}
+        viewPath={`/anime/${anime.id}`}
         contentEditModal={<CreateEditAnimeForm anime={anime} />}
         contentDeleteModal={
           <ConfirmDelete

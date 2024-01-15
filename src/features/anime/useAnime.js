@@ -7,39 +7,39 @@ export function useAnime() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
-  // const filterValue = searchParams.get("status");
-  // const filter =
-  //   !filterValue || filterValue === "all"
-  //     ? null
-  //     : { field: "status", value: filterValue };
+  const filterValue = searchParams.get("status");
+  const filter =
+    !filterValue || filterValue === "all"
+      ? null
+      : { field: "status", value: filterValue };
 
-  // const search = searchParams.get("search") || null;
+  const search = searchParams.get("search") || null;
 
-  // const sortByValue = searchParams.get("sortBy") || "created_at-desc";
-  // const [field, direction] = sortByValue.split("-");
-  // const sortBy = { field, direction };
+  const sortByValue = searchParams.get("sortBy") || "created_at-desc";
+  const [field, direction] = sortByValue.split("-");
+  const sortBy = { field, direction };
 
-  // const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: anime, count } = {} } = useQuery({
-    queryKey: ["anime"],
-    queryFn: getAnime,
+    queryKey: ["anime", sortBy, filter, search, page],
+    queryFn: () => getAnime({ sortBy, filter, search, page }),
   });
 
-  // const pageCount = Math.ceil(count / PAGE_SIZE);
+  const pageCount = Math.ceil(count / PAGE_SIZE);
 
-  // if (page < pageCount)
-  //   queryClient.prefetchQuery({
-  //     queryKey: ["books", filter, search, sortBy, page + 1],
-  //     queryFn: () => getBooks({ filter, search, sortBy, page: page + 1 }),
-  //   });
+  if (page < pageCount)
+    queryClient.prefetchQuery({
+      queryKey: ["anime", sortBy, filter, search, page + 1],
+      queryFn: () => getAnime({ sortBy, filter, search, page: page + 1 }),
+    });
 
-  // if (page !== 1) {
-  //   queryClient.prefetchQuery({
-  //     queryKey: ["books", filter, search, sortBy, page - 1],
-  //     queryFn: () => getBooks({ filter, search, sortBy, page: page - 1 }),
-  //   });
-  // }
+  if (page !== 1) {
+    queryClient.prefetchQuery({
+      queryKey: ["anime", sortBy, filter, search, page - 1],
+      queryFn: () => getAnime({ sortBy, filter, search, page: page - 1 }),
+    });
+  }
 
   return { isLoading, anime, count };
 }

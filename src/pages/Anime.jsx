@@ -2,13 +2,14 @@ import AnimeTable from "../features/anime/AnimeTable";
 import Row from "../ui/Row";
 import AddButton from "../ui/AddButton";
 import CreateEditAnimeForm from "../features/anime/CreateEditAnimeForm";
+import AnimeTableOperations from "../features/anime/AnimeTableOperations";
 
 function Anime() {
   return (
     <>
       <Row direction="horizontal">
         <h1>Anime</h1>
-        <span>Table operations</span>
+        <AnimeTableOperations />
       </Row>
 
       <Row direction="vertical">

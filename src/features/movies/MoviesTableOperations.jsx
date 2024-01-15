@@ -1,17 +1,11 @@
-import styled from "styled-components";
 import SortBy from "../../ui/SortBy";
 import Filter from "../../ui/Filter";
 import Search from "../../ui/Search";
-
-const StyledMoviesTableOperations = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-`;
+import TableOperations from "../../ui/TableOperations";
 
 function MoviesTableOperations() {
   return (
-    <StyledMoviesTableOperations>
+    <TableOperations>
       <Filter
         options={[
           { label: "All", value: "all" },
@@ -48,7 +42,7 @@ function MoviesTableOperations() {
       />
 
       <Search placeholder="Search movie" />
-    </StyledMoviesTableOperations>
+    </TableOperations>
   );
 }
 
