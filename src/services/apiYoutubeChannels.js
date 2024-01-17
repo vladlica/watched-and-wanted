@@ -31,3 +31,74 @@ export async function getYoutubeChannels({ sortBy, filters, page, search }) {
 
   return { data, count };
 }
+
+export async function createYoutubeChannel(newYoutubeChannel, extraInfo) {
+  let query = supabase;
+
+  if (extraInfo?.length)
+    query = query.rpc("insert_channel_and_extra_info", {
+      p_channel_data: [newYoutubeChannel],
+      p_extra_info_data: [extraInfo],
+    });
+  else
+    query = query
+      .from("youtube_channels")
+      .insert([newYoutubeChannel])
+      .select()
+      .single();
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Youtube channel could not be created");
+  }
+
+  return data;
+}
+
+export async function updateYoutubeChannel(
+  id,
+  youtubeChannelUpdates,
+  extraInfo
+) {
+  let query = supabase;
+
+  if (Boolean(extraInfo)) {
+    query = query.rpc("update_channel_and_extra_info", {
+      p_channel_id: id,
+      p_channel_data: [youtubeChannelUpdates],
+      p_extra_info_data: [extraInfo],
+    });
+  } else {
+    query = query
+      .from("youtube_channels")
+      .update(youtubeChannelUpdates)
+      .eq("id", id)
+      .select()
+      .single();
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Youtube channel could not be updated");
+  }
+
+  return data;
+}
+
+export async function deleteYoutubeChannel(id) {
+  const { data, error } = await supabase
+    .from("youtube_channels")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Youtube channel could not be deleted");
+  }
+
+  return data;
+}

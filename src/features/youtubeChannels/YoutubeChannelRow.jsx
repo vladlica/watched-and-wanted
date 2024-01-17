@@ -2,12 +2,16 @@ import { HiOutlineCheck, HiOutlineXMark } from "react-icons/hi2";
 import Table from "../../ui/Table";
 import TableSvgContainer from "../../ui/TableSvgContainer";
 import Tag from "../../ui/Tag";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 import { statusToTagColor } from "../../utils/constants";
 import TableActionsColumn from "../../ui/TableActionsColumn";
+import CreateEditYoutubeChannelsForm from "./CreateEditYoutubeChannelsForm";
+import { useToggleYoutubeChannelStatus } from "./useToggleYoutubeChannelStatus";
+import { useDeleteYoutubeChannel } from "./useDeleteYoutubeChannel";
 
 function YoutubeChannelRow({ youtubeChannel }) {
-  // const { isToggling, toggleStatus } = useToggleMovieStatus();
-  // const { isDeleting, deleteMovie } = useDeleteMovie();
+  const { isToggling, toggleStatus } = useToggleYoutubeChannelStatus();
+  const { isDeleting, deleteYoutubeChannel } = useDeleteYoutubeChannel();
   const isSubscribed = youtubeChannel.status === "subscribed";
   return (
     <Table.Row>
@@ -25,21 +29,23 @@ function YoutubeChannelRow({ youtubeChannel }) {
         type="Youtube channel"
         isConsumed={isSubscribed}
         consumeType="subscribed"
-        // toggleOnClick={() =>
-        //   toggleStatus({
-        //     id: movie.id,
-        //     obj: { status: isWatched ? "wanted" : "watched" },
-        //   })
-        // }
+        toggleOnClick={() =>
+          toggleStatus({
+            id: youtubeChannel.id,
+            obj: { status: isSubscribed ? "wanted" : "subscribed" },
+          })
+        }
         // viewPath={`/movies/${movie.id}`}
-        // contentEditModal={<CreateEditMoviesForm movie={movie} />}
-        // contentDeleteModal={
-        //   <ConfirmDelete
-        //     onConfirmDelete={() => deleteMovie(movie.id)}
-        //     disabled={isDeleting}
-        //   />
-        // }
-        // disabled={isToggling || isDeleting}
+        contentEditModal={
+          <CreateEditYoutubeChannelsForm youtubeChannel={youtubeChannel} />
+        }
+        contentDeleteModal={
+          <ConfirmDelete
+            onConfirmDelete={() => deleteYoutubeChannel(youtubeChannel.id)}
+            disabled={isDeleting}
+          />
+        }
+        disabled={isToggling || isDeleting}
       />
     </Table.Row>
   );

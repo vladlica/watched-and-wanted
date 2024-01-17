@@ -1,5 +1,7 @@
 import YoutubeChannelsTable from "../features/youtubeChannels/YoutubeChannelsTable";
+import CreateEditYoutubeChannelsForm from "../features/youtubeChannels/CreateEditYoutubeChannelsForm";
 import Row from "../ui/Row";
+import AddButton from "../ui/AddButton";
 
 function YoutubeChannels() {
   return (
@@ -11,8 +13,10 @@ function YoutubeChannels() {
 
       <Row direction="vertical">
         <YoutubeChannelsTable />
-        <span>Add Button</span>
-        {/* <AddButton form={<CreateEditMoviesForm />} type="Movie" /> */}
+        <AddButton
+          form={<CreateEditYoutubeChannelsForm />}
+          type="Youtube Channel"
+        />
       </Row>
     </>
   );

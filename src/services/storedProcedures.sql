@@ -432,3 +432,100 @@ BEGIN
     RAISE;
 END;
 $$ LANGUAGE plpgsql;
+
+--------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION insert_channel_and_extra_info(
+    p_channel_data jsonb[],
+    p_extra_info_data jsonb[]
+) RETURNS json AS $$
+DECLARE
+  channel_record record; -- Declare a variable for the returned columns
+  extra_info_record jsonb; -- Declare a variable for the loop
+  result_json jsonb; -- Variable to store the result
+BEGIN
+  -- Extract values from the JSON object for youtube_channels table
+  INSERT INTO youtube_channels ("channelName", status, "hasBell")
+  VALUES (
+    p_channel_data[1]->>'channelName',
+    p_channel_data[1]->>'status',
+    (p_channel_data[1]->>'hasBell')::boolean
+  )
+  RETURNING * INTO channel_record;
+
+  -- Loop through the array of extra_info_data and insert into extra_info table
+  FOREACH extra_info_record IN ARRAY p_extra_info_data
+  LOOP
+    -- Use the captured channel_id in the extra_info insert
+    INSERT INTO extra_info ("youtubeChannelId", text, link)
+    VALUES (channel_record.id, extra_info_record->>'text', extra_info_record->>'link');
+  END LOOP;
+
+   -- Convert the channel_record to JSON
+  SELECT jsonb_build_object(
+    'id', channel_record.id,
+    'channelName', channel_record."channelName",
+    'status', channel_record.status,
+    'hasBell', channel_record."hasBell"
+  ) INTO result_json;
+
+  -- Return a JSON object if needed, otherwise, use RETURN;
+  RETURN result_json;
+EXCEPTION
+  -- If an exception occurs, re-raise the exception
+  WHEN OTHERS THEN
+    -- Re-raise the exception
+    RAISE;
+END;
+$$ LANGUAGE plpgsql;
+
+----------------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION update_channel_and_extra_info(
+    p_channel_id integer,
+    p_channel_data jsonb[],
+    p_extra_info_data jsonb[]
+) RETURNS jsonb AS $$
+DECLARE
+  updated_channel_record record; -- Declare a variable for the updated channel information
+  extra_info_record jsonb; -- Declare a variable for the loop
+  result_json jsonb; -- Variable to store the result
+BEGIN
+  -- Update values in the youtube_channels table
+  UPDATE youtube_channels
+  SET
+    "channelName" = p_channel_data[1]->>'channelName',
+    status = p_channel_data[1]->>'status',
+    "hasBell" = (p_channel_data[1]->>'hasBell')::boolean
+  WHERE id = p_channel_id
+  RETURNING * INTO updated_channel_record;
+
+  -- Delete existing records in the extra_info table for the given channel ID
+  DELETE FROM extra_info
+  WHERE "youtubeChannelId" = p_channel_id;
+
+  -- Loop through the array of extra_info_data and insert into extra_info table
+  FOREACH extra_info_record IN ARRAY p_extra_info_data
+  LOOP
+    -- Insert new records into the extra_info table
+    INSERT INTO extra_info ("youtubeChannelId", text, link)
+    VALUES (p_channel_id, extra_info_record->>'text', extra_info_record->>'link');
+  END LOOP;
+
+  -- Convert the updated_channel_record to JSON
+  SELECT jsonb_build_object(
+    'id', updated_channel_record.id,
+    'channelName', updated_channel_record."channelName",
+    'status', updated_channel_record.status,
+    'hasBell', updated_channel_record."hasBell"
+  ) INTO result_json;
+
+  -- Return the result as JSON
+  RETURN result_json;
+  EXCEPTION
+  -- If an exception occurs, re-raise the exception
+  WHEN OTHERS THEN
+    -- Re-raise the exception
+    RAISE;
+END;
+$$ LANGUAGE plpgsql;
