@@ -118,7 +118,7 @@ function CreateEditYoutubeChannelsForm({ youtubeChannel, onClose }) {
           {...register("channelName", {
             required: "This field is required",
           })}
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         />
         {errors?.channelName?.message && (
           <Error>{errors.channelName.message}</Error>
@@ -131,7 +131,7 @@ function CreateEditYoutubeChannelsForm({ youtubeChannel, onClose }) {
           id="status"
           options={["wanted", "subscribed"]}
           register={{ ...register("status") }}
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         ></Select>
       </FormRow>
 
@@ -145,7 +145,7 @@ function CreateEditYoutubeChannelsForm({ youtubeChannel, onClose }) {
             ? convertExtraInfoFromDatabase(youtubeChannel.extra_info)
             : []
         }
-        // disabled={isCreating || isUpdating}
+        disabled={isCreating || isUpdating}
       />
 
       <FormChecboxesRow>
@@ -153,23 +153,19 @@ function CreateEditYoutubeChannelsForm({ youtubeChannel, onClose }) {
           id="hasBell"
           label="Bell"
           control={control}
-          // disabled={!isWatched || isCreating || isUpdating}
-          disabled={!isSubscribed}
+          disabled={!isSubscribed || isCreating || isUpdating}
         />
       </FormChecboxesRow>
 
       <ButtonsList $justify="end">
-        <Button
-          $variation="primary"
-          //  disabled={isCreating || isUpdating}
-        >
+        <Button $variation="primary" disabled={isCreating || isUpdating}>
           {isEditSession ? "Update Youtube channel" : "Create Youtube channel"}
         </Button>
         <Button
           $variation="secondary"
           onClick={onClose}
           type="button"
-          // disabled={isCreating || isUpdating}
+          disabled={isCreating || isUpdating}
         >
           Cancel
         </Button>
