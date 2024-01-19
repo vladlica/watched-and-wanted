@@ -1,16 +1,9 @@
-import styled from "styled-components";
 import Filter from "../../ui/Filter";
-
-const StyledSeriesTableFilters = styled.div`
-  display: flex;
-  gap: 2.2rem;
-  align-items: center;
-  justify-content: center;
-`;
+import TableFilters from "../../ui/TableFilters";
 
 function SeriesTableFilters() {
   return (
-    <StyledSeriesTableFilters>
+    <TableFilters>
       <Filter
         options={[
           { label: "All", value: "all" },
@@ -55,7 +48,7 @@ function SeriesTableFilters() {
         ]}
         filteredField="isFinished"
       />
-    </StyledSeriesTableFilters>
+    </TableFilters>
   );
 }
 
