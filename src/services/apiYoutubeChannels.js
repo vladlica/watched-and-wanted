@@ -32,6 +32,21 @@ export async function getYoutubeChannels({ sortBy, filters, page, search }) {
   return { data, count };
 }
 
+export async function getYoutubeChannel(id) {
+  const { data, error } = await supabase
+    .from("youtube_channels")
+    .select("*, extra_info(*)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Youtube channel not found");
+  }
+
+  return data;
+}
+
 export async function createYoutubeChannel(newYoutubeChannel, extraInfo) {
   let query = supabase;
 

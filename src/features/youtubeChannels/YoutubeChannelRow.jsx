@@ -35,7 +35,7 @@ function YoutubeChannelRow({ youtubeChannel }) {
             obj: { status: isSubscribed ? "wanted" : "subscribed" },
           })
         }
-        // viewPath={`/movies/${movie.id}`}
+        viewPath={`/channels/${youtubeChannel.id}`}
         contentEditModal={
           <CreateEditYoutubeChannelsForm youtubeChannel={youtubeChannel} />
         }
