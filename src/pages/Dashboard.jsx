@@ -1,11 +1,12 @@
+import DashboardLayout from "../features/dashboard/DashboardLayout";
 import Row from "../ui/Row";
 
 function Dashboard() {
   return (
     <>
-      <Row direction="horizontal">
+      <Row direction="vertical">
         <h1>Dashboard</h1>
-        <p>Options</p>
+        <DashboardLayout />
       </Row>
     </>
   );

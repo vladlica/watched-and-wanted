@@ -180,6 +180,8 @@ const GlobalStyles = createGlobalStyle`
     gap: 0.5rem;
   }
 
+  
+
 
 `;
 
