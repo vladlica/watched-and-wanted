@@ -22,7 +22,7 @@ const StyledDashboardBooksStats = styled.div`
 `;
 
 const StatBox = styled.div`
-  background-color: var(--color-orange-0);
+  background-color: var(--color-grey-0);
   border-radius: 25px;
   box-shadow: var(--shadow-md);
   display: flex;

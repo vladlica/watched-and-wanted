@@ -32,7 +32,7 @@ const maxSum = Math.max(...data.map((item) => item.consumed + item.wanted));
 function ConsumptionChart() {
   return (
     <ChartBox>
-      <h2>Media Consumption Radar</h2>
+      <h2>Media Consumption Overview</h2>
       <ResponsiveContainer width="100%" height={400}>
         <RadarChart outerRadius={150} width={400} height={400} data={data}>
           <PolarGrid />
@@ -53,7 +53,7 @@ function ConsumptionChart() {
             fillOpacity={0.6}
           />
           <Tooltip />
-          <Legend />
+          <Legend iconSize={15} iconType="circle" />
         </RadarChart>
       </ResponsiveContainer>
     </ChartBox>
