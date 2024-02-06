@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import DashboardTotalCounts from "./DashboardTotalCounts";
-import DashboardBooksStats from "./DashboardBooksStats";
+// import DashboardBooksStats from "./DashboardBooksStats";
 import ConsumptionChart from "./ConsumptionChart";
 import ContentDistributionChart from "./ContentDistributionChart";
 import PagesChart from "./PagesChart";
+import BooksChart from "./BooksChart";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -17,6 +18,7 @@ function DashboardLayout() {
       <DashboardTotalCounts />
       <ConsumptionChart />
       <ContentDistributionChart />
+      <BooksChart />
       <PagesChart />
       {/* <DashboardBooksStats /> */}
     </StyledDashboardLayout>

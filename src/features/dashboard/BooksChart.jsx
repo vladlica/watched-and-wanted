@@ -1,7 +1,8 @@
 import {
+  Bar,
+  BarChart,
   CartesianGrid,
-  Line,
-  LineChart,
+  Rectangle,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -18,30 +19,30 @@ const ChartBox = styled.div`
 `;
 
 const data = [
-  { year: 2013, pages: 2813 },
-  { year: 2014, pages: 1589 },
-  { year: 2015, pages: 3649 },
-  { year: 2016, pages: 3841 },
-  { year: 2017, pages: 1907 },
-  { year: 2018, pages: 5116 },
-  { year: 2019, pages: 4734 },
-  { year: 2020, pages: 560 },
-  { year: 2021, pages: 6364 },
-  { year: 2022, pages: 7866 },
-  { year: 2023, pages: 13305 },
+  { year: 2013, books: 5 },
+  { year: 2014, books: 4 },
+  { year: 2015, books: 9 },
+  { year: 2016, books: 8 },
+  { year: 2017, books: 6 },
+  { year: 2018, books: 8 },
+  { year: 2019, books: 8 },
+  { year: 2020, books: 2 },
+  { year: 2021, books: 13 },
+  { year: 2022, books: 18 },
+  { year: 2023, books: 35 },
 ];
 
-function PagesChart() {
+function BooksChart() {
   return (
     <ChartBox>
-      <h2>Pages Odyssey: Annual Progress</h2>
+      <h2>Books in Bloom: Yearly Reading</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart
+        <BarChart
           width={500}
           height={300}
           data={data}
           margin={{
-            top: 25,
+            top: 5,
             right: 30,
             left: 20,
             bottom: 5,
@@ -51,16 +52,11 @@ function PagesChart() {
           <XAxis dataKey="year" tick={{ dy: 10 }} />
           <YAxis />
           <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="pages"
-            stroke="#ea580c"
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
+          <Bar dataKey="books" fill="#ea580c" />
+        </BarChart>
       </ResponsiveContainer>
     </ChartBox>
   );
 }
 
-export default PagesChart;
+export default BooksChart;
