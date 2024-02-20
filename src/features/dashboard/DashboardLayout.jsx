@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import DashboardTotalCounts from "./DashboardTotalCounts";
-// import DashboardBooksStats from "./DashboardBooksStats";
-import ConsumptionChart from "./ConsumptionChart";
+import TotalCounts from "./TotalCounts";
+import MediaConsumptionChart from "./MediaConsumptionChart";
 import ContentDistributionChart from "./ContentDistributionChart";
 import PagesChart from "./PagesChart";
 import BooksChart from "./BooksChart";
+import Stats from "./Stats";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -15,12 +15,12 @@ const StyledDashboardLayout = styled.div`
 function DashboardLayout() {
   return (
     <StyledDashboardLayout>
-      <DashboardTotalCounts />
-      <ConsumptionChart />
+      <TotalCounts />
+      <MediaConsumptionChart />
       <ContentDistributionChart />
+      <Stats />
       <BooksChart />
       <PagesChart />
-      {/* <DashboardBooksStats /> */}
     </StyledDashboardLayout>
   );
 }

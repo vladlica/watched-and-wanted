@@ -18,15 +18,12 @@ const ChartBox = styled.div`
 `;
 
 const data = [
-  { name: "Books", value: 120 },
-  { name: "Series", value: 200 },
-  { name: "Movies", value: 30 },
-  { name: "Anime", value: 24 },
-  { name: "Youtube Channels", value: 45 },
+  { name: "Books", value: 120, color: "#ea580c" },
+  { name: "Series", value: 200, color: "#16a34a" },
+  { name: "Movies", value: 30, color: "#2563eb" },
+  { name: "Anime", value: 24, color: "#ca8a04" },
+  { name: "Youtube Channels", value: 45, color: "#dc2626" },
 ];
-
-// const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF00FF"];
-const COLORS = ["#6495ED", "#66CDAA", "#D2B48C", "#B0A9A9", "#FFA07A"];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -70,14 +67,10 @@ function ContentDistributionChart() {
             labelLine={false}
             label={renderCustomizedLabel}
             outerRadius={120}
-            fill="#8884d8"
             dataKey="value"
           >
             {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
+              <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
           <Tooltip />

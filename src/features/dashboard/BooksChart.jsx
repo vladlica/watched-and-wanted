@@ -2,7 +2,6 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  Rectangle,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -11,11 +10,16 @@ import {
 import styled from "styled-components";
 
 const ChartBox = styled.div`
-  grid-column: 1 / -1;
   background-color: var(--color-grey-0);
   border-radius: 25px;
   padding: 1rem 2rem;
   box-shadow: var(--shadow-md);
+
+  grid-column: 1 / span 3;
+  grid-row: 4 / span 2;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const data = [
@@ -35,7 +39,8 @@ const data = [
 function BooksChart() {
   return (
     <ChartBox>
-      <h2>Books in Bloom: Yearly Reading</h2>
+      <h2>Yearly Book Count Analysis</h2>
+
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           width={500}

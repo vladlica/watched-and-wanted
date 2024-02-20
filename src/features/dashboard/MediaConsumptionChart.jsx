@@ -29,7 +29,7 @@ const data = [
 
 const maxSum = Math.max(...data.map((item) => item.consumed + item.wanted));
 
-function ConsumptionChart() {
+function MediaConsumptionChart() {
   return (
     <ChartBox>
       <h2>Media Consumption Overview</h2>
@@ -41,16 +41,16 @@ function ConsumptionChart() {
           <Radar
             name="Consumed"
             dataKey="consumed"
-            stroke="#8884d8"
-            fill="#8884d8"
-            fillOpacity={0.6}
+            stroke="#15803d"
+            fill="#15803d"
+            fillOpacity={0.4}
           />
           <Radar
             name="Wanted"
             dataKey="wanted"
-            stroke="#82ca9d"
-            fill="#82ca9d"
-            fillOpacity={0.6}
+            stroke="#ea580c"
+            fill="#ea580c"
+            fillOpacity={0.4}
           />
           <Tooltip />
           <Legend iconSize={15} iconType="circle" />
@@ -60,4 +60,4 @@ function ConsumptionChart() {
   );
 }
 
-export default ConsumptionChart;
+export default MediaConsumptionChart;

@@ -10,11 +10,13 @@ import {
 import styled from "styled-components";
 
 const ChartBox = styled.div`
-  grid-column: 1 / -1;
   background-color: var(--color-grey-0);
   border-radius: 25px;
   padding: 1rem 2rem;
   box-shadow: var(--shadow-md);
+
+  grid-column: 3 / -1;
+  grid-row: 6 / span 2;
 `;
 
 const data = [
@@ -34,7 +36,7 @@ const data = [
 function PagesChart() {
   return (
     <ChartBox>
-      <h2>Pages Odyssey: Annual Progress</h2>
+      <h2>Yearly Page Count Analysis</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           width={500}

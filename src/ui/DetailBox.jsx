@@ -17,13 +17,13 @@ const LeftBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--color-orange-600);
+  background-color: var(--color-${(props) => props.color}-600);
   padding: 1rem;
 
   & svg {
     width: 3.2rem;
     height: 3.2rem;
-    color: var(--color-orange-50);
+    color: var(--color-${(props) => props.color}-50);
   }
 `;
 
@@ -49,10 +49,10 @@ const Value = styled.span`
   font-weight: 600;
 `;
 
-function DetailBox({ icon, details, oneLine = false }) {
+function DetailBox({ icon, details, color = "orange", oneLine = false }) {
   return (
     <StyledDetailBox>
-      <LeftBox>{icon}</LeftBox>
+      <LeftBox color={color}>{icon}</LeftBox>
       <RightBox>
         {details?.map((detail) => (
           <React.Fragment key={detail.label}>

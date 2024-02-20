@@ -6,3 +6,10 @@ export const statusToTagColor = {
   subscribed: "green",
   wanted: "silver",
 };
+export const dashboardColors = {
+  books: "orange",
+  series: "green",
+  movies: "blue",
+  anime: "yellow",
+  youtubeChannels: "red",
+};
