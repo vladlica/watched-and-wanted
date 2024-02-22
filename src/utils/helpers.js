@@ -136,6 +136,21 @@ export function computeBooksAndPagesReadOverTheYears(books) {
     .sort((a, b) => a.year - b.year);
 }
 
+export function computeMostReadAuthor(books) {
+  return Object.entries(
+    books
+      .filter((book) => book.status !== "wanted")
+      .reduce((acc, value) => {
+        if (acc[value.author.trim()]) acc[value.author.trim()] += 1;
+        else acc[value.author.trim()] = 1;
+
+        return acc;
+      }, {})
+  )
+    .sort((a, b) => b[1] - a[1])
+    .filter((item, _, arr) => item[1] === arr[0][1]);
+}
+
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
   const isLongestBook = !booksSameYear.some(
     (item) => item.status === "read" && item.numPages > numPages

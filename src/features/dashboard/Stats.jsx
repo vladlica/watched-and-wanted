@@ -72,7 +72,7 @@ const Value = styled.span`
   font-weight: 600;
 `;
 
-function Stats() {
+function Stats({ mostReadAuthors }) {
   return (
     <>
       <StatBox>
@@ -80,11 +80,16 @@ function Stats() {
           <IconBox color={dashboardColors.books.color}>
             <HiOutlineBookOpen />
           </IconBox>
-          <Title>Most read author</Title>
+          <Title>Most read author{mostReadAuthors.length > 1 ? "s" : ""}</Title>
         </StatHeader>
         <ValuesBox>
-          <Value>Radu Paraschivescu</Value>
-          <Tag color={dashboardColors.books.color}>22 books</Tag>
+          {mostReadAuthors.map((author) => (
+            <Value key={author[0]}>{author[0]}</Value>
+          ))}
+
+          <Tag color={dashboardColors.books.color}>
+            {mostReadAuthors[0][1]} books
+          </Tag>
         </ValuesBox>
       </StatBox>
 

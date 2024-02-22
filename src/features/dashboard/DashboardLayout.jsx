@@ -15,6 +15,7 @@ import {
   computeBooksAndPagesReadOverTheYears,
   computeContentDistribution,
   computeMediaConsumption,
+  computeMostReadAuthor,
 } from "../../utils/helpers";
 
 const StyledDashboardLayout = styled.div`
@@ -79,12 +80,14 @@ function DashboardLayout() {
 
   const dataBooksPagesCharts = computeBooksAndPagesReadOverTheYears(books);
 
+  const mostReadAuthorsData = computeMostReadAuthor(books);
+
   return (
     <StyledDashboardLayout>
       <TotalCounts counts={counts} />
       <MediaConsumptionChart data={dataMediaConsumption} />
       <ContentDistributionChart data={dataContentDistribution} />
-      <Stats />
+      <Stats mostReadAuthors={mostReadAuthorsData} />
       <BooksChart data={dataBooksPagesCharts} />
       <PagesChart data={dataBooksPagesCharts} />
     </StyledDashboardLayout>
