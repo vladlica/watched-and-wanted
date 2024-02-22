@@ -72,7 +72,7 @@ const Value = styled.span`
   font-weight: 600;
 `;
 
-function Stats({ mostReadAuthors }) {
+function Stats({ mostReadAuthors, longestSeries }) {
   return (
     <>
       <StatBox>
@@ -101,8 +101,12 @@ function Stats({ mostReadAuthors }) {
           <Title>Longest series</Title>
         </StatHeader>
         <ValuesBox>
-          <Value>Amintiri din trecutul Terrei</Value>
-          <Tag color={dashboardColors.books.color}>12 books</Tag>
+          {longestSeries.map((series) => (
+            <Value key={series[0]}>{series[0]}</Value>
+          ))}
+          <Tag color={dashboardColors.books.color}>
+            {longestSeries[0][1]} books
+          </Tag>
         </ValuesBox>
       </StatBox>
 

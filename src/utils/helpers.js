@@ -141,8 +141,25 @@ export function computeMostReadAuthor(books) {
     books
       .filter((book) => book.status !== "wanted")
       .reduce((acc, value) => {
-        if (acc[value.author.trim()]) acc[value.author.trim()] += 1;
-        else acc[value.author.trim()] = 1;
+        if (acc[value.author.trim()])
+          acc[value.author.trim()] += value.numVolumes;
+        else acc[value.author.trim()] = value.numVolumes;
+
+        return acc;
+      }, {})
+  )
+    .sort((a, b) => b[1] - a[1])
+    .filter((item, _, arr) => item[1] === arr[0][1]);
+}
+
+export function computeLongestSeries(books) {
+  return Object.entries(
+    books
+      .filter((book) => book.status !== "wanted" && book.series)
+      .reduce((acc, value) => {
+        if (acc[value.series.trim()])
+          acc[value.series.trim()] += value.numVolumes;
+        else acc[value.series.trim()] = value.numVolumes;
 
         return acc;
       }, {})

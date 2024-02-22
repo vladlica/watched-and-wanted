@@ -14,6 +14,7 @@ import { useYoutubeChannels } from "../youtubeChannels/useYoutubeChannels";
 import {
   computeBooksAndPagesReadOverTheYears,
   computeContentDistribution,
+  computeLongestSeries,
   computeMediaConsumption,
   computeMostReadAuthor,
 } from "../../utils/helpers";
@@ -81,13 +82,17 @@ function DashboardLayout() {
   const dataBooksPagesCharts = computeBooksAndPagesReadOverTheYears(books);
 
   const mostReadAuthorsData = computeMostReadAuthor(books);
+  const longestSeriesData = computeLongestSeries(books);
 
   return (
     <StyledDashboardLayout>
       <TotalCounts counts={counts} />
       <MediaConsumptionChart data={dataMediaConsumption} />
       <ContentDistributionChart data={dataContentDistribution} />
-      <Stats mostReadAuthors={mostReadAuthorsData} />
+      <Stats
+        mostReadAuthors={mostReadAuthorsData}
+        longestSeries={longestSeriesData}
+      />
       <BooksChart data={dataBooksPagesCharts} />
       <PagesChart data={dataBooksPagesCharts} />
     </StyledDashboardLayout>
