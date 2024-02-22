@@ -120,15 +120,16 @@ export function computeContentDistribution({
   ];
 }
 
-export function computeBooksReadOverTheYears(books) {
-  console.log(format(new Date(books[1].finishDate), "yyyy"));
+export function computeBooksAndPagesReadOverTheYears(books) {
   return books
     .filter((book) => book.status !== "wanted" && book.finishDate)
     .reduce((acc, value) => {
       const year = format(new Date(value.finishDate), "yyyy");
       const item = acc.find((item) => item.year === year);
-      if (item) item.books += 1;
-      else acc.push({ year, books: 1 });
+      if (item) {
+        item.books += 1;
+        item.pages += value.numPages;
+      } else acc.push({ year, books: 1, pages: value.numPages });
 
       return acc;
     }, [])

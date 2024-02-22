@@ -12,28 +12,28 @@ import styled from "styled-components";
 const ChartBox = styled.div`
   background-color: var(--color-grey-0);
   border-radius: 25px;
-  padding: 1rem 2rem;
+  padding: 2rem;
   box-shadow: var(--shadow-md);
 
   grid-column: 3 / -1;
   grid-row: 6 / span 2;
 `;
 
-const data = [
-  { year: 2013, pages: 2813 },
-  { year: 2014, pages: 1589 },
-  { year: 2015, pages: 3649 },
-  { year: 2016, pages: 3841 },
-  { year: 2017, pages: 1907 },
-  { year: 2018, pages: 5116 },
-  { year: 2019, pages: 4734 },
-  { year: 2020, pages: 560 },
-  { year: 2021, pages: 6364 },
-  { year: 2022, pages: 7866 },
-  { year: 2023, pages: 13305 },
-];
+// const data = [
+//   { year: 2013, pages: 2813 },
+//   { year: 2014, pages: 1589 },
+//   { year: 2015, pages: 3649 },
+//   { year: 2016, pages: 3841 },
+//   { year: 2017, pages: 1907 },
+//   { year: 2018, pages: 5116 },
+//   { year: 2019, pages: 4734 },
+//   { year: 2020, pages: 560 },
+//   { year: 2021, pages: 6364 },
+//   { year: 2022, pages: 7866 },
+//   { year: 2023, pages: 13305 },
+// ];
 
-function PagesChart() {
+function PagesChart({ data }) {
   return (
     <ChartBox>
       <h2>Yearly Page Count Analysis</h2>
@@ -45,7 +45,7 @@ function PagesChart() {
           margin={{
             top: 25,
             right: 30,
-            left: 20,
+            left: 0,
             bottom: 5,
           }}
         >
