@@ -19,16 +19,6 @@ const ChartBox = styled.div`
   box-shadow: var(--shadow-md);
 `;
 
-// const data = [
-//   { type: "Books", consumed: 102, wanted: 38 },
-//   { type: "Series", consumed: 45, wanted: 60 },
-//   { type: "Movies", consumed: 15, wanted: 8 },
-//   { type: "Anime", consumed: 24, wanted: 20 },
-//   { type: "Youtube Channels", consumed: 45, wanted: 4 },
-// ];
-
-// const maxSum = Math.max(...data.map((item) => item.consumed + item.wanted));
-
 function MediaConsumptionChart({ data: { data, max } }) {
   return (
     <ChartBox>

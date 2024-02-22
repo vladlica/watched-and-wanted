@@ -11,7 +11,10 @@ import { useSeries } from "../series/useSeries";
 import { useMovies } from "../movies/useMovies";
 import { useAnime } from "../anime/useAnime";
 import { useYoutubeChannels } from "../youtubeChannels/useYoutubeChannels";
-import { computeMediaConsumption } from "../../utils/helpers";
+import {
+  computeContentDistribution,
+  computeMediaConsumption,
+} from "../../utils/helpers";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -71,15 +74,13 @@ function DashboardLayout() {
     youtubeChannels
   );
 
-  console.log(
-    computeMediaConsumption(books, series, movies, anime, youtubeChannels)
-  );
+  const dataContentDistribution = computeContentDistribution(counts);
 
   return (
     <StyledDashboardLayout>
       <TotalCounts counts={counts} />
       <MediaConsumptionChart data={dataMediaConsumption} />
-      <ContentDistributionChart />
+      <ContentDistributionChart data={dataContentDistribution} />
       <Stats />
       <BooksChart />
       <PagesChart />

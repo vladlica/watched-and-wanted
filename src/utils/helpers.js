@@ -97,6 +97,22 @@ export function computeMediaConsumption(
   return { data, max };
 }
 
+export function computeContentDistribution({
+  books,
+  series,
+  movies,
+  anime,
+  youtubeChannels,
+}) {
+  return [
+    { type: "Books", value: books, color: "#ea580c" },
+    { type: "Series", value: series, color: "#16a34a" },
+    { type: "Movies", value: movies, color: "#2563eb" },
+    { type: "Anime", value: anime, color: "#ca8a04" },
+    { type: "Youtube Channels", value: youtubeChannels, color: "#dc2626" },
+  ];
+}
+
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
   const isLongestBook = !booksSameYear.some(
     (item) => item.status === "read" && item.numPages > numPages

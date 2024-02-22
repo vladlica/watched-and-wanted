@@ -13,3 +13,4 @@ export const dashboardColors = {
   anime: "yellow",
   youtubeChannels: "red",
 };
+export const RADIAN = Math.PI / 180;
