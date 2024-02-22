@@ -6,6 +6,97 @@ export function getInitials(fullName) {
     .join("");
 }
 
+export function computeMediaConsumption(
+  books,
+  series,
+  movies,
+  anime,
+  youtubeChannels
+) {
+  const booksConsumption = books.reduce(
+    (acc, value) => {
+      if (value.status === "wanted") acc.wanted += 1;
+      else acc.consumed += 1;
+      return acc;
+    },
+    {
+      type: "Books",
+      consumed: 0,
+      wanted: 0,
+    }
+  );
+
+  const seriesConsumption = series.reduce(
+    (acc, value) => {
+      if (value.status === "wanted") acc.wanted += 1;
+      else acc.consumed += 1;
+      return acc;
+    },
+    {
+      type: "Series",
+      consumed: 0,
+      wanted: 0,
+    }
+  );
+
+  const moviesConsumption = movies.reduce(
+    (acc, value) => {
+      if (value.status === "wanted") acc.wanted += 1;
+      else acc.consumed += 1;
+      return acc;
+    },
+    {
+      type: "Movies",
+      consumed: 0,
+      wanted: 0,
+    }
+  );
+
+  const animeConsumption = anime.reduce(
+    (acc, value) => {
+      if (value.status === "wanted") acc.wanted += 1;
+      else acc.consumed += 1;
+      return acc;
+    },
+    {
+      type: "Anime",
+      consumed: 0,
+      wanted: 0,
+    }
+  );
+
+  const youtubeChannelsConsumption = youtubeChannels.reduce(
+    (acc, value) => {
+      if (value.status === "wanted") acc.wanted += 1;
+      else acc.consumed += 1;
+      return acc;
+    },
+    {
+      type: "Youtube Channels",
+      consumed: 0,
+      wanted: 0,
+    }
+  );
+
+  const data = [
+    booksConsumption,
+    seriesConsumption,
+    moviesConsumption,
+    animeConsumption,
+    youtubeChannelsConsumption,
+  ];
+
+  const max = Math.max(
+    books.length,
+    series.length,
+    movies.length,
+    anime.length,
+    youtubeChannels.length
+  );
+
+  return { data, max };
+}
+
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
   const isLongestBook = !booksSameYear.some(
     (item) => item.status === "read" && item.numPages > numPages

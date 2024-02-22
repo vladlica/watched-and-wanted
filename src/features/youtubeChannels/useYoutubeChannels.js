@@ -3,7 +3,7 @@ import { getYoutubeChannels } from "../../services/apiYoutubeChannels";
 import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
 
-export function useYoutubeChannels() {
+export function useYoutubeChannels(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
@@ -22,28 +22,32 @@ export function useYoutubeChannels() {
   const [field, direction] = sortByValue.split("-");
   const sortBy = { field, direction };
 
-  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+  let page;
+  if (allResults) page = false;
+  else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: youtubeChannels, count } = {} } = useQuery({
     queryKey: ["youtubeChannels", sortBy, filters, search, page],
     queryFn: () => getYoutubeChannels({ sortBy, filters, search, page }),
   });
 
-  const pageCount = Math.ceil(count / PAGE_SIZE);
+  if (!allResults) {
+    const pageCount = Math.ceil(count / PAGE_SIZE);
 
-  if (page < pageCount)
-    queryClient.prefetchQuery({
-      queryKey: ["youtubeChannels", sortBy, filters, search, page + 1],
-      queryFn: () =>
-        getYoutubeChannels({ sortBy, filters, search, page: page + 1 }),
-    });
+    if (page < pageCount)
+      queryClient.prefetchQuery({
+        queryKey: ["youtubeChannels", sortBy, filters, search, page + 1],
+        queryFn: () =>
+          getYoutubeChannels({ sortBy, filters, search, page: page + 1 }),
+      });
 
-  if (page !== 1) {
-    queryClient.prefetchQuery({
-      queryKey: ["youtubeChannels", sortBy, filters, search, page - 1],
-      queryFn: () =>
-        getYoutubeChannels({ sortBy, filters, search, page: page - 1 }),
-    });
+    if (page !== 1) {
+      queryClient.prefetchQuery({
+        queryKey: ["youtubeChannels", sortBy, filters, search, page - 1],
+        queryFn: () =>
+          getYoutubeChannels({ sortBy, filters, search, page: page - 1 }),
+      });
+    }
   }
 
   return { isLoading, youtubeChannels, count };

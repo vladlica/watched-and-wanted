@@ -3,7 +3,7 @@ import { getAnime } from "../../services/apiAnime";
 import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
 
-export function useAnime() {
+export function useAnime(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
@@ -19,26 +19,30 @@ export function useAnime() {
   const [field, direction] = sortByValue.split("-");
   const sortBy = { field, direction };
 
-  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+  let page;
+  if (allResults) page = false;
+  else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: anime, count } = {} } = useQuery({
     queryKey: ["anime", sortBy, filter, search, page],
     queryFn: () => getAnime({ sortBy, filter, search, page }),
   });
 
-  const pageCount = Math.ceil(count / PAGE_SIZE);
+  if (!allResults) {
+    const pageCount = Math.ceil(count / PAGE_SIZE);
 
-  if (page < pageCount)
-    queryClient.prefetchQuery({
-      queryKey: ["anime", sortBy, filter, search, page + 1],
-      queryFn: () => getAnime({ sortBy, filter, search, page: page + 1 }),
-    });
+    if (page < pageCount)
+      queryClient.prefetchQuery({
+        queryKey: ["anime", sortBy, filter, search, page + 1],
+        queryFn: () => getAnime({ sortBy, filter, search, page: page + 1 }),
+      });
 
-  if (page !== 1) {
-    queryClient.prefetchQuery({
-      queryKey: ["anime", sortBy, filter, search, page - 1],
-      queryFn: () => getAnime({ sortBy, filter, search, page: page - 1 }),
-    });
+    if (page !== 1) {
+      queryClient.prefetchQuery({
+        queryKey: ["anime", sortBy, filter, search, page - 1],
+        queryFn: () => getAnime({ sortBy, filter, search, page: page - 1 }),
+      });
+    }
   }
 
   return { isLoading, anime, count };

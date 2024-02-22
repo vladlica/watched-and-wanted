@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
 import { getSeries } from "../../services/apiSeries";
 
-export function useSeries() {
+export function useSeries(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
 
@@ -34,7 +34,9 @@ export function useSeries() {
   const [field, direction] = sortByValue.split("-");
   const sortBy = { field, direction };
 
-  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+  let page;
+  if (allResults) page = false;
+  else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: series, count } = {} } = useQuery({
     queryKey: ["series", sortBy, filters, page, search],
@@ -43,17 +45,19 @@ export function useSeries() {
 
   const pageCount = Math.ceil(count / PAGE_SIZE);
 
-  if (page < pageCount)
-    queryClient.prefetchQuery({
-      queryKey: ["series", sortBy, filters, page + 1, search],
-      queryFn: () => getSeries({ sortBy, filters, page: page + 1, search }),
-    });
+  if (!allResults) {
+    if (page < pageCount)
+      queryClient.prefetchQuery({
+        queryKey: ["series", sortBy, filters, page + 1, search],
+        queryFn: () => getSeries({ sortBy, filters, page: page + 1, search }),
+      });
 
-  if (page !== 1) {
-    queryClient.prefetchQuery({
-      queryKey: ["series", sortBy, filters, page - 1, search],
-      queryFn: () => getSeries({ sortBy, filters, page: page - 1, search }),
-    });
+    if (page !== 1) {
+      queryClient.prefetchQuery({
+        queryKey: ["series", sortBy, filters, page - 1, search],
+        queryFn: () => getSeries({ sortBy, filters, page: page - 1, search }),
+      });
+    }
   }
 
   return { isLoading, series, count };
