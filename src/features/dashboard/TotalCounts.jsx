@@ -14,27 +14,27 @@ function TotalCounts({ counts }) {
       <DetailBox
         icon={<HiOutlineBookOpen />}
         details={[{ label: "Books", value: counts.books }]}
-        color={dashboardColors.books}
+        color={dashboardColors.books.color}
       />
       <DetailBox
         icon={<HiOutlineVideoCamera />}
         details={[{ label: "Series", value: counts.series }]}
-        color={dashboardColors.series}
+        color={dashboardColors.series.color}
       />
       <DetailBox
         icon={<HiOutlineFilm />}
         details={[{ label: "Movies", value: counts.movies }]}
-        color={dashboardColors.movies}
+        color={dashboardColors.movies.color}
       />
       <DetailBox
         icon={<HiOutlineLanguage />}
         details={[{ label: "Anime", value: counts.anime }]}
-        color={dashboardColors.anime}
+        color={dashboardColors.anime.color}
       />
       <DetailBox
         icon={<HiOutlinePlayCircle />}
         details={[{ label: "YT channels", value: counts.youtubeChannels }]}
-        color={dashboardColors.youtubeChannels}
+        color={dashboardColors.youtubeChannels.color}
       />
     </>
   );

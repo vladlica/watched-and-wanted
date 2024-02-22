@@ -22,21 +22,7 @@ const ChartBox = styled.div`
   flex-direction: column;
 `;
 
-const data = [
-  { year: 2013, books: 5 },
-  { year: 2014, books: 4 },
-  { year: 2015, books: 9 },
-  { year: 2016, books: 8 },
-  { year: 2017, books: 6 },
-  { year: 2018, books: 8 },
-  { year: 2019, books: 8 },
-  { year: 2020, books: 2 },
-  { year: 2021, books: 13 },
-  { year: 2022, books: 18 },
-  { year: 2023, books: 35 },
-];
-
-function BooksChart() {
+function BooksChart({ data }) {
   return (
     <ChartBox>
       <h2>Yearly Book Count Analysis</h2>

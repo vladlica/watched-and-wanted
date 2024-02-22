@@ -1,3 +1,6 @@
+import { format } from "date-fns";
+import { dashboardColors } from "./constants";
+
 export function getInitials(fullName) {
   return fullName
     .split(" ")
@@ -105,12 +108,31 @@ export function computeContentDistribution({
   youtubeChannels,
 }) {
   return [
-    { type: "Books", value: books, color: "#ea580c" },
-    { type: "Series", value: series, color: "#16a34a" },
-    { type: "Movies", value: movies, color: "#2563eb" },
-    { type: "Anime", value: anime, color: "#ca8a04" },
-    { type: "Youtube Channels", value: youtubeChannels, color: "#dc2626" },
+    { type: "Books", value: books, color: dashboardColors.books.value },
+    { type: "Series", value: series, color: dashboardColors.series.value },
+    { type: "Movies", value: movies, color: dashboardColors.movies.value },
+    { type: "Anime", value: anime, color: dashboardColors.anime.value },
+    {
+      type: "Youtube Channels",
+      value: youtubeChannels,
+      color: dashboardColors.youtubeChannels.value,
+    },
   ];
+}
+
+export function computeBooksReadOverTheYears(books) {
+  console.log(format(new Date(books[1].finishDate), "yyyy"));
+  return books
+    .filter((book) => book.status !== "wanted" && book.finishDate)
+    .reduce((acc, value) => {
+      const year = format(new Date(value.finishDate), "yyyy");
+      const item = acc.find((item) => item.year === year);
+      if (item) item.books += 1;
+      else acc.push({ year, books: 1 });
+
+      return acc;
+    }, [])
+    .sort((a, b) => a.year - b.year);
 }
 
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {

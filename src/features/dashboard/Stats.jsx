@@ -77,33 +77,33 @@ function Stats() {
     <>
       <StatBox>
         <StatHeader>
-          <IconBox color={dashboardColors.books}>
+          <IconBox color={dashboardColors.books.color}>
             <HiOutlineBookOpen />
           </IconBox>
           <Title>Most read author</Title>
         </StatHeader>
         <ValuesBox>
           <Value>Radu Paraschivescu</Value>
-          <Tag color={dashboardColors.books}>22 books</Tag>
+          <Tag color={dashboardColors.books.color}>22 books</Tag>
         </ValuesBox>
       </StatBox>
 
       <StatBox>
         <StatHeader>
-          <IconBox color={dashboardColors.books}>
+          <IconBox color={dashboardColors.books.color}>
             <HiOutlineBookOpen />
           </IconBox>
           <Title>Longest series</Title>
         </StatHeader>
         <ValuesBox>
           <Value>Amintiri din trecutul Terrei</Value>
-          <Tag color={dashboardColors.books}>12 books</Tag>
+          <Tag color={dashboardColors.books.color}>12 books</Tag>
         </ValuesBox>
       </StatBox>
 
       <StatBox>
         <StatHeader>
-          <IconBox color={dashboardColors.books}>
+          <IconBox color={dashboardColors.books.color}>
             <HiOutlineBookOpen />
           </IconBox>
           <Title>Fastest read</Title>
@@ -114,13 +114,13 @@ function Stats() {
               Arta Conversatiei sau Eleganta Ignorantei
             </Link>
           </Value>
-          <Tag color={dashboardColors.books}>5 days</Tag>
+          <Tag color={dashboardColors.books.color}>5 days</Tag>
         </ValuesBox>
       </StatBox>
 
       <StatBox>
         <StatHeader>
-          <IconBox color={dashboardColors.books}>
+          <IconBox color={dashboardColors.books.color}>
             <HiOutlineBookOpen />
           </IconBox>
           <Title>Slowest read</Title>
@@ -129,55 +129,55 @@ function Stats() {
           <Value>
             <Link to="/books/150">Capatul Mortii</Link>
           </Value>
-          <Tag color={dashboardColors.books}>24 days</Tag>
+          <Tag color={dashboardColors.books.color}>24 days</Tag>
         </ValuesBox>
       </StatBox>
 
       <StatBox>
         <StatHeader>
-          <IconBox color={dashboardColors.series}>
+          <IconBox color={dashboardColors.series.color}>
             <HiOutlineVideoCamera />
           </IconBox>
           <Title>Total number of seasons watched</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.series}>102 seasons</Tag>
+          <Tag color={dashboardColors.series.color}>102 seasons</Tag>
         </ValuesBox>
       </StatBox>
 
       <StatBox>
         <StatHeader>
-          <IconBox color={dashboardColors.series}>
+          <IconBox color={dashboardColors.series.color}>
             <HiOutlineVideoCamera />
           </IconBox>
           <Title>Total number of episodes watched</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.series}>1000 episodes</Tag>
+          <Tag color={dashboardColors.series.color}>1000 episodes</Tag>
         </ValuesBox>
       </StatBox>
 
       <StatBox>
         <StatHeader>
-          <IconBox color={dashboardColors.movies}>
+          <IconBox color={dashboardColors.movies.color}>
             <HiOutlineFilm />
           </IconBox>
           <Title>Total watch time</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.movies}>12 days 23 hours</Tag>
+          <Tag color={dashboardColors.movies.color}>12 days 23 hours</Tag>
         </ValuesBox>
       </StatBox>
 
       <StatBox>
         <StatHeader>
-          <IconBox color={dashboardColors.anime}>
+          <IconBox color={dashboardColors.anime.color}>
             <HiOutlineLanguage />
           </IconBox>
           <Title>Total number of episodes watched</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.anime}>4542 episodes</Tag>
+          <Tag color={dashboardColors.anime.color}>4542 episodes</Tag>
         </ValuesBox>
       </StatBox>
     </>

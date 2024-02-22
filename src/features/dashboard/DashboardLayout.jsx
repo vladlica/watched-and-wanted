@@ -12,6 +12,7 @@ import { useMovies } from "../movies/useMovies";
 import { useAnime } from "../anime/useAnime";
 import { useYoutubeChannels } from "../youtubeChannels/useYoutubeChannels";
 import {
+  computeBooksReadOverTheYears,
   computeContentDistribution,
   computeMediaConsumption,
 } from "../../utils/helpers";
@@ -76,13 +77,14 @@ function DashboardLayout() {
 
   const dataContentDistribution = computeContentDistribution(counts);
 
+  const dataBooksChart = computeBooksReadOverTheYears(books);
   return (
     <StyledDashboardLayout>
       <TotalCounts counts={counts} />
       <MediaConsumptionChart data={dataMediaConsumption} />
       <ContentDistributionChart data={dataContentDistribution} />
       <Stats />
-      <BooksChart />
+      <BooksChart data={dataBooksChart} />
       <PagesChart />
     </StyledDashboardLayout>
   );

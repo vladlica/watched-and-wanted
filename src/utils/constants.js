@@ -7,10 +7,10 @@ export const statusToTagColor = {
   wanted: "silver",
 };
 export const dashboardColors = {
-  books: "orange",
-  series: "green",
-  movies: "blue",
-  anime: "yellow",
-  youtubeChannels: "red",
+  books: { color: "orange", value: "#ea580c" },
+  series: { color: "green", value: "#16a34a" },
+  movies: { color: "blue", value: "#2563eb" },
+  anime: { color: "yellow", value: "#ca8a04" },
+  youtubeChannels: { color: "red", value: "#dc2626" },
 };
 export const RADIAN = Math.PI / 180;
