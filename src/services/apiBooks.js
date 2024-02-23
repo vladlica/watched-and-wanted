@@ -1,4 +1,4 @@
-import { format, intervalToDuration } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 import { checkIfLongestAndShortestBook } from "../utils/helpers";
@@ -112,12 +112,11 @@ export async function getBook(id) {
     }
 
     if (data.startDate && data.finishDate) {
-      const { days } = intervalToDuration({
-        start: new Date(data.startDate),
-        end: new Date(data.finishDate),
-      });
-
-      data.numDays = days;
+      data.numDays =
+        differenceInDays(
+          new Date(data.finishDate.split("T")[0]),
+          new Date(data.startDate.split("T")[0])
+        ) + 1;
     }
   }
 

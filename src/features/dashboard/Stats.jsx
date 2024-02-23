@@ -72,7 +72,11 @@ const Value = styled.span`
   font-weight: 600;
 `;
 
-function Stats({ mostReadAuthors, longestSeries }) {
+function Stats({
+  mostReadAuthors,
+  longestSeries,
+  fastestSlowestRead: { fastestRead, slowestRead },
+}) {
   return (
     <>
       <StatBox>
@@ -118,12 +122,14 @@ function Stats({ mostReadAuthors, longestSeries }) {
           <Title>Fastest read</Title>
         </StatHeader>
         <ValuesBox>
-          <Value>
-            <Link to="/books/149">
-              Arta Conversatiei sau Eleganta Ignorantei
-            </Link>
-          </Value>
-          <Tag color={dashboardColors.books.color}>5 days</Tag>
+          {fastestRead.map((book) => (
+            <Value key={book.id}>
+              <Link to={`/books/${book.id}`}>{book.title}</Link>
+            </Value>
+          ))}
+          <Tag color={dashboardColors.books.color}>
+            {fastestRead[0].readIn} days
+          </Tag>
         </ValuesBox>
       </StatBox>
 
@@ -135,10 +141,14 @@ function Stats({ mostReadAuthors, longestSeries }) {
           <Title>Slowest read</Title>
         </StatHeader>
         <ValuesBox>
-          <Value>
-            <Link to="/books/150">Capatul Mortii</Link>
-          </Value>
-          <Tag color={dashboardColors.books.color}>24 days</Tag>
+          {slowestRead.map((book) => (
+            <Value key={book.id}>
+              <Link to={`/books/${book.id}`}>{book.title}</Link>
+            </Value>
+          ))}
+          <Tag color={dashboardColors.books.color}>
+            {slowestRead[0].readIn} days
+          </Tag>
         </ValuesBox>
       </StatBox>
 

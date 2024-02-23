@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 import { dashboardColors } from "./constants";
 
 export function getInitials(fullName) {
@@ -141,10 +141,8 @@ export function computeMostReadAuthor(books) {
     books
       .filter((book) => book.status !== "wanted")
       .reduce((acc, value) => {
-        if (acc[value.author.trim()])
-          acc[value.author.trim()] += value.numVolumes;
-        else acc[value.author.trim()] = value.numVolumes;
-
+        const author = value.author.trim();
+        acc[author] = acc[author] + 1 || 1;
         return acc;
       }, {})
   )
@@ -157,15 +155,37 @@ export function computeLongestSeries(books) {
     books
       .filter((book) => book.status !== "wanted" && book.series)
       .reduce((acc, value) => {
-        if (acc[value.series.trim()])
-          acc[value.series.trim()] += value.numVolumes;
-        else acc[value.series.trim()] = value.numVolumes;
-
+        const series = value.series.trim();
+        acc[series] = acc[series] + 1 || 1;
         return acc;
       }, {})
   )
     .sort((a, b) => b[1] - a[1])
     .filter((item, _, arr) => item[1] === arr[0][1]);
+}
+
+export function computeFastestSlowestRead(books) {
+  const readInDates = books
+    .filter((book) => book.finishDate && book.startDate)
+    .map((book) => {
+      return {
+        id: book.id,
+        title: book.title,
+        readIn:
+          differenceInDays(
+            new Date(book.finishDate.split("T")[0]),
+            new Date(book.startDate.split("T")[0])
+          ) + 1,
+      };
+    });
+  const fastestRead = readInDates
+    .sort((a, b) => a.readIn - b.readIn)
+    .filter((item, _, arr) => item.readIn === arr[0].readIn);
+  const slowestRead = readInDates
+    .sort((a, b) => b.readIn - a.readIn)
+    .filter((item, _, arr) => item.readIn === arr[0].readIn);
+
+  return { fastestRead, slowestRead };
 }
 
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
