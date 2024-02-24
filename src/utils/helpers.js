@@ -188,6 +188,20 @@ export function computeFastestSlowestRead(books) {
   return { fastestRead, slowestRead };
 }
 
+export function computeTotalSeasons(series) {
+  return series.reduce(
+    (acc, value) => (value.status !== "wanted" ? acc + value.numSeasons : acc),
+    0
+  );
+}
+
+export function computeTotalEpisodes(series) {
+  return series.reduce(
+    (acc, value) => (value.status !== "wanted" ? acc + value.numEpisodes : acc),
+    0
+  );
+}
+
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
   const isLongestBook = !booksSameYear.some(
     (item) => item.status === "read" && item.numPages > numPages
