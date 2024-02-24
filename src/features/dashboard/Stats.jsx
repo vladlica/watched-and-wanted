@@ -77,7 +77,8 @@ function Stats({
   longestSeries,
   fastestSlowestRead: { fastestRead, slowestRead },
   totalSeasons,
-  totalEpisodes,
+  totalEpisodesSeries,
+  totalEpisodesAnime,
 }) {
   return (
     <>
@@ -175,7 +176,7 @@ function Stats({
         </StatHeader>
         <ValuesBox>
           <Tag color={dashboardColors.series.color}>
-            {totalEpisodes} episodes
+            {totalEpisodesSeries} episodes
           </Tag>
         </ValuesBox>
       </StatBox>
@@ -200,7 +201,9 @@ function Stats({
           <Title>Total number of episodes watched</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.anime.color}>4542 episodes</Tag>
+          <Tag color={dashboardColors.anime.color}>
+            {totalEpisodesAnime} episodes
+          </Tag>
         </ValuesBox>
       </StatBox>
     </>

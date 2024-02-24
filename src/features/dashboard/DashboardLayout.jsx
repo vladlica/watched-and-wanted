@@ -18,7 +18,8 @@ import {
   computeLongestSeries,
   computeMediaConsumption,
   computeMostReadAuthor,
-  computeTotalEpisodes,
+  computeTotalEpisodesAnime,
+  computeTotalEpisodesSeries,
   computeTotalSeasons,
 } from "../../utils/helpers";
 
@@ -86,11 +87,12 @@ function DashboardLayout() {
 
   const mostReadAuthorsData = computeMostReadAuthor(books);
   const longestSeriesData = computeLongestSeries(books);
-
   const fastestSlowestReadData = computeFastestSlowestRead(books);
 
   const totalSeasonsData = computeTotalSeasons(series);
-  const totalEpisodesData = computeTotalEpisodes(series);
+  const totalEpisodesSeriesData = computeTotalEpisodesSeries(series);
+
+  const totalEpisodesAnimeData = computeTotalEpisodesAnime(anime);
 
   return (
     <StyledDashboardLayout>
@@ -102,7 +104,8 @@ function DashboardLayout() {
         longestSeries={longestSeriesData}
         fastestSlowestRead={fastestSlowestReadData}
         totalSeasons={totalSeasonsData}
-        totalEpisodes={totalEpisodesData}
+        totalEpisodesSeries={totalEpisodesSeriesData}
+        totalEpisodesAnime={totalEpisodesAnimeData}
       />
       <BooksChart data={dataBooksPagesCharts} />
       <PagesChart data={dataBooksPagesCharts} />

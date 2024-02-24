@@ -195,8 +195,15 @@ export function computeTotalSeasons(series) {
   );
 }
 
-export function computeTotalEpisodes(series) {
+export function computeTotalEpisodesSeries(series) {
   return series.reduce(
+    (acc, value) => (value.status !== "wanted" ? acc + value.numEpisodes : acc),
+    0
+  );
+}
+
+export function computeTotalEpisodesAnime(anime) {
+  return anime.reduce(
     (acc, value) => (value.status !== "wanted" ? acc + value.numEpisodes : acc),
     0
   );
