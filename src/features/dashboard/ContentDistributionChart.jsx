@@ -50,26 +50,30 @@ function ContentDistributionChart({ data }) {
   return (
     <ChartBox>
       <h2>Content Distribution Overview</h2>
-      <ResponsiveContainer width="100%" height={400}>
-        <PieChart width={400} height={400}>
-          <Pie
-            data={data}
-            nameKey="type"
-            dataKey="value"
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={renderCustomizedLabel}
-            outerRadius={120}
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend iconSize={15} iconType="circle" />
-        </PieChart>
-      </ResponsiveContainer>
+      {data.length > 0 ? (
+        <ResponsiveContainer width="100%" height={400}>
+          <PieChart width={400} height={400}>
+            <Pie
+              data={data}
+              nameKey="type"
+              dataKey="value"
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              label={renderCustomizedLabel}
+              outerRadius={120}
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend iconSize={15} iconType="circle" />
+          </PieChart>
+        </ResponsiveContainer>
+      ) : (
+        <h3>No data</h3>
+      )}
     </ChartBox>
   );
 }

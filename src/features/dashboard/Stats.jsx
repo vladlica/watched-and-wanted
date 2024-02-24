@@ -91,13 +91,19 @@ function Stats({
           <Title>Most read author{mostReadAuthors.length > 1 ? "s" : ""}</Title>
         </StatHeader>
         <ValuesBox>
-          {mostReadAuthors.map((author) => (
-            <Value key={author[0]}>{author[0]}</Value>
-          ))}
+          {mostReadAuthors.length > 0 ? (
+            <>
+              {mostReadAuthors.map((author) => (
+                <Value key={author[0]}>{author[0]}</Value>
+              ))}
 
-          <Tag color={dashboardColors.books.color}>
-            {mostReadAuthors[0][1]} books
-          </Tag>
+              <Tag color={dashboardColors.books.color}>
+                {mostReadAuthors[0][1]} books
+              </Tag>
+            </>
+          ) : (
+            <Value>No data</Value>
+          )}
         </ValuesBox>
       </StatBox>
 
@@ -109,12 +115,19 @@ function Stats({
           <Title>Longest series</Title>
         </StatHeader>
         <ValuesBox>
-          {longestSeries.map((series) => (
-            <Value key={series[0]}>{series[0]}</Value>
-          ))}
-          <Tag color={dashboardColors.books.color}>
-            {longestSeries[0][1]} books
-          </Tag>
+          {longestSeries.length > 0 ? (
+            <>
+              {" "}
+              {longestSeries.map((series) => (
+                <Value key={series[0]}>{series[0]}</Value>
+              ))}
+              <Tag color={dashboardColors.books.color}>
+                {longestSeries[0][1]} books
+              </Tag>
+            </>
+          ) : (
+            <Value>No data</Value>
+          )}
         </ValuesBox>
       </StatBox>
 
@@ -126,14 +139,20 @@ function Stats({
           <Title>Fastest read</Title>
         </StatHeader>
         <ValuesBox>
-          {fastestRead.map((book) => (
-            <Value key={book.id}>
-              <Link to={`/books/${book.id}`}>{book.title}</Link>
-            </Value>
-          ))}
-          <Tag color={dashboardColors.books.color}>
-            {fastestRead[0].readIn} days
-          </Tag>
+          {fastestRead.length > 0 ? (
+            <>
+              {fastestRead.map((book) => (
+                <Value key={book.id}>
+                  <Link to={`/books/${book.id}`}>{book.title}</Link>
+                </Value>
+              ))}
+              <Tag color={dashboardColors.books.color}>
+                {fastestRead[0].readIn} days
+              </Tag>
+            </>
+          ) : (
+            <Value>No data</Value>
+          )}
         </ValuesBox>
       </StatBox>
 
@@ -145,14 +164,20 @@ function Stats({
           <Title>Slowest read</Title>
         </StatHeader>
         <ValuesBox>
-          {slowestRead.map((book) => (
-            <Value key={book.id}>
-              <Link to={`/books/${book.id}`}>{book.title}</Link>
-            </Value>
-          ))}
-          <Tag color={dashboardColors.books.color}>
-            {slowestRead[0].readIn} days
-          </Tag>
+          {slowestRead.length > 0 ? (
+            <>
+              {slowestRead.map((book) => (
+                <Value key={book.id}>
+                  <Link to={`/books/${book.id}`}>{book.title}</Link>
+                </Value>
+              ))}
+              <Tag color={dashboardColors.books.color}>
+                {slowestRead[0].readIn} days
+              </Tag>
+            </>
+          ) : (
+            <Value>No data</Value>
+          )}
         </ValuesBox>
       </StatBox>
 
@@ -164,7 +189,13 @@ function Stats({
           <Title>Total number of seasons watched</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.series.color}>{totalSeasons} seasons</Tag>
+          {totalSeasons ? (
+            <Tag color={dashboardColors.series.color}>
+              {totalSeasons} seasons
+            </Tag>
+          ) : (
+            <Value>No data</Value>
+          )}
         </ValuesBox>
       </StatBox>
 
@@ -176,9 +207,13 @@ function Stats({
           <Title>Total number of episodes watched</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.series.color}>
-            {totalEpisodesSeries} episodes
-          </Tag>
+          {totalEpisodesSeries ? (
+            <Tag color={dashboardColors.series.color}>
+              {totalEpisodesSeries} episodes
+            </Tag>
+          ) : (
+            <Value>No data</Value>
+          )}
         </ValuesBox>
       </StatBox>
 
@@ -190,7 +225,11 @@ function Stats({
           <Title>Total watch time</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.movies.color}>{totalWatchTime}</Tag>
+          {totalWatchTime.trim() ? (
+            <Tag color={dashboardColors.movies.color}>{totalWatchTime}</Tag>
+          ) : (
+            <Value>No data</Value>
+          )}
         </ValuesBox>
       </StatBox>
 
@@ -202,9 +241,13 @@ function Stats({
           <Title>Total number of episodes watched</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.anime.color}>
-            {totalEpisodesAnime} episodes
-          </Tag>
+          {totalEpisodesAnime ? (
+            <Tag color={dashboardColors.anime.color}>
+              {totalEpisodesAnime} episodes
+            </Tag>
+          ) : (
+            <Value>No data</Value>
+          )}
         </ValuesBox>
       </StatBox>
     </>

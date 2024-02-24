@@ -117,7 +117,7 @@ export function computeContentDistribution({
       value: youtubeChannels,
       color: dashboardColors.youtubeChannels.value,
     },
-  ];
+  ].filter((item) => item.value > 0);
 }
 
 export function computeBooksAndPagesReadOverTheYears(books) {

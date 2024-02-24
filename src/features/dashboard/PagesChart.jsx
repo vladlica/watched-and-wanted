@@ -37,30 +37,34 @@ function PagesChart({ data }) {
   return (
     <ChartBox>
       <h2>Yearly Page Count Analysis</h2>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 25,
-            right: 30,
-            left: 0,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" tick={{ dy: 10 }} />
-          <YAxis />
-          <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="pages"
-            stroke="#ea580c"
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      {data.length > 0 ? (
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 25,
+              right: 30,
+              left: 0,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="year" tick={{ dy: 10 }} />
+            <YAxis />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="pages"
+              stroke="#ea580c"
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      ) : (
+        <h3>No data</h3>
+      )}
     </ChartBox>
   );
 }
