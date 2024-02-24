@@ -23,29 +23,33 @@ function MediaConsumptionChart({ data: { data, max } }) {
   return (
     <ChartBox>
       <h2>Media Consumption Overview</h2>
-      <ResponsiveContainer width="100%" height={400}>
-        <RadarChart outerRadius={150} width={400} height={400} data={data}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="type" />
-          <PolarRadiusAxis domain={[0, max]} />
-          <Radar
-            name="Consumed"
-            dataKey="consumed"
-            stroke="#15803d"
-            fill="#15803d"
-            fillOpacity={0.4}
-          />
-          <Radar
-            name="Wanted"
-            dataKey="wanted"
-            stroke="#ea580c"
-            fill="#ea580c"
-            fillOpacity={0.4}
-          />
-          <Tooltip />
-          <Legend iconSize={15} iconType="circle" />
-        </RadarChart>
-      </ResponsiveContainer>
+      {max > 0 ? (
+        <ResponsiveContainer width="100%" height={400}>
+          <RadarChart outerRadius={150} width={400} height={400} data={data}>
+            <PolarGrid />
+            <PolarAngleAxis dataKey="type" />
+            <PolarRadiusAxis domain={[0, max]} />
+            <Radar
+              name="Consumed"
+              dataKey="consumed"
+              stroke="#15803d"
+              fill="#15803d"
+              fillOpacity={0.4}
+            />
+            <Radar
+              name="Wanted"
+              dataKey="wanted"
+              stroke="#ea580c"
+              fill="#ea580c"
+              fillOpacity={0.4}
+            />
+            <Tooltip />
+            <Legend iconSize={15} iconType="circle" />
+          </RadarChart>
+        </ResponsiveContainer>
+      ) : (
+        <h3>No data</h3>
+      )}
     </ChartBox>
   );
 }
