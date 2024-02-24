@@ -209,6 +209,23 @@ export function computeTotalEpisodesAnime(anime) {
   );
 }
 
+export function computeTotalWatchTime(movies) {
+  const totalMinutes = movies.reduce(
+    (acc, value) => (value.status !== "wanted" ? acc + value.duration : acc),
+    0
+  );
+
+  const days = Math.floor(totalMinutes / (60 * 24));
+  const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+
+  const daysString = days === 1 ? "day" : "days";
+  const hoursString = hours === 1 ? "hour" : "hours";
+  const value = `${days > 0 ? `${days} ${daysString}` : ""} ${
+    hours > 0 ? `${hours} ${hoursString}` : ""
+  }`;
+  return value;
+}
+
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
   const isLongestBook = !booksSameYear.some(
     (item) => item.status === "read" && item.numPages > numPages

@@ -79,6 +79,7 @@ function Stats({
   totalSeasons,
   totalEpisodesSeries,
   totalEpisodesAnime,
+  totalWatchTime,
 }) {
   return (
     <>
@@ -189,7 +190,7 @@ function Stats({
           <Title>Total watch time</Title>
         </StatHeader>
         <ValuesBox>
-          <Tag color={dashboardColors.movies.color}>12 days 23 hours</Tag>
+          <Tag color={dashboardColors.movies.color}>{totalWatchTime}</Tag>
         </ValuesBox>
       </StatBox>
 

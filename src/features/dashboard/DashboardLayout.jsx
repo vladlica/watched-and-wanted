@@ -21,6 +21,7 @@ import {
   computeTotalEpisodesAnime,
   computeTotalEpisodesSeries,
   computeTotalSeasons,
+  computeTotalWatchTime,
 } from "../../utils/helpers";
 
 const StyledDashboardLayout = styled.div`
@@ -94,6 +95,8 @@ function DashboardLayout() {
 
   const totalEpisodesAnimeData = computeTotalEpisodesAnime(anime);
 
+  const totalWatchTimeData = computeTotalWatchTime(movies);
+
   return (
     <StyledDashboardLayout>
       <TotalCounts counts={counts} />
@@ -106,6 +109,7 @@ function DashboardLayout() {
         totalSeasons={totalSeasonsData}
         totalEpisodesSeries={totalEpisodesSeriesData}
         totalEpisodesAnime={totalEpisodesAnimeData}
+        totalWatchTime={totalWatchTimeData}
       />
       <BooksChart data={dataBooksPagesCharts} />
       <PagesChart data={dataBooksPagesCharts} />
