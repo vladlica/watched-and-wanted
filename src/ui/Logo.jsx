@@ -4,12 +4,11 @@ import styled from "styled-components";
 const StyledLogo = styled.div`
   display: flex;
   align-items: center;
-
+  justify-content: center;
   & svg {
     width: 5rem;
     height: 5rem;
     color: var(--color-orange-600);
-    /* margin-right: -1.5rem; */
   }
 `;
 

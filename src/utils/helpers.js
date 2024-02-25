@@ -280,6 +280,16 @@ export function isHttpValid(str) {
   }
 }
 
+export function isValidEmail(email) {
+  var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+  if (reg.test(email.trim()) === false) {
+    return false;
+  }
+
+  return true;
+}
+
 export function convertDateToISO(date) {
   if (!date) return null;
 
