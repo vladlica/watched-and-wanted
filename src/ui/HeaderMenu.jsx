@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import UserAvatar from "../features/authentication/UserAvatar";
-import { HiArrowRightOnRectangle, HiOutlineMoon } from "react-icons/hi2";
+import { HiOutlineMoon } from "react-icons/hi2";
 import ButtonIcon from "./ButtonIcon";
+import Logout from "../features/authentication/Logout";
 
 const StyledHeaderMenu = styled.div`
   display: flex;
@@ -36,9 +37,7 @@ function HeaderMenu() {
         <ButtonIcon $place="header">
           <HiOutlineMoon />
         </ButtonIcon>
-        <ButtonIcon $place="header">
-          <HiArrowRightOnRectangle />
-        </ButtonIcon>
+        <Logout />
       </ActionsContainer>
     </StyledHeaderMenu>
   );
