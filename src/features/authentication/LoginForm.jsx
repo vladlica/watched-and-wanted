@@ -32,12 +32,17 @@ function LoginForm() {
     console.log("submit");
     console.log(data);
 
-    login({ email: data.email, password: data.password });
+    login(
+      { email: data.email, password: data.password },
+      {
+        onSettled: () => reset(),
+      }
+    );
   }
 
   return (
     <StyledLoginForm>
-      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <FormRowVertical>
           <Label htmlFor="email">Email address</Label>
           <Input
