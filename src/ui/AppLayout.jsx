@@ -6,7 +6,6 @@ import Sidebar from "../ui/Sidebar";
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-columns: 24rem 1fr;
-  /* border: 5px solid magenta; */
   grid-template-rows: auto 1fr;
   height: 100vh;
 `;
@@ -25,14 +24,14 @@ const Container = styled.div`
   gap: 3.2rem;
 `;
 
-function AppLayout() {
+function AppLayout({ userId }) {
   return (
     <StyledAppLayout>
       <Header />
       <Sidebar />
       <Main>
         <Container>
-          <Outlet />
+          <Outlet context={userId} />
         </Container>
       </Main>
     </StyledAppLayout>

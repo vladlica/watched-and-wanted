@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useUser } from "../features/authentication/useUser";
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 const FullPage = styled.div`
   height: 100vh;
@@ -14,7 +14,7 @@ const FullPage = styled.div`
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
-  const { isLoading, isAuthenticated } = useUser();
+  const { user, isLoading, isAuthenticated } = useUser();
 
   useEffect(
     function () {
@@ -30,7 +30,10 @@ function ProtectedRoute({ children }) {
       </FullPage>
     );
 
-  if (isAuthenticated) return children;
+  if (isAuthenticated)
+    return React.cloneElement(children, {
+      userId: user.id,
+    });
 }
 
 export default ProtectedRoute;

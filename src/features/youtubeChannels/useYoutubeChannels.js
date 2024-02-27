@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getYoutubeChannels } from "../../services/apiYoutubeChannels";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
 
 export function useYoutubeChannels(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
+  const userId = useOutletContext();
 
   let filters = [];
   const filterStatusValue = searchParams.get("status");
@@ -27,8 +28,9 @@ export function useYoutubeChannels(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: youtubeChannels, count } = {} } = useQuery({
-    queryKey: ["youtubeChannels", sortBy, filters, search, page],
-    queryFn: () => getYoutubeChannels({ sortBy, filters, search, page }),
+    queryKey: ["youtubeChannels", userId, sortBy, filters, search, page],
+    queryFn: () =>
+      getYoutubeChannels({ userId, sortBy, filters, search, page }),
   });
 
   if (!allResults) {
@@ -36,16 +38,42 @@ export function useYoutubeChannels(allResults = false) {
 
     if (page < pageCount)
       queryClient.prefetchQuery({
-        queryKey: ["youtubeChannels", sortBy, filters, search, page + 1],
+        queryKey: [
+          "youtubeChannels",
+          userId,
+          sortBy,
+          filters,
+          search,
+          page + 1,
+        ],
         queryFn: () =>
-          getYoutubeChannels({ sortBy, filters, search, page: page + 1 }),
+          getYoutubeChannels({
+            userId,
+            sortBy,
+            filters,
+            search,
+            page: page + 1,
+          }),
       });
 
     if (page !== 1) {
       queryClient.prefetchQuery({
-        queryKey: ["youtubeChannels", sortBy, filters, search, page - 1],
+        queryKey: [
+          "youtubeChannels",
+          userId,
+          sortBy,
+          filters,
+          search,
+          page - 1,
+        ],
         queryFn: () =>
-          getYoutubeChannels({ sortBy, filters, search, page: page - 1 }),
+          getYoutubeChannels({
+            userId,
+            sortBy,
+            filters,
+            search,
+            page: page - 1,
+          }),
       });
     }
   }

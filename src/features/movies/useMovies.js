@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMovies } from "../../services/apiMovies";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
 
 export function useMovies(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
+  const userId = useOutletContext();
 
   let filters = [];
   const filterStatusValue = searchParams.get("status");
@@ -27,8 +28,8 @@ export function useMovies(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: movies, count } = {} } = useQuery({
-    queryKey: ["movies", sortBy, filters, search, page],
-    queryFn: () => getMovies({ sortBy, filters, search, page }),
+    queryKey: ["movies", userId, sortBy, filters, search, page],
+    queryFn: () => getMovies({ userId, sortBy, filters, search, page }),
   });
 
   if (!allResults) {
@@ -36,14 +37,16 @@ export function useMovies(allResults = false) {
 
     if (page < pageCount)
       queryClient.prefetchQuery({
-        queryKey: ["movies", sortBy, filters, search, page + 1],
-        queryFn: () => getMovies({ sortBy, filters, search, page: page + 1 }),
+        queryKey: ["movies", userId, sortBy, filters, search, page + 1],
+        queryFn: () =>
+          getMovies({ userId, sortBy, filters, search, page: page + 1 }),
       });
 
     if (page !== 1) {
       queryClient.prefetchQuery({
-        queryKey: ["movies", sortBy, filters, search, page - 1],
-        queryFn: () => getMovies({ sortBy, filters, search, page: page - 1 }),
+        queryKey: ["movies", userId, sortBy, filters, search, page - 1],
+        queryFn: () =>
+          getMovies({ userId, sortBy, filters, search, page: page - 1 }),
       });
     }
   }

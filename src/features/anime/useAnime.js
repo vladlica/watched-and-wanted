@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAnime } from "../../services/apiAnime";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
 
 export function useAnime(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
+  const userId = useOutletContext();
 
   const filterValue = searchParams.get("status");
   const filter =
@@ -24,8 +25,8 @@ export function useAnime(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: anime, count } = {} } = useQuery({
-    queryKey: ["anime", sortBy, filter, search, page],
-    queryFn: () => getAnime({ sortBy, filter, search, page }),
+    queryKey: ["anime", userId, sortBy, filter, search, page],
+    queryFn: () => getAnime({ userId, sortBy, filter, search, page }),
   });
 
   if (!allResults) {
@@ -33,14 +34,16 @@ export function useAnime(allResults = false) {
 
     if (page < pageCount)
       queryClient.prefetchQuery({
-        queryKey: ["anime", sortBy, filter, search, page + 1],
-        queryFn: () => getAnime({ sortBy, filter, search, page: page + 1 }),
+        queryKey: ["anime", userId, sortBy, filter, search, page + 1],
+        queryFn: () =>
+          getAnime({ userId, sortBy, filter, search, page: page + 1 }),
       });
 
     if (page !== 1) {
       queryClient.prefetchQuery({
-        queryKey: ["anime", sortBy, filter, search, page - 1],
-        queryFn: () => getAnime({ sortBy, filter, search, page: page - 1 }),
+        queryKey: ["anime", userId, sortBy, filter, search, page - 1],
+        queryFn: () =>
+          getAnime({ userId, sortBy, filter, search, page: page - 1 }),
       });
     }
   }

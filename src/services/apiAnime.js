@@ -1,10 +1,11 @@
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
-export async function getAnime({ filter, sortBy, page, search }) {
+export async function getAnime({ filter, sortBy, page, search, userId }) {
   let query = supabase
     .from("anime")
-    .select("*, extra_info(*)", { count: "exact" });
+    .select("*, extra_info(*)", { count: "exact" })
+    .eq("userId", userId);
 
   if (filter) query = query.eq(filter.field, filter.value);
 

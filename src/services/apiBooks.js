@@ -3,10 +3,11 @@ import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 import { checkIfLongestAndShortestBook } from "../utils/helpers";
 
-export async function getBooks({ filter, sortBy, page, search }) {
+export async function getBooks({ filter, sortBy, page, search, userId }) {
   let query = supabase
     .from("books")
-    .select("*, extra_info(*)", { count: "exact" });
+    .select("*, extra_info(*)", { count: "exact" })
+    .eq("userId", userId);
 
   if (filter) query = query.eq(filter.field, filter.value);
 

@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBooks } from "../../services/apiBooks";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
 
 export function useBooks(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
+  const userId = useOutletContext();
 
   const filterValue = searchParams.get("status");
   const filter =
@@ -24,8 +25,8 @@ export function useBooks(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: books, count } = {} } = useQuery({
-    queryKey: ["books", filter, search, sortBy, page],
-    queryFn: () => getBooks({ filter, search, sortBy, page }),
+    queryKey: ["books", userId, filter, search, sortBy, page],
+    queryFn: () => getBooks({ userId, filter, search, sortBy, page }),
   });
 
   if (!allResults) {
@@ -33,14 +34,16 @@ export function useBooks(allResults = false) {
 
     if (page < pageCount)
       queryClient.prefetchQuery({
-        queryKey: ["books", filter, search, sortBy, page + 1],
-        queryFn: () => getBooks({ filter, search, sortBy, page: page + 1 }),
+        queryKey: ["books", userId, filter, search, sortBy, page + 1],
+        queryFn: () =>
+          getBooks({ userId, filter, search, sortBy, page: page + 1 }),
       });
 
     if (page !== 1) {
       queryClient.prefetchQuery({
-        queryKey: ["books", filter, search, sortBy, page - 1],
-        queryFn: () => getBooks({ filter, search, sortBy, page: page - 1 }),
+        queryKey: ["books", userId, filter, search, sortBy, page - 1],
+        queryFn: () =>
+          getBooks({ userId, filter, search, sortBy, page: page - 1 }),
       });
     }
   }

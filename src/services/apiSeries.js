@@ -1,10 +1,11 @@
 import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
 
-export async function getSeries({ sortBy, filters, page, search }) {
+export async function getSeries({ sortBy, filters, page, search, userId }) {
   let query = supabase
     .from("series")
-    .select("*, extra_info(*)", { count: "exact" });
+    .select("*, extra_info(*)", { count: "exact" })
+    .eq("userId", userId);
 
   if (filters.length > 0)
     filters.forEach((filter) => (query = query.eq(filter.field, filter.value)));

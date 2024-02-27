@@ -349,7 +349,7 @@ DECLARE
   result_json jsonb; -- Variable to store the result
 BEGIN
   -- Extract values from the JSON object for anime table
-  INSERT INTO anime (title, status, numEpisodes)
+  INSERT INTO anime (title, status, "numEpisodes")
   VALUES (
     p_anime_data[1]->>'title',
     p_anime_data[1]->>'status',
