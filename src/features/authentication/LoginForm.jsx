@@ -11,12 +11,23 @@ import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const StyledLoginForm = styled.div`
   background-color: var(--color-grey-0);
   padding: 1rem;
   border-radius: 15px;
   box-shadow: var(--shadow-md);
+
+  & a:link,
+  a:visited {
+    color: var(--color-orange-700);
+  }
+
+  & a:hover,
+  a:active {
+    text-decoration: underline;
+  }
 `;
 
 const PasswordContainer = styled.div`
@@ -123,6 +134,7 @@ function LoginForm() {
         <Button $variation="primary" disabled={isLoading}>
           {!isLoading ? "Log in" : <SpinnerMini />}
         </Button>
+        <Link to="/signup">Create account</Link>
       </Form>
     </StyledLoginForm>
   );
