@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getYoutubeChannel } from "../../services/apiYoutubeChannels";
-import { useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
 export function useYoutubeChannel() {
   const { channelId } = useParams();
+  const currentUserId = useOutletContext();
+  const navigate = useNavigate();
 
   const {
     isLoading,
@@ -13,6 +15,9 @@ export function useYoutubeChannel() {
   } = useQuery({
     queryKey: ["youtubeChannel", channelId],
     queryFn: () => getYoutubeChannel(channelId),
+    onSuccess: (data) => {
+      if (data.userId !== currentUserId) navigate("/channels");
+    },
     retry: false,
   });
 

@@ -6,7 +6,7 @@ import { PAGE_SIZE } from "../../utils/constants";
 export function useYoutubeChannels(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const userId = useOutletContext();
+  const currentUserId = useOutletContext();
 
   let filters = [];
   const filterStatusValue = searchParams.get("status");
@@ -28,9 +28,9 @@ export function useYoutubeChannels(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: youtubeChannels, count } = {} } = useQuery({
-    queryKey: ["youtubeChannels", userId, sortBy, filters, search, page],
+    queryKey: ["youtubeChannels", currentUserId, sortBy, filters, search, page],
     queryFn: () =>
-      getYoutubeChannels({ userId, sortBy, filters, search, page }),
+      getYoutubeChannels({ currentUserId, sortBy, filters, search, page }),
   });
 
   if (!allResults) {
@@ -40,7 +40,7 @@ export function useYoutubeChannels(allResults = false) {
       queryClient.prefetchQuery({
         queryKey: [
           "youtubeChannels",
-          userId,
+          currentUserId,
           sortBy,
           filters,
           search,
@@ -48,7 +48,7 @@ export function useYoutubeChannels(allResults = false) {
         ],
         queryFn: () =>
           getYoutubeChannels({
-            userId,
+            currentUserId,
             sortBy,
             filters,
             search,
@@ -60,7 +60,7 @@ export function useYoutubeChannels(allResults = false) {
       queryClient.prefetchQuery({
         queryKey: [
           "youtubeChannels",
-          userId,
+          currentUserId,
           sortBy,
           filters,
           search,
@@ -68,7 +68,7 @@ export function useYoutubeChannels(allResults = false) {
         ],
         queryFn: () =>
           getYoutubeChannels({
-            userId,
+            currentUserId,
             sortBy,
             filters,
             search,

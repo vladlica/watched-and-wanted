@@ -1,11 +1,17 @@
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
-export async function getMovies({ sortBy, filters, page, search, userId }) {
+export async function getMovies({
+  sortBy,
+  filters,
+  page,
+  search,
+  currentUserId,
+}) {
   let query = supabase
     .from("movies")
     .select("*, extra_info(*)", { count: "exact" })
-    .eq("userId", userId);
+    .eq("userId", currentUserId);
 
   if (filters.length > 0)
     filters.forEach((filter) => (query = query.eq(filter.field, filter.value)));
@@ -50,6 +56,7 @@ export async function getMovie(id) {
       .from("movies")
       .select("duration")
       .eq("status", "watched")
+      .eq("userId", data.userId)
       .order("duration", { ascending: false });
 
     if (error1) {

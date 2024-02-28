@@ -6,7 +6,7 @@ import { PAGE_SIZE } from "../../utils/constants";
 export function useAnime(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const userId = useOutletContext();
+  const currentUserId = useOutletContext();
 
   const filterValue = searchParams.get("status");
   const filter =
@@ -25,8 +25,8 @@ export function useAnime(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: anime, count } = {} } = useQuery({
-    queryKey: ["anime", userId, sortBy, filter, search, page],
-    queryFn: () => getAnime({ userId, sortBy, filter, search, page }),
+    queryKey: ["anime", currentUserId, sortBy, filter, search, page],
+    queryFn: () => getAnime({ currentUserId, sortBy, filter, search, page }),
   });
 
   if (!allResults) {
@@ -34,16 +34,16 @@ export function useAnime(allResults = false) {
 
     if (page < pageCount)
       queryClient.prefetchQuery({
-        queryKey: ["anime", userId, sortBy, filter, search, page + 1],
+        queryKey: ["anime", currentUserId, sortBy, filter, search, page + 1],
         queryFn: () =>
-          getAnime({ userId, sortBy, filter, search, page: page + 1 }),
+          getAnime({ currentUserId, sortBy, filter, search, page: page + 1 }),
       });
 
     if (page !== 1) {
       queryClient.prefetchQuery({
-        queryKey: ["anime", userId, sortBy, filter, search, page - 1],
+        queryKey: ["anime", currentUserId, sortBy, filter, search, page - 1],
         queryFn: () =>
-          getAnime({ userId, sortBy, filter, search, page: page - 1 }),
+          getAnime({ currentUserId, sortBy, filter, search, page: page - 1 }),
       });
     }
   }

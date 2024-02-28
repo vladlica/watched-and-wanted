@@ -6,7 +6,7 @@ import { getSeries } from "../../services/apiSeries";
 export function useSeries(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const userId = useOutletContext();
+  const currentUserId = useOutletContext();
 
   let filters = [];
   const filterStatusValue = searchParams.get("status");
@@ -40,8 +40,8 @@ export function useSeries(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: series, count } = {} } = useQuery({
-    queryKey: ["series", userId, sortBy, filters, page, search],
-    queryFn: () => getSeries({ userId, sortBy, filters, page, search }),
+    queryKey: ["series", currentUserId, sortBy, filters, page, search],
+    queryFn: () => getSeries({ currentUserId, sortBy, filters, page, search }),
   });
 
   const pageCount = Math.ceil(count / PAGE_SIZE);
@@ -49,16 +49,16 @@ export function useSeries(allResults = false) {
   if (!allResults) {
     if (page < pageCount)
       queryClient.prefetchQuery({
-        queryKey: ["series", userId, sortBy, filters, page + 1, search],
+        queryKey: ["series", currentUserId, sortBy, filters, page + 1, search],
         queryFn: () =>
-          getSeries({ userId, sortBy, filters, page: page + 1, search }),
+          getSeries({ currentUserId, sortBy, filters, page: page + 1, search }),
       });
 
     if (page !== 1) {
       queryClient.prefetchQuery({
-        queryKey: ["series", userId, sortBy, filters, page - 1, search],
+        queryKey: ["series", currentUserId, sortBy, filters, page - 1, search],
         queryFn: () =>
-          getSeries({ userId, sortBy, filters, page: page - 1, search }),
+          getSeries({ currentUserId, sortBy, filters, page: page - 1, search }),
       });
     }
   }

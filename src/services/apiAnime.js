@@ -1,11 +1,17 @@
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
-export async function getAnime({ filter, sortBy, page, search, userId }) {
+export async function getAnime({
+  filter,
+  sortBy,
+  page,
+  search,
+  currentUserId,
+}) {
   let query = supabase
     .from("anime")
     .select("*, extra_info(*)", { count: "exact" })
-    .eq("userId", userId);
+    .eq("userId", currentUserId);
 
   if (filter) query = query.eq(filter.field, filter.value);
 
@@ -49,6 +55,7 @@ export async function getAnimeDetails(id) {
       .from("anime")
       .select("numEpisodes")
       .eq("status", "watched")
+      .eq("userId", data.userId)
       .order("numEpisodes", { ascending: false });
 
     if (error1) {

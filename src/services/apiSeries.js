@@ -1,11 +1,17 @@
 import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
 
-export async function getSeries({ sortBy, filters, page, search, userId }) {
+export async function getSeries({
+  sortBy,
+  filters,
+  page,
+  search,
+  currentUserId,
+}) {
   let query = supabase
     .from("series")
     .select("*, extra_info(*)", { count: "exact" })
-    .eq("userId", userId);
+    .eq("userId", currentUserId);
 
   if (filters.length > 0)
     filters.forEach((filter) => (query = query.eq(filter.field, filter.value)));
@@ -50,6 +56,7 @@ export async function getSeriesDetails(id) {
       .from("series")
       .select("numSeasons")
       .eq("status", "watched")
+      .eq("userId", data.userId)
       .order("numSeasons", { ascending: false });
 
     if (error1) {
@@ -68,6 +75,7 @@ export async function getSeriesDetails(id) {
       .from("series")
       .select("numEpisodes")
       .eq("status", "watched")
+      .eq("userId", data.userId)
       .order("numEpisodes", { ascending: false });
 
     if (error2) {

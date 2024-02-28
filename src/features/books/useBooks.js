@@ -6,7 +6,7 @@ import { PAGE_SIZE } from "../../utils/constants";
 export function useBooks(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const userId = useOutletContext();
+  const currentUserId = useOutletContext();
 
   const filterValue = searchParams.get("status");
   const filter =
@@ -25,8 +25,8 @@ export function useBooks(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: books, count } = {} } = useQuery({
-    queryKey: ["books", userId, filter, search, sortBy, page],
-    queryFn: () => getBooks({ userId, filter, search, sortBy, page }),
+    queryKey: ["books", currentUserId, filter, search, sortBy, page],
+    queryFn: () => getBooks({ currentUserId, filter, search, sortBy, page }),
   });
 
   if (!allResults) {
@@ -34,16 +34,16 @@ export function useBooks(allResults = false) {
 
     if (page < pageCount)
       queryClient.prefetchQuery({
-        queryKey: ["books", userId, filter, search, sortBy, page + 1],
+        queryKey: ["books", currentUserId, filter, search, sortBy, page + 1],
         queryFn: () =>
-          getBooks({ userId, filter, search, sortBy, page: page + 1 }),
+          getBooks({ currentUserId, filter, search, sortBy, page: page + 1 }),
       });
 
     if (page !== 1) {
       queryClient.prefetchQuery({
-        queryKey: ["books", userId, filter, search, sortBy, page - 1],
+        queryKey: ["books", currentUserId, filter, search, sortBy, page - 1],
         queryFn: () =>
-          getBooks({ userId, filter, search, sortBy, page: page - 1 }),
+          getBooks({ currentUserId, filter, search, sortBy, page: page - 1 }),
       });
     }
   }

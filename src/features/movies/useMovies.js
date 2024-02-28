@@ -6,7 +6,7 @@ import { PAGE_SIZE } from "../../utils/constants";
 export function useMovies(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const userId = useOutletContext();
+  const currentUserId = useOutletContext();
 
   let filters = [];
   const filterStatusValue = searchParams.get("status");
@@ -28,8 +28,8 @@ export function useMovies(allResults = false) {
   else page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
   const { isLoading, data: { data: movies, count } = {} } = useQuery({
-    queryKey: ["movies", userId, sortBy, filters, search, page],
-    queryFn: () => getMovies({ userId, sortBy, filters, search, page }),
+    queryKey: ["movies", currentUserId, sortBy, filters, search, page],
+    queryFn: () => getMovies({ currentUserId, sortBy, filters, search, page }),
   });
 
   if (!allResults) {
@@ -37,16 +37,16 @@ export function useMovies(allResults = false) {
 
     if (page < pageCount)
       queryClient.prefetchQuery({
-        queryKey: ["movies", userId, sortBy, filters, search, page + 1],
+        queryKey: ["movies", currentUserId, sortBy, filters, search, page + 1],
         queryFn: () =>
-          getMovies({ userId, sortBy, filters, search, page: page + 1 }),
+          getMovies({ currentUserId, sortBy, filters, search, page: page + 1 }),
       });
 
     if (page !== 1) {
       queryClient.prefetchQuery({
-        queryKey: ["movies", userId, sortBy, filters, search, page - 1],
+        queryKey: ["movies", currentUserId, sortBy, filters, search, page - 1],
         queryFn: () =>
-          getMovies({ userId, sortBy, filters, search, page: page - 1 }),
+          getMovies({ currentUserId, sortBy, filters, search, page: page - 1 }),
       });
     }
   }
