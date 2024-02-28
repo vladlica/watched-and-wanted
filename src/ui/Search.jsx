@@ -105,13 +105,17 @@ function Search({ placeholder = "Search" }) {
           onChange={(e) => setSearch(e.target.value)}
         />
         {search.trim() && (
-          <CancelTextButton type="button" onClick={handleCancelText}>
+          <CancelTextButton
+            type="button"
+            onClick={handleCancelText}
+            title="Remove the text"
+          >
             <HiXMark />
           </CancelTextButton>
         )}
       </SearchBarContainer>
 
-      <SearchButton>
+      <SearchButton title="Search">
         <HiOutlineMagnifyingGlass />
       </SearchButton>
     </SearchForm>

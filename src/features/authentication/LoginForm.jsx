@@ -9,6 +9,8 @@ import Error from "../../ui/Error";
 import { isValidEmail } from "../../utils/helpers";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
+import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
+import { useState } from "react";
 
 const StyledLoginForm = styled.div`
   background-color: var(--color-grey-0);
@@ -17,7 +19,41 @@ const StyledLoginForm = styled.div`
   box-shadow: var(--shadow-md);
 `;
 
+const PasswordContainer = styled.div`
+  display: flex;
+  position: relative;
+`;
+
+const ShowPasswordButton = styled.button`
+  position: absolute;
+  right: 0.4rem;
+  top: 50%;
+  transform: translate(0, -50%);
+  border: none;
+  background-color: var(--color-grey-0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0.2rem;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
+
+  &:hover svg {
+    color: var(--color-orange-600);
+  }
+
+  & svg {
+    width: 2rem;
+    height: 2rem;
+  }
+`;
+
 function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
   const { login, isLoading } = useLogin();
   const { register, handleSubmit, formState, reset } = useForm({
     defaultValues: {
@@ -61,16 +97,25 @@ function LoginForm() {
         </FormRowVertical>
         <FormRowVertical>
           <Label htmlFor="password">Password</Label>
-          <Input
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            placeholder="Please enter your password"
-            {...register("password", {
-              required: "This field is required",
-            })}
-            disabled={isLoading}
-          />
+          <PasswordContainer>
+            <Input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              autoComplete="current-password"
+              placeholder="Please enter your password"
+              {...register("password", {
+                required: "This field is required",
+              })}
+              disabled={isLoading}
+            />
+            <ShowPasswordButton
+              title={showPassword ? "Hide password" : "Show password"}
+              onClick={() => setShowPassword((show) => !show)}
+              type="button"
+            >
+              {showPassword ? <HiOutlineEyeSlash /> : <HiOutlineEye />}
+            </ShowPasswordButton>
+          </PasswordContainer>
           {errors?.password?.message && (
             <Error>{errors.password.message}</Error>
           )}
