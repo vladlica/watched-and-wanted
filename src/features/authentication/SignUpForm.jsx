@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
 import Error from "../../ui/Error";
 import Label from "../../ui/Label";
 import Input from "../../ui/Input";
@@ -10,12 +9,23 @@ import { isValidEmail } from "../../utils/helpers";
 import FormRowVertical from "../../ui/FormRowVertical";
 import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 import Button from "../../ui/Button";
+import { Link } from "react-router-dom";
 
 const StyledSignUpForm = styled.div`
   background-color: var(--color-grey-0);
   padding: 1rem;
   border-radius: 15px;
   box-shadow: var(--shadow-md);
+
+  & a:link,
+  a:visited {
+    color: var(--color-orange-700);
+  }
+
+  & a:hover,
+  a:active {
+    text-decoration: underline;
+  }
 `;
 
 const PasswordContainer = styled.div`
@@ -150,6 +160,7 @@ function SignUpForm() {
           )}
         </FormRowVertical>
         <Button $variation="primary">Sign Up</Button>
+        <Link to="/login">Already have an account? Sign in</Link>
       </Form>
     </StyledSignUpForm>
   );
