@@ -20,6 +20,7 @@ import YoutubeChannel from "./pages/YoutubeChannel";
 import Login from "./pages/Login";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import SignUp from "./pages/SignUp";
+import ProtectedAuthenticatedRoute from "./ui/ProtectedAuthenticatedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,8 +58,22 @@ function App() {
             <Route path="/anime/:animeId" element={<AnimeDetailsPage />} />
             <Route path="/account" element={<Account />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/login"
+            element={
+              <ProtectedAuthenticatedRoute>
+                <Login />
+              </ProtectedAuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <ProtectedAuthenticatedRoute>
+                <SignUp />
+              </ProtectedAuthenticatedRoute>
+            }
+          />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>

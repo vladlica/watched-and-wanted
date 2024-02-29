@@ -104,6 +104,10 @@ function SignUpForm() {
               placeholder="Please choose your password"
               {...register("password", {
                 required: "This field is required",
+                minLength: {
+                  value: 8,
+                  message: "Password needs a minimum of 8 characters",
+                },
               })}
               // disabled={isLoading}
             />
