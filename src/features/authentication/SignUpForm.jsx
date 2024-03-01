@@ -10,6 +10,8 @@ import FormRowVertical from "../../ui/FormRowVertical";
 import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 import Button from "../../ui/Button";
 import { Link } from "react-router-dom";
+import { useSignup } from "./useSignup";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const StyledSignUpForm = styled.div`
   background-color: var(--color-grey-0);
@@ -64,17 +66,22 @@ const ShowPasswordButton = styled.button`
 function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
+  const { signup, isLoading } = useSignup();
   const { register, handleSubmit, formState, reset, getValues } = useForm();
 
   const { errors } = formState;
 
-  function onSubmit(data) {
-    console.log("submit");
-    console.log(data);
+  function onSubmit({ fullName, email, password }) {
+    signup(
+      { fullName, email, password },
+      {
+        onSettled: () => reset(),
+      }
+    );
   }
   return (
     <StyledSignUpForm>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <FormRowVertical>
           <Label htmlFor="fullName">Full name</Label>
           <Input
@@ -84,7 +91,7 @@ function SignUpForm() {
             {...register("fullName", {
               required: "This field is required",
             })}
-            // disabled={isLoading}
+            disabled={isLoading}
           />
           {errors?.fullName?.message && (
             <Error>{errors.fullName.message}</Error>
@@ -101,7 +108,7 @@ function SignUpForm() {
               validate: (value) =>
                 isValidEmail(value) || "Please insert a valid email address",
             })}
-            // disabled={isLoading}
+            disabled={isLoading}
           />
           {errors?.email?.message && <Error>{errors.email.message}</Error>}
         </FormRowVertical>
@@ -119,7 +126,7 @@ function SignUpForm() {
                   message: "Password needs a minimum of 8 characters",
                 },
               })}
-              // disabled={isLoading}
+              disabled={isLoading}
             />
             <ShowPasswordButton
               title={showPassword ? "Hide password" : "Show password"}
@@ -145,7 +152,7 @@ function SignUpForm() {
                 validate: (value) =>
                   value === getValues().password || "Passwords need to match",
               })}
-              // disabled={isLoading}
+              disabled={isLoading}
             />
             <ShowPasswordButton
               title={showPassword1 ? "Hide password" : "Show password"}
@@ -159,7 +166,9 @@ function SignUpForm() {
             <Error>{errors.passwordConfirm.message}</Error>
           )}
         </FormRowVertical>
-        <Button $variation="primary">Sign Up</Button>
+        <Button $variation="primary" disabled={isLoading}>
+          {!isLoading ? "Sign up" : <SpinnerMini />}
+        </Button>
         <Link to="/login">Already have an account? Sign in</Link>
       </Form>
     </StyledSignUpForm>

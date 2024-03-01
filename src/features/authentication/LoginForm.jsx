@@ -75,12 +75,9 @@ function LoginForm() {
 
   const { errors } = formState;
 
-  function onSubmit(data) {
-    console.log("submit");
-    console.log(data);
-
+  function onSubmit({ email, password }) {
     login(
-      { email: data.email, password: data.password },
+      { email, password },
       {
         onSettled: () => reset(),
       }
