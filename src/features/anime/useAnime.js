@@ -6,7 +6,7 @@ import { PAGE_SIZE } from "../../utils/constants";
 export function useAnime(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const currentUserId = useOutletContext();
+  const { id: currentUserId } = useOutletContext();
 
   const filterValue = searchParams.get("status");
   const filter =

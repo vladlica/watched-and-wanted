@@ -6,7 +6,7 @@ import { getSeries } from "../../services/apiSeries";
 export function useSeries(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const currentUserId = useOutletContext();
+  const { id: currentUserId } = useOutletContext();
 
   let filters = [];
   const filterStatusValue = searchParams.get("status");

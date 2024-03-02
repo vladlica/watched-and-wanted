@@ -32,7 +32,7 @@ function ProtectedRoute({ children }) {
 
   if (isAuthenticated)
     return React.cloneElement(children, {
-      userId: user.id,
+      user,
     });
 }
 

@@ -5,7 +5,7 @@ const Input = styled.input`
   padding: 0.3rem 1.2rem;
   border-radius: 15px;
   box-shadow: var(--shadow-sm);
-  width: 100%;
+  width: ${(props) => props.$width};
 
   &:focus {
     outline: 2px solid var(--color-orange-600);
@@ -16,5 +16,9 @@ const Input = styled.input`
     color: var(--color-grey-400);
   }
 `;
+
+Input.defaultProps = {
+  $width: "100%",
+};
 
 export default Input;

@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import UserAvatar from "../features/authentication/UserAvatar";
 import { HiOutlineMoon } from "react-icons/hi2";
 import ButtonIcon from "./ButtonIcon";
 import Logout from "../features/authentication/Logout";
+import { useUser } from "../features/authentication/useUser";
+import { getInitials } from "../utils/helpers";
 
 const StyledHeaderMenu = styled.div`
   display: flex;
@@ -26,12 +27,30 @@ const ActionsContainer = styled.div`
   align-items: center;
 `;
 
+const LettersAvatar = styled.div`
+  width: 4rem;
+  height: 4rem;
+  letter-spacing: 0.1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-orange-50);
+  background-color: var(--color-orange-600);
+`;
+
 function HeaderMenu() {
+  const {
+    user: {
+      user_metadata: { fullName },
+    },
+  } = useUser();
+
   return (
     <StyledHeaderMenu>
       <AvatarContainer>
-        <UserAvatar />
-        <UserFullName>tylor daniels</UserFullName>
+        <LettersAvatar>{getInitials(fullName)}</LettersAvatar>
+        <UserFullName>{fullName}</UserFullName>
       </AvatarContainer>
       <ActionsContainer>
         <ButtonIcon $place="header">
