@@ -10,8 +10,10 @@ export async function getSeries({
 }) {
   let query = supabase
     .from("series")
-    .select("*, extra_info(*)", { count: "exact" })
-    .eq("userId", currentUserId);
+    .select("*, extra_info(*)", { count: "exact" });
+
+  if (currentUserId) query = query.eq("userId", currentUserId);
+  else return { data: [], count: 0 };
 
   if (filters.length > 0)
     filters.forEach((filter) => (query = query.eq(filter.field, filter.value)));

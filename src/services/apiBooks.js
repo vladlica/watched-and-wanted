@@ -12,8 +12,10 @@ export async function getBooks({
 }) {
   let query = supabase
     .from("books")
-    .select("*, extra_info(*)", { count: "exact" })
-    .eq("userId", currentUserId);
+    .select("*, extra_info(*)", { count: "exact" });
+
+  if (currentUserId) query = query.eq("userId", currentUserId);
+  else return { data: [], count: 0 };
 
   if (filter) query = query.eq(filter.field, filter.value);
 
