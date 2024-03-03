@@ -14,7 +14,7 @@ const FullPage = styled.div`
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
-  const { user, isLoading, isAuthenticated } = useUser();
+  const { isLoading, isAuthenticated } = useUser();
 
   useEffect(
     function () {
@@ -30,10 +30,7 @@ function ProtectedRoute({ children }) {
       </FullPage>
     );
 
-  if (isAuthenticated)
-    return React.cloneElement(children, {
-      user,
-    });
+  if (isAuthenticated) return children;
 }
 
 export default ProtectedRoute;

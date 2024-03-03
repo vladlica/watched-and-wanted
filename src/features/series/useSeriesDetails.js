@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getSeriesDetails } from "../../services/apiSeries";
+import { useUser } from "../authentication/useUser";
 
 export function useSeriesDetails() {
   const { seriesId } = useParams();
-  const currentUserId = useOutletContext();
+  const {
+    user: { id: currentUserId },
+  } = useUser();
   const navigate = useNavigate();
 
   const {

@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getBook } from "../../services/apiBooks";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useUser } from "../authentication/useUser";
 
 export function useBook() {
   const { bookId } = useParams();
-  const currentUserId = useOutletContext();
+  const {
+    user: { id: currentUserId },
+  } = useUser();
   const navigate = useNavigate();
 
   const {

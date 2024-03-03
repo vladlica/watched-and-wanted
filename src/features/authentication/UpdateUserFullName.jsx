@@ -7,8 +7,8 @@ import Input from "../../ui/Input";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
 import styled from "styled-components";
-import { useOutletContext } from "react-router-dom";
 import { useUpdateUser } from "./useUpdateUser";
+import { useUser } from "./useUser";
 
 const StyledUpdateUserFullName = styled.div`
   background-color: var(--color-grey-0);
@@ -19,9 +19,11 @@ const StyledUpdateUserFullName = styled.div`
 
 function UpdateUserFullName() {
   const {
-    user_metadata: { fullName },
-    email,
-  } = useOutletContext();
+    user: {
+      user_metadata: { fullName },
+      email,
+    },
+  } = useUser();
 
   const { updateUser, isUpdating } = useUpdateUser();
 

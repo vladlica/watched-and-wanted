@@ -1,12 +1,15 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getYoutubeChannels } from "../../services/apiYoutubeChannels";
-import { useOutletContext, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
+import { useUser } from "../authentication/useUser";
 
 export function useYoutubeChannels(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const { id: currentUserId } = useOutletContext();
+  const {
+    user: { id: currentUserId },
+  } = useUser();
 
   let filters = [];
   const filterStatusValue = searchParams.get("status");

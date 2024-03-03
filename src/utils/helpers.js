@@ -2,6 +2,7 @@ import { differenceInDays, format } from "date-fns";
 import { dashboardColors } from "./constants";
 
 export function getInitials(fullName) {
+  if (!fullName) return "";
   return fullName
     .split(" ")
     .slice(0, 2)

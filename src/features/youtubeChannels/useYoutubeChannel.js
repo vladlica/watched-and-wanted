@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getYoutubeChannel } from "../../services/apiYoutubeChannels";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useUser } from "../authentication/useUser";
 
 export function useYoutubeChannel() {
   const { channelId } = useParams();
-  const currentUserId = useOutletContext();
+  const {
+    user: { id: currentUserId },
+  } = useUser();
   const navigate = useNavigate();
 
   const {

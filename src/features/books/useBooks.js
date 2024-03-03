@@ -1,12 +1,15 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBooks } from "../../services/apiBooks";
-import { useOutletContext, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
+import { useUser } from "../authentication/useUser";
 
 export function useBooks(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const { id: currentUserId } = useOutletContext();
+  const {
+    user: { id: currentUserId },
+  } = useUser();
 
   const filterValue = searchParams.get("status");
   const filter =

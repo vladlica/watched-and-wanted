@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getAnimeDetails } from "../../services/apiAnime";
+import { useUser } from "../authentication/useUser";
 
 export function useAnimeDetails() {
   const { animeId } = useParams();
-  const currentUserId = useOutletContext();
+  const {
+    user: { id: currentUserId },
+  } = useUser();
   const navigate = useNavigate();
 
   const {
