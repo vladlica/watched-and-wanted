@@ -1,4 +1,5 @@
-import UpdateUserFullName from "../features/authentication/UpdateUserFullName";
+import UpdateUserFullNameForm from "../features/authentication/UpdateUserFullNameForm";
+import UpdateUserPasswordForm from "../features/authentication/UpdateUserPasswordForm";
 import Row from "../ui/Row";
 
 function Account() {
@@ -8,11 +9,12 @@ function Account() {
 
       <Row direction="vertical">
         <h3>Update your full name</h3>
-        <UpdateUserFullName />
+        <UpdateUserFullNameForm />
       </Row>
 
       <Row direction="vertical">
         <h3>Update your password</h3>
+        <UpdateUserPasswordForm />
       </Row>
     </>
   );

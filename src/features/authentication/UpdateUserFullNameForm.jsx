@@ -10,14 +10,14 @@ import styled from "styled-components";
 import { useUpdateUser } from "./useUpdateUser";
 import { useUser } from "./useUser";
 
-const StyledUpdateUserFullName = styled.div`
+const StyledUpdateUserFullNameForm = styled.div`
   background-color: var(--color-grey-0);
   padding: 1rem;
   border-radius: 15px;
   box-shadow: var(--shadow-md);
 `;
 
-function UpdateUserFullName() {
+function UpdateUserFullNameForm() {
   const {
     user: {
       user_metadata: { fullName },
@@ -45,7 +45,7 @@ function UpdateUserFullName() {
   }
 
   return (
-    <StyledUpdateUserFullName>
+    <StyledUpdateUserFullNameForm>
       <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <FormRow>
           <Label htmlFor="email">Email</Label>
@@ -87,8 +87,8 @@ function UpdateUserFullName() {
           </Button>
         </ButtonsList>
       </Form>
-    </StyledUpdateUserFullName>
+    </StyledUpdateUserFullNameForm>
   );
 }
 
-export default UpdateUserFullName;
+export default UpdateUserFullNameForm;
