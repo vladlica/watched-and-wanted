@@ -66,6 +66,20 @@ function DashboardLayout() {
   )
     return <Spinner />;
 
+  if (
+    !countBooks &&
+    !countSeries &&
+    !countMovies &&
+    !countAnime &&
+    !countYoutubeChannels
+  )
+    return (
+      <p>
+        It's a bit lonely here! Why not kickstart your dashboard by adding some
+        of your favorite books, series, movies, anime or Youtube channels?
+      </p>
+    );
+
   const counts = {
     books: countBooks,
     series: countSeries,
