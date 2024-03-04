@@ -7,33 +7,47 @@ import {
 } from "react-icons/hi2";
 import DetailBox from "../../ui/DetailBox";
 import { dashboardColors } from "../../utils/constants";
+import { Link } from "react-router-dom";
 
 function TotalCounts({ counts }) {
   return (
     <>
       <DetailBox
         icon={<HiOutlineBookOpen />}
-        details={[{ label: "Books", value: counts.books }]}
+        details={[
+          { label: <Link to="/books">Books</Link>, value: counts.books },
+        ]}
         color={dashboardColors.books.color}
       />
       <DetailBox
         icon={<HiOutlineVideoCamera />}
-        details={[{ label: "Series", value: counts.series }]}
+        details={[
+          { label: <Link to="/series">Series</Link>, value: counts.series },
+        ]}
         color={dashboardColors.series.color}
       />
       <DetailBox
         icon={<HiOutlineFilm />}
-        details={[{ label: "Movies", value: counts.movies }]}
+        details={[
+          { label: <Link to="/movies">Movies</Link>, value: counts.movies },
+        ]}
         color={dashboardColors.movies.color}
       />
       <DetailBox
         icon={<HiOutlineLanguage />}
-        details={[{ label: "Anime", value: counts.anime }]}
+        details={[
+          { label: <Link to="/anime">Anime</Link>, value: counts.anime },
+        ]}
         color={dashboardColors.anime.color}
       />
       <DetailBox
         icon={<HiOutlinePlayCircle />}
-        details={[{ label: "YT channels", value: counts.youtubeChannels }]}
+        details={[
+          {
+            label: <Link to="/channels">YT channels</Link>,
+            value: counts.youtubeChannels,
+          },
+        ]}
         color={dashboardColors.youtubeChannels.color}
       />
     </>
