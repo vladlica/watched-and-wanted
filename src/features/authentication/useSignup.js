@@ -10,7 +10,7 @@ export function useSignup() {
     mutationFn: signupApi,
     onSuccess: (user) => {
       queryClient.setQueryData(["user"], user.user);
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
       toast.success(`Account successfully created!`);
     },
     onError: (error) => {

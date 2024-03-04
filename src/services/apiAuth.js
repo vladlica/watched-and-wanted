@@ -57,3 +57,21 @@ export async function updateCurrentUser({ password, fullName }) {
 
   return data;
 }
+
+export async function deleteAccount(password) {
+  const { data, error } = await supabase.rpc("verify_user_password", {
+    password,
+  });
+
+  if (error) throw new Error(error.message);
+
+  if (!data) throw new Error("Provided password is incorrect");
+
+  const { error: errorDelete } = await supabase.rpc("delete_user");
+
+  if (errorDelete) throw new Error(errorDelete.message);
+
+  const { error: errorSignOut } = await supabase.auth.signOut();
+
+  if (errorSignOut) throw new Error(errorSignOut.message);
+}

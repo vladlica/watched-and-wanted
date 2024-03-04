@@ -9,6 +9,36 @@ FOREIGN KEY ("bookId")
 REFERENCES books(id)
 ON DELETE CASCADE;
 
+-----------------------------------------------------------------------------------
+-- to check if the password typed by the user is the correct one
+SET search_path = extensions, public, auth;
+
+CREATE OR REPLACE FUNCTION public.verify_user_password(password text)
+RETURNS BOOLEAN SECURITY DEFINER AS
+$$
+DECLARE
+  user_id uuid;
+BEGIN
+  user_id := auth.uid();
+  
+  RETURN EXISTS (
+    SELECT id 
+    FROM auth.users 
+    WHERE id = user_id AND encrypted_password = crypt(password, encrypted_password)
+  );
+END;
+$$ LANGUAGE plpgsql;
+
+------------------------------------------------------------------------------------------------------------
+-- to delete the account of the current user
+
+CREATE or replace function delete_user()
+  returns void
+LANGUAGE SQL SECURITY DEFINER 
+AS $$
+   delete from auth.users where id = auth.uid();
+$$;
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION insert_book_and_extra_info(
     p_book_data jsonb[],

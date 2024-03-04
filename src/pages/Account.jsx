@@ -1,3 +1,4 @@
+import DeleteAccountButton from "../features/authentication/DeleteAccountButton";
 import UpdateUserFullNameForm from "../features/authentication/UpdateUserFullNameForm";
 import UpdateUserPasswordForm from "../features/authentication/UpdateUserPasswordForm";
 import UserCreated from "../features/authentication/UserCreated";
@@ -20,6 +21,8 @@ function Account() {
         <h3>Update your password</h3>
         <UpdateUserPasswordForm />
       </Row>
+
+      <DeleteAccountButton />
     </>
   );
 }

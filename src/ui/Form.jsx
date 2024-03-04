@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Form = styled.form`
   display: flex;
@@ -8,6 +8,11 @@ const Form = styled.form`
   padding: 2.4rem 1rem;
   background-color: var(--color-grey-0);
   max-height: 65rem;
+  ${(props) =>
+    props.$size === "large" &&
+    css`
+      min-width: 90rem;
+    `}
 `;
 
 export default Form;
