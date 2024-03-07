@@ -1,10 +1,8 @@
 import { format } from "date-fns";
-import { useUser } from "./useUser";
+import { useOutletContext } from "react-router-dom";
 
 function UserCreated() {
-  const {
-    user: { created_at },
-  } = useUser();
+  const { created_at } = useOutletContext();
 
   return (
     <h4>

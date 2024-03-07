@@ -1,15 +1,13 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAnime } from "../../services/apiAnime";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
-import { useUser } from "../authentication/useUser";
 
 export function useAnime(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const {
-    user: { id: currentUserId },
-  } = useUser();
+
+  const { id: currentUserId } = useOutletContext();
 
   const filterValue = searchParams.get("status");
   const filter =

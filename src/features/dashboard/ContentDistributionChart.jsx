@@ -16,6 +16,14 @@ const ChartBox = styled.div`
   border-radius: 25px;
   padding: 1rem 2rem;
   box-shadow: var(--shadow-md);
+
+  & h2 {
+    color: var(--color-grey-700);
+  }
+
+  & .recharts-tooltip-item {
+    color: var(--color-grey-700) !important;
+  }
 `;
 
 const renderCustomizedLabel = ({
@@ -67,7 +75,11 @@ function ContentDistributionChart({ data }) {
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "var(--color-grey-0)",
+              }}
+            />
             <Legend iconSize={15} iconType="circle" />
           </PieChart>
         </ResponsiveContainer>

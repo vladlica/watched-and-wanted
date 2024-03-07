@@ -17,21 +17,11 @@ const ChartBox = styled.div`
 
   grid-column: 3 / -1;
   grid-row: 6 / span 2;
-`;
 
-// const data = [
-//   { year: 2013, pages: 2813 },
-//   { year: 2014, pages: 1589 },
-//   { year: 2015, pages: 3649 },
-//   { year: 2016, pages: 3841 },
-//   { year: 2017, pages: 1907 },
-//   { year: 2018, pages: 5116 },
-//   { year: 2019, pages: 4734 },
-//   { year: 2020, pages: 560 },
-//   { year: 2021, pages: 6364 },
-//   { year: 2022, pages: 7866 },
-//   { year: 2023, pages: 13305 },
-// ];
+  & h2 {
+    color: var(--color-grey-700);
+  }
+`;
 
 function PagesChart({ data }) {
   return (

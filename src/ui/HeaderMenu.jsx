@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { HiOutlineMoon } from "react-icons/hi2";
-import ButtonIcon from "./ButtonIcon";
 import Logout from "../features/authentication/Logout";
 import { useUser } from "../features/authentication/useUser";
 import { getInitials } from "../utils/helpers";
+import DarkModeToggle from "./DarkModeToggle";
+import SpinnerMini from "./SpinnerMini";
 
 const StyledHeaderMenu = styled.div`
   display: flex;
@@ -40,22 +40,24 @@ const LettersAvatar = styled.div`
 `;
 
 function HeaderMenu() {
-  const {
-    user: {
-      user_metadata: { fullName },
-    },
-  } = useUser();
+  const { user, isLoading } = useUser();
 
   return (
     <StyledHeaderMenu>
       <AvatarContainer>
-        <LettersAvatar>{getInitials(fullName)}</LettersAvatar>
-        <UserFullName>{fullName}</UserFullName>
+        {isLoading ? (
+          <SpinnerMini />
+        ) : (
+          <>
+            <LettersAvatar>
+              {getInitials(user.user_metadata.fullName)}
+            </LettersAvatar>
+            <UserFullName>{user.user_metadata.fullName}</UserFullName>
+          </>
+        )}
       </AvatarContainer>
       <ActionsContainer>
-        <ButtonIcon $place="header">
-          <HiOutlineMoon />
-        </ButtonIcon>
+        <DarkModeToggle />
         <Logout />
       </ActionsContainer>
     </StyledHeaderMenu>

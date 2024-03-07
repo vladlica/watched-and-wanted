@@ -1,15 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMovies } from "../../services/apiMovies";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { PAGE_SIZE } from "../../utils/constants";
-import { useUser } from "../authentication/useUser";
 
 export function useMovies(allResults = false) {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const {
-    user: { id: currentUserId },
-  } = useUser();
+  const { id: currentUserId } = useOutletContext();
 
   let filters = [];
   const filterStatusValue = searchParams.get("status");

@@ -46,6 +46,7 @@ const Title = styled.span`
   text-align: center;
   white-space: pre-wrap;
   word-break: break-word;
+  color: var(--color-grey-600);
 `;
 
 const ValuesBox = styled.div`
@@ -70,6 +71,7 @@ const ValuesBox = styled.div`
 
 const Value = styled.span`
   font-weight: 600;
+  color: var(--color-grey-600);
 `;
 
 function Stats({

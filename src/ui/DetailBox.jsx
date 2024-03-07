@@ -33,6 +33,7 @@ const RightBox = styled.div`
   gap: 0.2rem;
   white-space: pre-wrap;
   word-break: break-word;
+  color: var(--color-grey-600);
 
   & a:link,
   a:visited {

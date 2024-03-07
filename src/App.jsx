@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import SignUp from "./pages/SignUp";
 import ProtectedAuthenticatedRoute from "./ui/ProtectedAuthenticatedRoute";
+import { DarkModeProvider } from "./context/DarkModeContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,73 +33,75 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <GlobalStyles />
-      <BrowserRouter>
-        <Routes>
-          <Route
-            element={
-              <ProtectedRoute>
-                <AppLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate replace to="dashboard" />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/books" element={<Books />} />
-            <Route path="/books/:bookId" element={<Book />} />
-            <Route path="/movies" element={<Movies />} />
-            <Route path="/movies/:movieId" element={<Movie />} />
-            <Route path="/series" element={<Series />} />
-            <Route path="/series/:seriesId" element={<SeriesDetailsPage />} />
-            <Route path="/channels" element={<YoutubeChannels />} />
-            <Route path="/channels/:channelId" element={<YoutubeChannel />} />
-            <Route path="/anime" element={<Anime />} />
-            <Route path="/anime/:animeId" element={<AnimeDetailsPage />} />
-            <Route path="/account" element={<Account />} />
-          </Route>
-          <Route
-            path="/login"
-            element={
-              <ProtectedAuthenticatedRoute>
-                <Login />
-              </ProtectedAuthenticatedRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <ProtectedAuthenticatedRoute>
-                <SignUp />
-              </ProtectedAuthenticatedRoute>
-            }
-          />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-      <Toaster
-        position="top-center"
-        gutter={12}
-        containerStyle={{ margin: "8px" }}
-        toastOptions={{
-          success: {
-            duration: 3000,
-          },
-          error: {
-            duration: 5000,
-          },
-          style: {
-            fontSize: "16px",
-            maxWidth: "500px",
-            padding: "16px 24px",
-            backgroundColor: "var(--color-grey-0)",
-            color: "var(--color-grey-700)",
-            textAlign: "center",
-          },
-        }}
-      />
-    </QueryClientProvider>
+    <DarkModeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <GlobalStyles />
+        <BrowserRouter>
+          <Routes>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate replace to="dashboard" />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/books" element={<Books />} />
+              <Route path="/books/:bookId" element={<Book />} />
+              <Route path="/movies" element={<Movies />} />
+              <Route path="/movies/:movieId" element={<Movie />} />
+              <Route path="/series" element={<Series />} />
+              <Route path="/series/:seriesId" element={<SeriesDetailsPage />} />
+              <Route path="/channels" element={<YoutubeChannels />} />
+              <Route path="/channels/:channelId" element={<YoutubeChannel />} />
+              <Route path="/anime" element={<Anime />} />
+              <Route path="/anime/:animeId" element={<AnimeDetailsPage />} />
+              <Route path="/account" element={<Account />} />
+            </Route>
+            <Route
+              path="/login"
+              element={
+                <ProtectedAuthenticatedRoute>
+                  <Login />
+                </ProtectedAuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <ProtectedAuthenticatedRoute>
+                  <SignUp />
+                </ProtectedAuthenticatedRoute>
+              }
+            />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: {
+              duration: 3000,
+            },
+            error: {
+              duration: 5000,
+            },
+            style: {
+              fontSize: "16px",
+              maxWidth: "500px",
+              padding: "16px 24px",
+              backgroundColor: "var(--color-grey-0)",
+              color: "var(--color-grey-700)",
+              textAlign: "center",
+            },
+          }}
+        />
+      </QueryClientProvider>
+    </DarkModeProvider>
   );
 }
 

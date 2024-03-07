@@ -17,6 +17,14 @@ const ChartBox = styled.div`
   border-radius: 25px;
   padding: 1rem 2rem;
   box-shadow: var(--shadow-md);
+
+  & h2 {
+    color: var(--color-grey-700);
+  }
+
+  & .recharts-text {
+    fill: var(--color-grey-600);
+  }
 `;
 
 function MediaConsumptionChart({ data: { data, max } }) {
@@ -43,7 +51,11 @@ function MediaConsumptionChart({ data: { data, max } }) {
               fill="#ea580c"
               fillOpacity={0.4}
             />
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "var(--color-grey-0)",
+              }}
+            />
             <Legend iconSize={15} iconType="circle" />
           </RadarChart>
         </ResponsiveContainer>

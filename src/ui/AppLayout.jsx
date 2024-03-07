@@ -24,14 +24,14 @@ const Container = styled.div`
   gap: 3.2rem;
 `;
 
-function AppLayout() {
+function AppLayout({ user }) {
   return (
     <StyledAppLayout>
       <Header />
       <Sidebar />
       <Main>
         <Container>
-          <Outlet />
+          <Outlet context={user} />
         </Container>
       </Main>
     </StyledAppLayout>
