@@ -42,10 +42,21 @@ function BooksChart({ data }) {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" tick={{ dy: 10 }} />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="books" fill="#ea580c" />
+            <XAxis
+              dataKey="year"
+              tick={{ fill: "var(--color-grey-700)", dy: 10 }}
+              tickLine={{ stroke: "var(--color-grey-700)" }}
+            />
+            <YAxis
+              tick={{ fill: "var(--color-grey-700)" }}
+              tickLine={{ stroke: "var(--color-grey-700)" }}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "var(--color-grey-0)",
+              }}
+            />
+            <Bar dataKey="books" fill="var(--color-orange-600)" />
           </BarChart>
         </ResponsiveContainer>
       ) : (

@@ -12,6 +12,7 @@ const SearchBarContainer = styled.div`
 `;
 
 const SearchBar = styled.input`
+  background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   padding: 0.3rem 3rem 0.3rem 1.2rem;
   border-top-left-radius: 15px;

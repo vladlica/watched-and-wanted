@@ -41,13 +41,23 @@ function PagesChart({ data }) {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" tick={{ dy: 10 }} />
-            <YAxis />
-            <Tooltip />
+            <XAxis
+              dataKey="year"
+              tick={{ fill: "var(--color-grey-700)", dy: 10 }}
+            />
+            <YAxis
+              tick={{ fill: "var(--color-grey-700)" }}
+              tickLine={{ stroke: "var(--color-grey-700)" }}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "var(--color-grey-0)",
+              }}
+            />
             <Line
               type="monotone"
               dataKey="pages"
-              stroke="#ea580c"
+              stroke="var(--color-orange-600)"
               activeDot={{ r: 8 }}
             />
           </LineChart>

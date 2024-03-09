@@ -40,16 +40,16 @@ function MediaConsumptionChart({ data: { data, max } }) {
             <Radar
               name="Consumed"
               dataKey="consumed"
-              stroke="#15803d"
-              fill="#15803d"
-              fillOpacity={0.4}
+              stroke="var(--color-green-700)"
+              fill="var(--color-green-700)"
+              fillOpacity={0.3}
             />
             <Radar
               name="Wanted"
               dataKey="wanted"
-              stroke="#ea580c"
-              fill="#ea580c"
-              fillOpacity={0.4}
+              stroke="var(--color-orange-600)"
+              fill="var(--color-orange-600)"
+              fillOpacity={0.3}
             />
             <Tooltip
               contentStyle={{

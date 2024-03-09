@@ -18,14 +18,17 @@ const GlobalStyles = createGlobalStyle`
 
       --color-blue-50: #eff6ff;
       --color-blue-100: #e0f2fe;
+      --color-blue-500: #3b82f6;
       --color-blue-600: #2563eb;
       --color-blue-700: #0369a1;
       --color-green-50: #f0fdf4;
       --color-green-100: #dcfce7;
+      --color-green-500: #22c55e;
       --color-green-600: #16a34a;
       --color-green-700: #15803d;
       --color-yellow-50: #fefce8;
       --color-yellow-100: #fef9c3;
+      --color-yellow-500: #eab308;
       --color-yellow-600: #ca8a04;
       --color-yellow-700: #a16207;
       --color-silver-100: #e5e7eb;
@@ -37,6 +40,7 @@ const GlobalStyles = createGlobalStyle`
 
       --color-red-50: #fef2f2;
       --color-red-100: #fee2e2;
+      --color-red-500: #ef4444;
       --color-red-600: #dc2626;
       --color-red-700: #b91c1c;
       --color-red-800: #991b1b;
@@ -55,6 +59,8 @@ const GlobalStyles = createGlobalStyle`
       --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
       --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
       --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
+
+     
     }
     
 
@@ -71,23 +77,47 @@ const GlobalStyles = createGlobalStyle`
       --color-grey-800: #f3f4f6;
       --color-grey-900: #f9fafb;
 
-      --color-blue-100: #075985;
-      --color-blue-700: #e0f2fe;
+      --color-blue-50: #1e3a8a;
+      --color-blue-100: #1e40af;
+      --color-blue-500: #60a5fa;
+      --color-blue-600: #93c5fd;
+      --color-blue-700: #bfdbfe;
+      --color-green-50: #14532d;
       --color-green-100: #166534;
-      --color-green-700: #dcfce7;
+      --color-green-500: #4ade80;
+      --color-green-600: #86efac;
+      --color-green-700: #bbf7d0;
+      --color-yellow-50: #713f12;
       --color-yellow-100: #854d0e;
-      --color-yellow-700: #fef9c3;
+      --color-yellow-500: #facc15;
+      --color-yellow-600: #fde047;
+      --color-yellow-700: #fef08a;
       --color-silver-100: #374151;
       --color-silver-700: #f3f4f6;
+      --color-indigo-50: #312e81;
       --color-indigo-100: #3730a3;
-      --color-indigo-700: #e0e7ff;
+      --color-indigo-600: #a5b4fc;
+      --color-indigo-700: #c7d2fe;
 
-      --color-red-100: #fee2e2;
-      --color-red-700: #b91c1c;
-      --color-red-800: #991b1b;
 
-       --color-orange-700: #fed7aa;
-       --color-orange-100: #c2410c;
+      --color-red-50: #7f1d1d;
+      --color-red-100: #991b1b;
+      --color-red-500: #f87171;
+      /* --color-red-500: #ef4444; */
+      --color-red-600: #fca5a5;
+      --color-red-700: #fecaca;
+      --color-red-800: #fee2e2;
+
+      --color-orange-50: #7c2d12;
+      --color-orange-100: #9a3412;
+      --color-orange-200: #c2410c;
+      --color-orange-300: #ea580c;
+      --color-orange-400: #f97316;
+      --color-orange-500: #fb923c;
+      --color-orange-600: #fdba74;
+      --color-orange-700: #fed7aa;
+      --color-orange-800: #ffedd5;
+      --color-orange-900: #fffbeb;
       
 
       --backdrop-color: rgba(0, 0, 0, 0.3);
@@ -95,6 +125,11 @@ const GlobalStyles = createGlobalStyle`
       --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
       --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
       --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.4);
+
+
+      input[type="checkbox"]:disabled {
+        opacity: 0.3;
+      }
     }
 
 
@@ -122,6 +157,10 @@ const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     line-height: 1.5;
     font-size: 1.6rem;
+  }
+
+  title svg{
+    color: var(--color-orange-600);
   }
 
   input,
@@ -173,12 +212,11 @@ const GlobalStyles = createGlobalStyle`
   img {
     max-width: 100%;
   }
-
-  
- 
+   
 
   /* Datepicker */
   .p-inputtext{
+    background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-400);
     padding: 0.5rem 1.2rem;
     border-radius: 15px;
@@ -205,12 +243,32 @@ const GlobalStyles = createGlobalStyle`
     pointer-events: all;
   }
 
+  .p-datepicker-header{
+    font-size: 1.2rem;
+    background-color: var(--color-grey-0);
+    color:var(--color-grey-700);
+  }
+
   .p-datepicker{
     font-size: 1.2rem;
+    background-color: var(--color-grey-0);
+    color:var(--color-grey-700);
   }
-  
+
+  span[data-p-highlight='false']:not(.p-disabled):hover, .p-datepicker-next:hover, .p-datepicker-prev:hover  {
+    background-color: var(--color-grey-600);
+    color:var(--color-grey-0);
+  }
+
+  .p-datepicker table td.p-datepicker-today > span{
+    background-color: var(--color-grey-600) ;
+    color:var(--color-grey-0) ;
+  }
+ 
+
   .p-datepicker-calendar{
     font-size: 1.2rem;
+  
   }
   
   button[aria-label="Today"]{

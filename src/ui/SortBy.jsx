@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledSortBy = styled.select`
+  background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   padding: 0.6rem 1.5rem;
   border-radius: 15px;

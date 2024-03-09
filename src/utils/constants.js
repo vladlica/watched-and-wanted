@@ -6,11 +6,12 @@ export const statusToTagColor = {
   subscribed: "green",
   wanted: "silver",
 };
+
 export const dashboardColors = {
-  books: { color: "orange", value: "#ea580c" },
-  series: { color: "green", value: "#16a34a" },
-  movies: { color: "blue", value: "#2563eb" },
-  anime: { color: "yellow", value: "#ca8a04" },
-  youtubeChannels: { color: "red", value: "#dc2626" },
+  books: { color: "orange", value: "var(--color-orange-500)" },
+  series: { color: "green", value: "var(--color-green-500)" },
+  movies: { color: "blue", value: "var(--color-blue-500)" },
+  anime: { color: "yellow", value: "var(--color-yellow-500)" },
+  youtubeChannels: { color: "red", value: "var(--color-red-500)" },
 };
 export const RADIAN = Math.PI / 180;
