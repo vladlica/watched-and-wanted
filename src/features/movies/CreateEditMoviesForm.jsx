@@ -62,9 +62,6 @@ function CreateEditMoviesForm({ movie, onClose }) {
   );
 
   function onSubmit(data) {
-    console.log("submit");
-    console.log(data);
-
     const { title, duration, status, hasBook, ...extraInfoData } = data;
 
     const movieInfo = {
@@ -81,10 +78,6 @@ function CreateEditMoviesForm({ movie, onClose }) {
     }
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
-
-    console.log("----");
-    console.log(extraInfoArray);
-    console.log(movieInfo);
 
     if (isEditSession)
       updateMovie(

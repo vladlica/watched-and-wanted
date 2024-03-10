@@ -14,7 +14,6 @@ export function useDeleteAccount() {
       toast.success("Account successfully deleted");
     },
     onError: (err) => {
-      console.log("Error", err);
       toast.error(err.message);
     },
   });

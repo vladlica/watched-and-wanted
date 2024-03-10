@@ -9,7 +9,6 @@ const StyledConfirmDelete = styled.div`
 
   & p {
     color: var(--color-grey-500);
-    /* font-size: 1.7rem; */
     margin-bottom: 1.2rem;
   }
 

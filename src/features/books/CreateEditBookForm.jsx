@@ -84,9 +84,6 @@ function CreateEditBookForm({ book, onClose }) {
   }
 
   function onSubmit(data) {
-    console.log("submit");
-    console.log(data);
-
     const {
       author,
       title,
@@ -110,8 +107,6 @@ function CreateEditBookForm({ book, onClose }) {
       finishDate: convertDateToISO(finishDate),
     };
 
-    console.log(extraInfoData);
-
     if (isEditSession) {
       delete extraInfoData.extra_info;
       delete extraInfoData.id;
@@ -119,9 +114,6 @@ function CreateEditBookForm({ book, onClose }) {
     }
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
-    console.log("----");
-    console.log(extraInfoArray);
-    console.log(bookInfo);
 
     if (isEditSession)
       updateBook(

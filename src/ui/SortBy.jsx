@@ -9,7 +9,7 @@ const StyledSortBy = styled.select`
   box-shadow: var(--shadow-md);
   font-size: 1.5rem;
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid var(--color-orange-600);
     outline-offset: -2px;
   }

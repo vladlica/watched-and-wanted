@@ -14,7 +14,6 @@ import { useDeleteAccount } from "./useDeleteAccount";
 const PasswordContainer = styled.div`
   display: flex;
   position: relative;
-  /* width: 70%; */
 `;
 
 const ShowPasswordButton = styled.button`

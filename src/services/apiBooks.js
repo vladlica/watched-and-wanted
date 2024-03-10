@@ -153,44 +153,6 @@ export async function createBook(newBook, extraInfo) {
   }
 
   return data;
-
-  // const { data, error } = await supabase.rpc("insert_book_and_extra_info", {
-  //   p_book_data: [newBook],
-  //   p_extra_info_data: [extraInfo],
-  // });
-
-  // if (error) {
-  //   console.error(error);
-  //   throw new Error("Book could not be created");
-  // }
-
-  // return data;
-  // const { data, error } = await supabase
-  //   .from("books")
-  //   .insert([newBook])
-  //   .select()
-  //   .single();
-  // if (error) {
-  //   console.error(error);
-  //   throw new Error("Book could not be created");
-  // }
-  // if (extraInfo?.length) {
-  //   const extraInfoArray = extraInfo.map((item) => ({
-  //     ...item,
-  //     bookId: data.id,
-  //   }));
-  //   const { error: extraInfoError } = await supabase
-  //     .from("extra_info")
-  //     .insert(extraInfoArray);
-  //   if (extraInfoError) {
-  //     console.error(extraInfoError);
-  //     deleteBook(data.id);
-  //     throw new Error(
-  //       "Book could not be created due to problems with creating the comments and the links"
-  //     );
-  //   }
-  // }
-  // return data;
 }
 
 export async function updateBook(id, bookUpdates, extraInfo) {
@@ -219,39 +181,6 @@ export async function updateBook(id, bookUpdates, extraInfo) {
   }
 
   return data;
-  // const { data, error } = await supabase
-  //   .from("books")
-  //   .update(obj)
-  //   .eq("id", id)
-  //   .select()
-  //   .single();
-  // if (error) {
-  //   console.error(error);
-  //   throw new Error("Book could not be updated");
-  // }
-  // const { error: deleteError } = await supabase
-  //   .from("extra_info")
-  //   .delete()
-  //   .eq("bookId", id)
-  //   .select();
-  // if (deleteError) {
-  //   console.error(deleteError);
-  //   throw new Error("Book's comments and links could not be updated");
-  // }
-  // if (extraInfo?.length) {
-  //   const extraInfoArray = extraInfo.map((item) => ({
-  //     ...item,
-  //     bookId: id,
-  //   }));
-  //   const { error: extraInfoError } = await supabase
-  //     .from("extra_info")
-  //     .insert(extraInfoArray);
-  //   if (extraInfoError) {
-  //     console.error(extraInfoError);
-  //     throw new Error("Book's comments and links could not be updated");
-  //   }
-  // }
-  // return data;
 }
 
 export async function deleteBook(id) {

@@ -77,9 +77,6 @@ function EditBookForm({ book, onCloseEditModal }) {
   }
 
   function onSubmit(data) {
-    console.log("submit");
-    console.log(data);
-
     const {
       author,
       title,
@@ -108,9 +105,6 @@ function EditBookForm({ book, onCloseEditModal }) {
     delete extraInfoData.created_at;
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
-
-    console.log(bookInfo);
-    console.log(extraInfoArray);
 
     editBook(
       { id: book.id, obj: bookInfo, extraInfo: extraInfoArray },

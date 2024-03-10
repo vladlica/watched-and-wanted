@@ -61,9 +61,6 @@ function CreateEditYoutubeChannelsForm({ youtubeChannel, onClose }) {
   );
 
   function onSubmit(data) {
-    console.log("submit");
-    console.log(data);
-
     const { channelName, status, hasBell, ...extraInfoData } = data;
 
     const youtubeChannelInfo = {
@@ -79,10 +76,6 @@ function CreateEditYoutubeChannelsForm({ youtubeChannel, onClose }) {
     }
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
-
-    console.log("----");
-    console.log(extraInfoArray);
-    console.log(youtubeChannelInfo);
 
     if (isEditSession)
       updateYoutubeChannel(

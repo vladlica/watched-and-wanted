@@ -67,9 +67,6 @@ function CreateEditSeriesForm({ series, onClose }) {
   );
 
   function onSubmit(data) {
-    console.log("submit");
-    console.log(data);
-
     const {
       title,
       numSeasons,
@@ -100,10 +97,6 @@ function CreateEditSeriesForm({ series, onClose }) {
     }
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
-
-    console.log("----");
-    console.log(extraInfoArray);
-    console.log(seriesInfo);
 
     if (isEditSession)
       updateSeries(

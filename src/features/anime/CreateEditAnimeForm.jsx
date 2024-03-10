@@ -58,9 +58,6 @@ function CreateEditAnimeForm({ anime, onClose }) {
   );
 
   function onSubmit(data) {
-    console.log("submit");
-    console.log(data);
-
     const { title, numEpisodes, status, ...extraInfoData } = data;
 
     const animeInfo = {
@@ -77,9 +74,6 @@ function CreateEditAnimeForm({ anime, onClose }) {
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
 
-    console.log("----");
-    console.log(extraInfoArray);
-    console.log(animeInfo);
 
     if (isEditSession)
       updateAnime(
