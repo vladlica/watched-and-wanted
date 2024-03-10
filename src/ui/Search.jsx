@@ -19,7 +19,7 @@ const SearchBar = styled.input`
   border-bottom-left-radius: 15px;
   box-shadow: var(--shadow-md);
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid var(--color-orange-600);
     outline-offset: -2px;
   }
@@ -55,6 +55,11 @@ const CancelTextButton = styled.button`
     width: 2rem;
     height: 2rem;
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: -2px;
+  }
 `;
 
 const SearchButton = styled.button`
@@ -66,6 +71,11 @@ const SearchButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: -2px;
+  }
 `;
 
 function Search({ placeholder = "Search" }) {

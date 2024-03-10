@@ -22,11 +22,18 @@ const StyledLoginForm = styled.div`
   & a:link,
   a:visited {
     color: var(--color-orange-700);
+    border-radius: 25px;
   }
 
   & a:hover,
   a:active {
     text-decoration: underline;
+    border-radius: 25px;
+  }
+
+  & a:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: 3px;
   }
 `;
 
@@ -61,6 +68,11 @@ const ShowPasswordButton = styled.button`
     width: 2rem;
     height: 2rem;
     color: var(--color-grey-700);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: -2px;
   }
 `;
 

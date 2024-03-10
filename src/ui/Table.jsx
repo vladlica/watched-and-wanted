@@ -25,7 +25,6 @@ const StyledHeader = styled.div`
 
 const StyledBody = styled.div`
   margin: 0.4rem 0;
-  /* padding: 0 1rem; */
   background-color: var(--color-grey-0);
 `;
 

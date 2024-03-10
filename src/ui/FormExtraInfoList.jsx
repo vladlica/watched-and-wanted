@@ -82,6 +82,7 @@ const FormExtraInfoList = forwardRef(function (
                     $place="input"
                     type="button"
                     onClick={() => removeExtraInfo(i, info.type)}
+                    title={`Remove ${info.type}`}
                     disabled={disabled}
                   >
                     <HiXMark />

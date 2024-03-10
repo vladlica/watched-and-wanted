@@ -51,6 +51,11 @@ const Button = styled.button`
   &:has(span:first-child) {
     padding-right: 0.4rem;
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: -2px;
+  }
 `;
 
 function Pagination({ count }) {

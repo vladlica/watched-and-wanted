@@ -31,6 +31,11 @@ const FilterButton = styled.button`
     background-color: var(--color-orange-600);
     color: var(--color-orange-50);
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: -2px;
+  }
 `;
 
 function Filter({ options, filteredField }) {

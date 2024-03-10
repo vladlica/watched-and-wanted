@@ -10,6 +10,11 @@ const ButtonIcon = styled.button`
   padding: 0.5rem;
   transition: all 0.2s;
 
+  &:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: -2px;
+  }
+
   &:hover {
     background-color: var(--color-grey-100);
   }
@@ -54,6 +59,11 @@ const ButtonIcon = styled.button`
         height: 1.4rem;
         color: var(--color-orange-100);
       }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-orange-600);
+        outline-offset: 2px;
+      }
     `}
 
     ${(props) =>
@@ -74,6 +84,11 @@ const ButtonIcon = styled.button`
         width: 2.2rem;
         height: 2.2rem;
         color: var(--color-orange-100);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-orange-600);
+        outline-offset: 2px;
       }
     `}
 `;

@@ -9,7 +9,7 @@ const Input = styled.input`
   box-shadow: var(--shadow-sm);
   width: ${(props) => props.$width};
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid var(--color-orange-600);
     outline-offset: -2px;
   }

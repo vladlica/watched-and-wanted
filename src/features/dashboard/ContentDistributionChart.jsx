@@ -24,6 +24,15 @@ const ChartBox = styled.div`
   & .recharts-tooltip-item {
     color: var(--color-grey-700) !important;
   }
+
+  & .recharts-layer {
+    border-radius: 25px;
+  }
+
+  & .recharts-layer:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: -2px;
+  }
 `;
 
 const renderCustomizedLabel = ({

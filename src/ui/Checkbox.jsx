@@ -14,6 +14,11 @@ const CheckboxContainer = styled.div`
     transform-origin: 0;
     accent-color: var(--color-orange-600);
   }
+
+  & input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--color-orange-600);
+    outline-offset: 2px;
+  }
 `;
 
 function Checkbox({ id, label, control, disabled }) {
