@@ -79,12 +79,7 @@ const ShowPasswordButton = styled.button`
 function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { login, isLoading } = useLogin();
-  const { register, handleSubmit, formState, reset } = useForm({
-    defaultValues: {
-      email: "test@test.com",
-      password: "quotidien",
-    },
-  });
+  const { register, handleSubmit, formState, reset } = useForm();
 
   const { errors } = formState;
 
