@@ -1,57 +1,14 @@
-import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Label from "../../ui/Label";
-import Input from "../../ui/Input";
 import Error from "../../ui/Error";
-import { useState } from "react";
-import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
 import { useDeleteAccount } from "./useDeleteAccount";
-
-const PasswordContainer = styled.div`
-  display: flex;
-  position: relative;
-`;
-
-const ShowPasswordButton = styled.button`
-  position: absolute;
-  right: 0.4rem;
-  top: 50%;
-  transform: translate(0, -50%);
-  border: none;
-  background-color: var(--color-grey-0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  padding: 0.2rem;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: var(--color-grey-100);
-  }
-
-  &:hover svg {
-    color: var(--color-orange-600);
-  }
-
-  & svg {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-orange-600);
-    outline-offset: -2px;
-  }
-`;
+import PasswordInput from "../../ui/PasswordInput";
 
 function DeleteAccountForm({ onClose }) {
-  const [showPassword, setShowPassword] = useState(false);
-
   const { deleteAccount, isDeleting } = useDeleteAccount();
   const { register, handleSubmit, formState, reset } = useForm({
     defaultValues: {
@@ -74,24 +31,15 @@ function DeleteAccountForm({ onClose }) {
       <Form onSubmit={handleSubmit(onSubmit)} $size="large" autoComplete="off">
         <FormRow>
           <Label htmlFor="password">Your password</Label>
-          <PasswordContainer>
-            <Input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              placeholder="Please enter your current password"
-              {...register("password", {
-                required: "This field is required",
-              })}
-              disabled={isDeleting}
-            />
-            <ShowPasswordButton
-              title={showPassword ? "Hide password" : "Show password"}
-              onClick={() => setShowPassword((show) => !show)}
-              type="button"
-            >
-              {showPassword ? <HiOutlineEyeSlash /> : <HiOutlineEye />}
-            </ShowPasswordButton>
-          </PasswordContainer>
+          <PasswordInput
+            id="password"
+            placeholder="Please enter your current password"
+            register={register}
+            rules={{
+              required: "This field is required",
+            }}
+            disabled={isDeleting}
+          />
           {errors?.password?.message && (
             <Error>{errors.password.message}</Error>
           )}

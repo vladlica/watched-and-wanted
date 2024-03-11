@@ -6,16 +6,9 @@ import Error from "../../ui/Error";
 import Input from "../../ui/Input";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
-import styled from "styled-components";
 import { useUpdateUser } from "./useUpdateUser";
 import { useOutletContext } from "react-router-dom";
-
-const StyledUpdateUserFullNameForm = styled.div`
-  background-color: var(--color-grey-0);
-  padding: 1rem;
-  border-radius: 15px;
-  box-shadow: var(--shadow-md);
-`;
+import RoundBox from "../../ui/RoundBox";
 
 function UpdateUserFullNameForm() {
   const {
@@ -43,7 +36,7 @@ function UpdateUserFullNameForm() {
   }
 
   return (
-    <StyledUpdateUserFullNameForm>
+    <RoundBox>
       <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <FormRow>
           <Label htmlFor="email">Email</Label>
@@ -85,7 +78,7 @@ function UpdateUserFullNameForm() {
           </Button>
         </ButtonsList>
       </Form>
-    </StyledUpdateUserFullNameForm>
+    </RoundBox>
   );
 }
 

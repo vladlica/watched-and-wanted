@@ -130,8 +130,6 @@ const GlobalStyles = createGlobalStyle`
         opacity: 0.3;
       }
     }
-
-
   
   }
 
