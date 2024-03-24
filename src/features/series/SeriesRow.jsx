@@ -1,14 +1,16 @@
 import { HiOutlineCheck, HiOutlineXMark } from "react-icons/hi2";
-import Table from "../../ui/Table";
-import Tag from "../../ui/Tag";
-import CreateEditSeriesForm from "./CreateEditSeriesForm";
 import { useToggleSeriesStatus } from "./useToggleSeriesStatus";
 import { useDeleteSeries } from "./useDeleteSeries";
+import { statusToTagColor } from "../../utils/constants";
+import CreateEditSeriesForm from "./CreateEditSeriesForm";
+import Table from "../../ui/Table";
+import Tag from "../../ui/Tag";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import TableActionsColumn from "../../ui/TableActionsColumn";
 import TableSvgContainer from "../../ui/TableSvgContainer";
-import { statusToTagColor } from "../../utils/constants";
 
+// Props:
+// - series: Object - Containing information about the series item
 function SeriesRow({ series }) {
   const { isDeleting, deleteSeries } = useDeleteSeries();
   const { isToggling, toggleStatus } = useToggleSeriesStatus();

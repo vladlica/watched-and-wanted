@@ -2,9 +2,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const DarkModeContext = createContext();
 
+// Props:
+// - children: ReactNode - Nested components wrapped by the DarkModeProvider.
 function DarkModeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(function () {
+    // Check if the user has previously set dark mode preference
     const storedValue = localStorage.getItem("isDarkMode");
+    // If preference is stored, use that, otherwise check user's system preference
     return storedValue
       ? JSON.parse(storedValue)
       : window.matchMedia("(prefers-color-scheme: dark)").matches;

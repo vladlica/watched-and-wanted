@@ -1,5 +1,7 @@
 import styled, { css } from "styled-components";
 
+// Props:
+// - $place: String - Placement of the button ("header", "table", "input", "form")
 const ButtonIcon = styled.button`
   border: none;
   background: none;

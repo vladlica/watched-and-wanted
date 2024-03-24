@@ -9,7 +9,7 @@ export function useToggleYoutubeChannelStatus() {
     mutationFn: ({ id, obj }) => updateYoutubeChannel(id, obj),
     onSuccess: (data) => {
       toast.success(`Youtube channel marked as ${data.status}`);
-
+      // Invalidating the youtubeChannels query to trigger a refetch and keep the data fresh 
       queryClient.invalidateQueries({
         queryKey: ["youtubeChannels"],
       });

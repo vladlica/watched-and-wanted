@@ -10,7 +10,7 @@ export function useUpdateMovie() {
       updateMovieApi(id, updatedMovie, extraInfo),
     onSuccess: (data) => {
       toast.success(`Movie successfully updated`);
-
+      // Invalidating the movies and movie queries to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({
         queryKey: ["movies"],
       });

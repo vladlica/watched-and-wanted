@@ -10,7 +10,7 @@ export function useUpdateSeries() {
       updateSeriesApi(id, updatedSeries, extraInfo),
     onSuccess: (data) => {
       toast.success(`Series successfully updated`);
-
+      // Invalidating the series and seriesDetails queries to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({
         queryKey: ["series"],
       });

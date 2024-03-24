@@ -9,7 +9,7 @@ export function useDeleteAnime() {
     mutationFn: deleteAnimeApi,
     onSuccess: () => {
       toast.success("Anime successfully deleted");
-
+      // Invalidating the anime query to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({
         queryKey: ["anime"],
       });

@@ -19,9 +19,13 @@ const Option = styled.option`
   text-transform: capitalize;
 `;
 
+// Props:
+// - id: String- Unique identifier for the select element
+// - options: Object - An array of options to be displayed in the select element
+// - register: Object - Function to register inputs provided by react-hook-form library
 function Select({ id, options, register }) {
   return (
-    <StyledSelect id={id} {...register}>
+    <StyledSelect id={id} {...register(id)}>
       {options.map((option, index) => (
         <Option value={option} key={index}>
           {option}

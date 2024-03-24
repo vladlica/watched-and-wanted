@@ -9,7 +9,7 @@ export function useToggleBookStatus() {
     mutationFn: ({ id, obj }) => updateBook(id, obj),
     onSuccess: (data) => {
       toast.success(`Book marked as ${data.status}`);
-
+      // Invalidating the books query to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({
         queryKey: ["books"],
       });

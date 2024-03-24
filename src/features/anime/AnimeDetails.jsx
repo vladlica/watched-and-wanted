@@ -1,8 +1,8 @@
-import Row from "../../ui/Row";
-import Spinner from "../../ui/Spinner";
+import { useAnimeDetails } from "./useAnimeDetails";
 import AnimeDetailsHeader from "./AnimeDetailsHeader";
 import AnimeDetailsStats from "./AnimeDetailsStats";
-import { useAnimeDetails } from "./useAnimeDetails";
+import Row from "../../ui/Row";
+import Spinner from "../../ui/Spinner";
 
 function AnimeDetails() {
   const { isLoading, isError, error, anime } = useAnimeDetails();
@@ -10,6 +10,7 @@ function AnimeDetails() {
   if (isLoading) return <Spinner />;
 
   if (isError) return <p>{error.message}</p>;
+
   return (
     <>
       <Row direction="horizontal">

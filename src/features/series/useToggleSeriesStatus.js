@@ -9,7 +9,7 @@ export function useToggleSeriesStatus() {
     mutationFn: ({ id, obj }) => updateSeries(id, obj),
     onSuccess: (data) => {
       toast.success(`Series marked as ${data.status}`);
-
+      // Invalidating the series query to trigger a refetch and keep the data fresh 
       queryClient.invalidateQueries({
         queryKey: ["series"],
       });

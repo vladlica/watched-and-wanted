@@ -1,8 +1,8 @@
 import { useBook } from "./useBook";
+import BookDetailsStats from "./BookDetailsStats";
+import BookDetailsHeader from "./BookDetailsHeader";
 import Spinner from "../../ui/Spinner";
 import Row from "../../ui/Row";
-import BookDetailsHeader from "./BookDetailsHeader";
-import BookDetailsStats from "./BookDetailsStats";
 
 function BookDetails() {
   const { isLoading, book, error, isError } = useBook();

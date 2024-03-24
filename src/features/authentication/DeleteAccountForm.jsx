@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
+import { useDeleteAccount } from "./useDeleteAccount";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Label from "../../ui/Label";
 import Error from "../../ui/Error";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
-import { useDeleteAccount } from "./useDeleteAccount";
 import PasswordInput from "../../ui/PasswordInput";
 
+// Props:
+// - onClose: Object - Function to close the form
 function DeleteAccountForm({ onClose }) {
   const { deleteAccount, isDeleting } = useDeleteAccount();
   const { register, handleSubmit, formState, reset } = useForm({

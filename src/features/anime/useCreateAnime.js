@@ -10,6 +10,7 @@ export function useCreateAnime() {
       createAnimeApi(newAnime, extraInfo),
     onSuccess: () => {
       toast.success("New anime successfully created");
+      // Invalidating the anime query to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({ queryKey: ["anime"] });
     },
     onError: (err) => toast.error(err.message),

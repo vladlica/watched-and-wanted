@@ -8,7 +8,6 @@ const DetailsListContainer = styled.div`
   gap: 1rem;
   padding: 2rem;
   border-radius: 25px;
-
   max-height: 46rem;
   overflow-y: auto;
   overflow-x: hidden;

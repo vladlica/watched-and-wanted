@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import Logout from "../features/authentication/Logout";
 import { useUser } from "../features/authentication/useUser";
 import { getInitials } from "../utils/helpers";
 import DarkModeToggle from "./DarkModeToggle";
 import SpinnerMini from "./SpinnerMini";
+import Logout from "../features/authentication/Logout";
 
 const StyledHeaderMenu = styled.div`
   display: flex;

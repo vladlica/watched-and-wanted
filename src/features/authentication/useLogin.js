@@ -9,6 +9,8 @@ export function useLogin() {
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (user) => {
+      // By caching user data immediately after logging in, React Query retrieves it from the cache
+      // instead of making redundant fetch requests.
       queryClient.setQueryData(["user"], user.user);
       navigate("/dashboard", { replace: true });
     },

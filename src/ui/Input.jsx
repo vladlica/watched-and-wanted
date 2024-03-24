@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+// Props:
+// - $width: String - Dynamic width
 const Input = styled.input`
   background-color: var(--color-grey-0);
   color: var(--color-grey-700);

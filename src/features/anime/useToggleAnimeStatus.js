@@ -9,7 +9,7 @@ export function useToggleAnimeStatus() {
     mutationFn: ({ id, obj }) => updateAnime(id, obj),
     onSuccess: (data) => {
       toast.success(`Anime marked as ${data.status}`);
-
+      // Invalidating the anime query to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({
         queryKey: ["anime"],
       });

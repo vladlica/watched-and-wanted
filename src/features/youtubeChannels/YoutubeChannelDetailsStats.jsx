@@ -1,9 +1,11 @@
 import { HiOutlineChatBubbleOvalLeft, HiOutlineLink } from "react-icons/hi2";
+import { Link } from "react-router-dom";
+import { baseUrl } from "../../utils/constants";
 import DetailBox from "../../ui/DetailBox";
 import DetailsContainer from "../../ui/DetailsContainer";
-import { baseUrl } from "../../utils/constants";
-import { Link } from "react-router-dom";
 
+// Props:
+// - youtubeChannel: Object - Containing information about the youtube channel item
 function YoutubeChannelDetailsStats({ youtubeChannel }) {
   return (
     <DetailsContainer>
@@ -17,6 +19,7 @@ function YoutubeChannelDetailsStats({ youtubeChannel }) {
             {
               label: extraInfo.link ? "Link" : "Comment",
               value: extraInfo.link ? (
+                // Determines if the provided link is internal or external
                 extraInfo.link.includes(baseUrl) ? (
                   <Link to={`${extraInfo.link}`}>
                     {extraInfo.text || extraInfo.link}

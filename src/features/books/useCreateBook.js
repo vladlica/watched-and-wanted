@@ -9,6 +9,7 @@ export function useCreateBook() {
     mutationFn: ({ newBook, extraInfo }) => createBookApi(newBook, extraInfo),
     onSuccess: () => {
       toast.success("New book successfully created");
+      // Invalidating the books query to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({ queryKey: ["books"] });
     },
     onError: (err) => toast.error(err.message),

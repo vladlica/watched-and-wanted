@@ -1,14 +1,16 @@
 import { HiOutlineCheck, HiOutlineXMark } from "react-icons/hi2";
+import { statusToTagColor } from "../../utils/constants";
+import { useToggleYoutubeChannelStatus } from "./useToggleYoutubeChannelStatus";
+import { useDeleteYoutubeChannel } from "./useDeleteYoutubeChannel";
+import CreateEditYoutubeChannelsForm from "./CreateEditYoutubeChannelsForm";
 import Table from "../../ui/Table";
 import TableSvgContainer from "../../ui/TableSvgContainer";
 import Tag from "../../ui/Tag";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import { statusToTagColor } from "../../utils/constants";
 import TableActionsColumn from "../../ui/TableActionsColumn";
-import CreateEditYoutubeChannelsForm from "./CreateEditYoutubeChannelsForm";
-import { useToggleYoutubeChannelStatus } from "./useToggleYoutubeChannelStatus";
-import { useDeleteYoutubeChannel } from "./useDeleteYoutubeChannel";
 
+// Props:
+// - youtubeChannel: Object - Containing information about the youtube channel item
 function YoutubeChannelRow({ youtubeChannel }) {
   const { isToggling, toggleStatus } = useToggleYoutubeChannelStatus();
   const { isDeleting, deleteYoutubeChannel } = useDeleteYoutubeChannel();

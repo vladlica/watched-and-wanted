@@ -1,11 +1,19 @@
 import styled, { css } from "styled-components";
 
+// Props:
+// - $type: Determines the layout type of the details list ("grid" for horizontal, "flex" for vertical)
 const DetailsList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
   & li {
+    border: 1px solid var(--color-grey-200);
+    border-radius: 25px;
+    padding: 1rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+
     ${(props) =>
       props.$type === "grid" &&
       css`
@@ -25,13 +33,6 @@ const DetailsList = styled.ul`
         align-items: flex-start;
         gap: 0.5rem;
       `}
-
-    border: 1px solid var(--color-grey-200);
-    border-radius: 25px;
-    padding: 1rem;
-
-    white-space: pre-wrap;
-    word-break: break-word;
   }
 
   & svg {

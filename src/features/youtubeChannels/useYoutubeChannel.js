@@ -16,6 +16,7 @@ export function useYoutubeChannel() {
     queryKey: ["youtubeChannel", channelId],
     queryFn: () => getYoutubeChannel(channelId),
     onSuccess: (data) => {
+      // Prevents users from viewing details of a youtube channel added by another user
       if (data.userId !== currentUserId) navigate("/channels");
     },
     retry: false,

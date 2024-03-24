@@ -13,6 +13,8 @@ const StyledFilter = styled.div`
   font-size: 1.5rem;
 `;
 
+// Props:
+// - $active - Boolean - Indicating whether the button corresponds to the currently applied filter.
 const FilterButton = styled.button`
   background-color: transparent;
   border: none;
@@ -38,11 +40,17 @@ const FilterButton = styled.button`
   }
 `;
 
+// Props:
+// - options: Object - Array of filter options containing label and value
+// - filteredField: String - The field used for filtering. Should match the name of the column used in the database.
 function Filter({ options, filteredField }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filteredField) || options.at(0).value;
 
   function handleClick(value) {
+    // When applying a new filter and the 'page' parameter is set to a value greater than 1,
+    // it might cause an error because the new set of results could be smaller, potentially
+    // resulting in insufficient matches to accommodate the specified page number
     if (searchParams.get("page")) searchParams.set("page", 1);
     searchParams.set(filteredField, value);
     setSearchParams(searchParams);

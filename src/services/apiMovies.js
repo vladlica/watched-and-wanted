@@ -1,6 +1,12 @@
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
+// Params:
+// - filters: Object - Array of filter objects containing field and value to filter by
+// - sortBy: Object - Containing field and direction to sort by
+// - page: Number - Indicating the page of results to retrieve
+// - search: String - Used to perform a case-insensitive search on movies titles
+// - currentUserId: String - Representing the ID of the current user
 export async function getMovies({
   sortBy,
   filters,
@@ -10,6 +16,9 @@ export async function getMovies({
 }) {
   let query = supabase
     .from("movies")
+    // Using extra_info(*), we retrieve additional details associated with
+    // each movie item from the related "extra_info" table, leveraging the
+    // foreign key relationship between the two tables
     .select("*, extra_info(*)", { count: "exact" });
 
   if (currentUserId) query = query.eq("userId", currentUserId);
@@ -41,9 +50,14 @@ export async function getMovies({
   return { data, count };
 }
 
+// Params:
+// - id: String - Unique identifier for a movie item
 export async function getMovie(id) {
   const { data, error } = await supabase
     .from("movies")
+    // Using extra_info(*), we retrieve additional details associated with
+    // the movie item from the related "extra_info" table, leveraging the
+    // foreign key relationship between the two tables
     .select("*, extra_info(*)")
     .eq("id", id)
     .single();
@@ -54,6 +68,7 @@ export async function getMovie(id) {
   }
 
   if (data.status === "watched") {
+    // Retrieves an array of watched movie items in descending order based on the duration
     const { data: arrayDuration, error1 } = await supabase
       .from("movies")
       .select("duration")
@@ -65,25 +80,30 @@ export async function getMovie(id) {
       console.error(error1);
     }
 
-    if (data.duration === +arrayDuration.at(0).duration)
-      data.biggestDuration = true;
-    else data.biggestDuration = false;
+    if (data.duration === arrayDuration.at(0).duration)
+      data.longestDuration = true;
+    else data.longestDuration = false;
 
-    if (data.duration === +arrayDuration.at(-1).duration)
-      data.smallestDuration = true;
-    else data.smallestDuration = false;
+    if (data.duration === arrayDuration.at(-1).duration)
+      data.shortestDuration = true;
+    else data.shortestDuration = false;
   }
 
   return data;
 }
 
+// Params:
+// - newMovie - Object - Containing info about the movie item to be created
+// - extraInfo - Object - Array of extra info items about the movie to be created
 export async function createMovie(newMovie, extraInfo) {
   let query = supabase;
-
+  // If there are extra information associated with the movie, a stored procedure is used for transactional integrity,
+  // otherwise, the movie is inserted using the Supabase JavaScript Client
+  // For detailed explanations of the stored procedure, refer to the documentation file: "storedProcedures.md"
   if (extraInfo?.length)
     query = query.rpc("insert_movie_and_extra_info", {
       p_movie_data: [newMovie],
-      p_extra_info_data: [extraInfo],
+      p_extra_info_data: extraInfo,
     });
   else query = query.from("movies").insert([newMovie]).select().single();
 
@@ -97,9 +117,17 @@ export async function createMovie(newMovie, extraInfo) {
   return data;
 }
 
+// Params:
+// - id: String - Unique identifier for a movie item
+// - movieUpdates - Object - Containing info about the movie item to be updated
+// - extraInfo - Object - Array of extra info items about the movie to be updated
 export async function updateMovie(id, movieUpdates, extraInfo) {
   let query = supabase;
-
+  // If the update operation involves modifying the entire movie item,
+  // a stored procedure is used to ensure transactional integrity
+  // Otherwise, if only the status is being toggled, the update is executed
+  // directly using the Supabase JavaScript Client
+  // For detailed information about the stored procedure, please refer to the documentation file: "storedProcedures.md"
   if (Boolean(extraInfo)) {
     query = query.rpc("update_movie_and_extra_info", {
       p_movie_id: id,
@@ -125,6 +153,8 @@ export async function updateMovie(id, movieUpdates, extraInfo) {
   return data;
 }
 
+// Params:
+// - id: String - Unique identifier for a movie item
 export async function deleteMovie(id) {
   const { data, error } = await supabase.from("movies").delete().eq("id", id);
 

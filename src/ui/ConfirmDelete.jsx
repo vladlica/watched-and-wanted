@@ -19,6 +19,11 @@ const StyledConfirmDelete = styled.div`
   }
 `;
 
+// Props:
+// - type: String - Type of item being deleted (e.g., "book", "movie", etc.)
+// - onClose: Object - Function to handle closing the confirmation dialog
+// - onConfirmDelete: Object - Function to handle the deletion of the item
+// - disabled: Boolean - Indicating whether the buttons are disabled
 function ConfirmDelete({ type, onClose, onConfirmDelete, disabled }) {
   return (
     <StyledConfirmDelete>

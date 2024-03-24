@@ -1,8 +1,8 @@
+import { useMovies } from "./useMovies";
+import MovieRow from "./MovieRow";
 import Pagination from "../../ui/Pagination";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
-import MovieRow from "./MovieRow";
-import { useMovies } from "./useMovies";
 
 function MoviesTable() {
   const { isLoading, movies, count } = useMovies();

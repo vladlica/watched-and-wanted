@@ -1,24 +1,27 @@
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import {
+  capitalizeFirstWord,
+  convertExtraInfoFromDatabase,
+  convertExtraInfoObjectToArray,
+} from "../../utils/helpers";
+import { useCreateMovie } from "./useCreateMovie";
+import { useUpdateMovie } from "./useUpdateMovies";
 import FormRow from "../../ui/FormRow";
 import Label from "../../ui/Label";
 import Input from "../../ui/Input";
 import Error from "../../ui/Error";
 import Select from "../../ui/Select";
 import FormExtraInfoList from "../../ui/FormExtraInfoList";
-import {
-  capitalizeFirstWord,
-  convertExtraInfoFromDatabase,
-  convertExtraInfoObjectToArray,
-} from "../../utils/helpers";
 import FormChecboxesRow from "../../ui/FormCheckboxesRow";
 import Checkbox from "../../ui/Checkbox";
 import Form from "../../ui/Form";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
-import { useCreateMovie } from "./useCreateMovie";
-import { useUpdateMovie } from "./useUpdateMovies";
 
+// Props:
+// - movie: Object - The movie data to be edited, if provided
+// - onClose: Object - Function to close the form
 function CreateEditMoviesForm({ movie, onClose }) {
   const scrollRef = useRef(null);
 
@@ -48,6 +51,7 @@ function CreateEditMoviesForm({ movie, onClose }) {
 
   const { errors } = formState;
 
+  // Watches changes in the "status" field and updates accordingly
   const watchFields = watch(["status"]);
 
   const isWatched = watchFields[0] === "watched";
@@ -55,6 +59,7 @@ function CreateEditMoviesForm({ movie, onClose }) {
   useEffect(
     function () {
       if (!isWatched) {
+        // Using setValue instead of reset, because reset would revert the checkbox to its default value
         setValue("duration", "");
       }
     },
@@ -70,12 +75,6 @@ function CreateEditMoviesForm({ movie, onClose }) {
       status,
       hasBook,
     };
-
-    if (isEditSession) {
-      delete extraInfoData.extra_info;
-      delete extraInfoData.id;
-      delete extraInfoData.created_at;
-    }
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
 
@@ -120,7 +119,7 @@ function CreateEditMoviesForm({ movie, onClose }) {
         <Select
           id="status"
           options={["wanted", "watched"]}
-          register={{ ...register("status") }}
+          register={register}
           disabled={isCreating || isUpdating}
         ></Select>
       </FormRow>
@@ -156,6 +155,7 @@ function CreateEditMoviesForm({ movie, onClose }) {
         unregister={unregister}
         errors={errors}
         ref={scrollRef}
+        // If it's an editing session converts the array of extra info from the database to an array which has the expected structure for the FormExtraInfoList component
         defaultValue={
           isEditSession ? convertExtraInfoFromDatabase(movie.extra_info) : []
         }

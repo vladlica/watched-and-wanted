@@ -1,13 +1,15 @@
-import Table from "../../ui/Table";
-import ConfirmDelete from "../../ui/ConfirmDelete";
+import { format } from "date-fns";
 import { useDeleteBook } from "./useDeleteBook";
 import { useToggleBookStatus } from "./useToggleBookStatus";
-import { format } from "date-fns";
-import Tag from "../../ui/Tag";
 import CreateEditBookForm from "./CreateEditBookForm";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Table from "../../ui/Table";
+import Tag from "../../ui/Tag";
 import TableActionsColumn from "../../ui/TableActionsColumn";
 import { statusToTagColor } from "../../utils/constants";
 
+// Props:
+// - book: Object - Containing information about the book item
 function BookRow({ book }) {
   const { isDeleting, deleteBook } = useDeleteBook();
   const { isToggling, toggleStatus } = useToggleBookStatus();
@@ -27,7 +29,7 @@ function BookRow({ book }) {
       <div>
         {book.finishDate && book.status === "read" ? (
           <Tag color={statusToTagColor[book.status]}>
-            {format(new Date(book.finishDate), "dd MMM yyyy ")}
+            {format(new Date(book.finishDate), "dd MMM yyyy")}
           </Tag>
         ) : (
           "-"

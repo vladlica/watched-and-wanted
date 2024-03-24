@@ -1,5 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Calendar } from "primereact/calendar";
+import { useCreateBook } from "./useCreateBook";
+import { useUpdateBook } from "./useUpdateBook";
+import {
+  capitalizeFirstWord,
+  convertDateToISO,
+  convertExtraInfoFromDatabase,
+  convertExtraInfoObjectToArray,
+} from "../../utils/helpers";
 import FormExtraInfoList from "../../ui/FormExtraInfoList";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
@@ -8,17 +17,11 @@ import Label from "../../ui/Label";
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
 import Button from "../../ui/Button";
-import {
-  capitalizeFirstWord,
-  convertDateToISO,
-  convertExtraInfoFromDatabase,
-  convertExtraInfoObjectToArray,
-} from "../../utils/helpers";
 import Error from "../../ui/Error";
-import { Calendar } from "primereact/calendar";
-import { useCreateBook } from "./useCreateBook";
-import { useUpdateBook } from "./useUpdateBook";
 
+// Props:
+// - book: Object - The book data to be edited, if provided
+// - onClose: Object - Function to close the form
 function CreateEditBookForm({ book, onClose }) {
   const scrollRef = useRef(null);
   const startedDateRef = useRef(null);
@@ -50,6 +53,7 @@ function CreateEditBookForm({ book, onClose }) {
 
   const { errors } = formState;
 
+  // Watches changes in the "status", "startDate" and "finishDate" fields and updates accordingly
   const watchFields = watch(["status", "startDate", "finishDate"]);
 
   const isRead = watchFields[0] === "read";
@@ -68,13 +72,13 @@ function CreateEditBookForm({ book, onClose }) {
     [isRead, reset]
   );
 
-  function onClick(e) {
+  // Allows the closing of the calendar element when clicking outside the calendar but inside the modal
+  function handleClickInsideModal(e) {
     if (
       e.target.id !== "startDate" &&
       !document.querySelector(".p-datepicker")?.contains(e.target)
-    ) {
+    )
       startedDateRef.current.hide();
-    }
 
     if (
       e.target.id !== "finishDate" &&
@@ -103,15 +107,10 @@ function CreateEditBookForm({ book, onClose }) {
       numVolumes: +numVolumes,
       numPages: +numPages,
       status,
+      // Need to convert the dates to ISO format as required by the Supabase database
       startDate: convertDateToISO(startDate),
       finishDate: convertDateToISO(finishDate),
     };
-
-    if (isEditSession) {
-      delete extraInfoData.extra_info;
-      delete extraInfoData.id;
-      delete extraInfoData.created_at;
-    }
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
 
@@ -139,7 +138,7 @@ function CreateEditBookForm({ book, onClose }) {
     <Form
       ref={scrollRef}
       onSubmit={handleSubmit(onSubmit)}
-      onClick={onClick}
+      onClick={handleClickInsideModal}
       autoComplete="off"
     >
       <FormRow>
@@ -187,7 +186,7 @@ function CreateEditBookForm({ book, onClose }) {
         <Select
           id="status"
           options={["wanted", "read"]}
-          register={{ ...register("status") }}
+          register={register}
           disabled={isCreating || isUpdating}
         ></Select>
       </FormRow>
@@ -246,7 +245,7 @@ function CreateEditBookForm({ book, onClose }) {
         <Controller
           name="startDate"
           control={control}
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <>
               <Label htmlFor={field.name}>Started reading </Label>
               <Calendar
@@ -272,7 +271,7 @@ function CreateEditBookForm({ book, onClose }) {
         <Controller
           name="finishDate"
           control={control}
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <>
               <Label htmlFor={field.name}>Finished reading </Label>
               <Calendar
@@ -300,6 +299,7 @@ function CreateEditBookForm({ book, onClose }) {
         unregister={unregister}
         errors={errors}
         ref={scrollRef}
+        // If it's an editing session converts the array of extra info from the database to an array which has the expected structure for the FormExtraInfoList component
         defaultValue={
           isEditSession ? convertExtraInfoFromDatabase(book.extra_info) : []
         }

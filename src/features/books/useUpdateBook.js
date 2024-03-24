@@ -10,11 +10,10 @@ export function useUpdateBook() {
       updateBookApi(id, updatedBook, extraInfo),
     onSuccess: (data) => {
       toast.success(`Book successfully updated`);
-
+      // Invalidating the books and book queries to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({
         queryKey: ["books"],
       });
-
       queryClient.invalidateQueries({
         queryKey: ["book", String(data.id)],
       });

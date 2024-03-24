@@ -1,5 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import {
+  capitalizeFirstWord,
+  convertExtraInfoFromDatabase,
+  convertExtraInfoObjectToArray,
+} from "../../utils/helpers";
+import { useCreateSeries } from "./useCreateSeries";
+import { useUpdateSeries } from "./useUpdateSeries";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
@@ -7,18 +14,14 @@ import Label from "../../ui/Label";
 import Error from "../../ui/Error";
 import Select from "../../ui/Select";
 import FormExtraInfoList from "../../ui/FormExtraInfoList";
-import {
-  capitalizeFirstWord,
-  convertExtraInfoFromDatabase,
-  convertExtraInfoObjectToArray,
-} from "../../utils/helpers";
 import ButtonsList from "../../ui/ButtonsList";
 import FormChecboxesRow from "../../ui/FormCheckboxesRow";
 import Button from "../../ui/Button";
-import { useCreateSeries } from "./useCreateSeries";
-import { useUpdateSeries } from "./useUpdateSeries";
 import Checkbox from "../../ui/Checkbox";
 
+// Props:
+// - series: Object - The series data to be edited, if provided
+// - onClose: Object - Function to close the form
 function CreateEditSeriesForm({ series, onClose }) {
   const scrollRef = useRef(null);
 
@@ -51,6 +54,7 @@ function CreateEditSeriesForm({ series, onClose }) {
 
   const { errors } = formState;
 
+  // Watches changes in the "status" field and updates accordingly
   const watchFields = watch(["status"]);
 
   const isWatched = watchFields[0] === "watched";
@@ -58,6 +62,7 @@ function CreateEditSeriesForm({ series, onClose }) {
   useEffect(
     function () {
       if (!isWatched) {
+        // Using setValue instead of reset, because reset would revert all the checkboxes tot their default values
         setValue("numSeasons", "");
         setValue("numEpisodes", "");
         setValue("hasNews", false);
@@ -89,12 +94,6 @@ function CreateEditSeriesForm({ series, onClose }) {
       hasNews,
       isFinished,
     };
-
-    if (isEditSession) {
-      delete extraInfoData.extra_info;
-      delete extraInfoData.id;
-      delete extraInfoData.created_at;
-    }
 
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
 
@@ -139,7 +138,7 @@ function CreateEditSeriesForm({ series, onClose }) {
         <Select
           id="status"
           options={["wanted", "watched"]}
-          register={{ ...register("status") }}
+          register={register}
           disabled={isCreating || isUpdating}
         ></Select>
       </FormRow>
@@ -201,6 +200,7 @@ function CreateEditSeriesForm({ series, onClose }) {
         unregister={unregister}
         errors={errors}
         ref={scrollRef}
+        // If it's an editing session converts the array of extra info from the database to an array which has the expected structure for the FormExtraInfoList component
         defaultValue={
           isEditSession ? convertExtraInfoFromDatabase(series.extra_info) : []
         }

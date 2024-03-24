@@ -78,6 +78,8 @@ const SearchButton = styled.button`
   }
 `;
 
+// Props:
+// - placeholder: String - Placeholder text for the search input
 function Search({ placeholder = "Search" }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") ?? "");
@@ -89,7 +91,13 @@ function Search({ placeholder = "Search" }) {
 
   function handleCancelText() {
     setSearch("");
-    if (searchParams.get("page")) searchParams.set("page", 1);
+    // When removing the text from the search input, two cases are considered:
+    // 1) If the user had typed text and then cleared it, it's not ideal to send them back to the first page if they were on a different page before.
+    //    For example, if the user was on page 3, it's preferable to keep them on page 3 after clearing the input.
+    // 2) If the user had typed text, performed a search, and ended up on a page beyond the first page of results, clearing the input should reset them to the first page.
+    //    For instance, if the user was on page 4 of the search results, clearing the input should bring them back to the first page to view the updated results.
+    if (searchParams.get("page") && searchParams.get("search"))
+      searchParams.set("page", 1);
 
     searchParams.delete("search");
     setSearchParams(searchParams);
@@ -97,9 +105,12 @@ function Search({ placeholder = "Search" }) {
 
   function onSubmit(e) {
     e.preventDefault();
+    // When searching using a new value and the 'page' parameter is set to a value greater than 1,
+    // it might cause an error because the new set of results could be smaller, potentially
+    // resulting in insufficient matches to accommodate the specified page number
     if (searchParams.get("page")) searchParams.set("page", 1);
 
-    if (search) searchParams.set("search", search.trim());
+    if (search.trim()) searchParams.set("search", search.trim());
     else searchParams.delete("search");
 
     setSearchParams(searchParams);
@@ -115,6 +126,7 @@ function Search({ placeholder = "Search" }) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+
         {search.trim() && (
           <CancelTextButton
             type="button"

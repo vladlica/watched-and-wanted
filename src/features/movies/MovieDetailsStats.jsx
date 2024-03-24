@@ -1,13 +1,15 @@
+import { Link } from "react-router-dom";
 import {
   HiOutlineChatBubbleOvalLeft,
   HiOutlineClock,
   HiOutlineLink,
 } from "react-icons/hi2";
+import { baseUrl } from "../../utils/constants";
 import DetailBox from "../../ui/DetailBox";
 import DetailsContainer from "../../ui/DetailsContainer";
-import { Link } from "react-router-dom";
-import { baseUrl } from "../../utils/constants";
 
+// Props:
+// - movie: Object - Containing information about the movie item
 function MovieDetailsStats({ movie }) {
   return (
     <DetailsContainer>
@@ -26,6 +28,7 @@ function MovieDetailsStats({ movie }) {
             {
               label: extraInfo.link ? "Link" : "Comment",
               value: extraInfo.link ? (
+                // Determines if the provided link is internal or external
                 extraInfo.link.includes(baseUrl) ? (
                   <Link to={`${extraInfo.link}`}>
                     {extraInfo.text || extraInfo.link}

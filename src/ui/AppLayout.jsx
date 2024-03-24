@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { Outlet } from "react-router-dom";
 import Header from "../ui/Header";
 import Sidebar from "../ui/Sidebar";
 
@@ -24,6 +24,8 @@ const Container = styled.div`
   gap: 3.2rem;
 `;
 
+// Props:
+// - user: Object - Details about the current logged-in user
 function AppLayout({ user }) {
   return (
     <StyledAppLayout>
@@ -31,6 +33,7 @@ function AppLayout({ user }) {
       <Sidebar />
       <Main>
         <Container>
+          {/* This way all the components that will replace the Outlet and their children will have access to the user data  */}
           <Outlet context={user} />
         </Container>
       </Main>

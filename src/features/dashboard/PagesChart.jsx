@@ -23,6 +23,8 @@ const ChartBox = styled.div`
   }
 `;
 
+// Props:
+// - data: Object - Array of objects, each object representing pages count data for a specific year
 function PagesChart({ data }) {
   return (
     <ChartBox>

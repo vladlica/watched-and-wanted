@@ -12,6 +12,8 @@ const StyledDetailBox = styled.div`
   border-radius: 25px;
 `;
 
+// Props:
+// - color: String - Determines the background and icon color
 const LeftBox = styled.div`
   border-radius: 50%;
   display: flex;
@@ -57,25 +59,28 @@ const Value = styled.span`
   font-weight: 600;
 `;
 
+// Props:
+// - icon: JSX.Element - Icon component
+// - details: Oject- Array of detail objects containing label and value
+// - color: String - Color theme for the detail box (default is "orange")
+// - oneLine: Boolean - Indicating whether to display details in one line or not (default is false)
 function DetailBox({ icon, details, color = "orange", oneLine = false }) {
   return (
     <StyledDetailBox>
       <LeftBox color={color}>{icon}</LeftBox>
       <RightBox>
-        {details?.map((detail) => (
-          <React.Fragment key={detail.label}>
-            {!oneLine ? (
-              <>
-                <span>{detail.label}</span>
-                <Value>{detail.value}</Value>
-              </>
-            ) : (
-              <span>
-                {detail.label} <Value>{detail.value}</Value>
-              </span>
-            )}
-          </React.Fragment>
-        ))}
+        {details?.map((detail) =>
+          !oneLine ? (
+            <React.Fragment key={detail.label}>
+              <span>{detail.label}</span>
+              <Value>{detail.value}</Value>
+            </React.Fragment>
+          ) : (
+            <span key={detail.label}>
+              {detail.label} <Value>{detail.value}</Value>
+            </span>
+          )
+        )}
       </RightBox>
     </StyledDetailBox>
   );

@@ -1,7 +1,7 @@
-import Table from "../../ui/Table";
-import BookRow from "./BookRow";
-import Spinner from "../../ui/Spinner";
 import { useBooks } from "./useBooks";
+import BookRow from "./BookRow";
+import Table from "../../ui/Table";
+import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
 
 function BooksTable() {

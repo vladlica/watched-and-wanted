@@ -58,8 +58,11 @@ const Button = styled.button`
   }
 `;
 
+// Props:
+// - count: Number - Total number of items to be paginated
 function Pagination({ count }) {
   const [searchParams, setSearchParams] = useSearchParams();
+
   const currentPage = searchParams.get("page")
     ? Number(searchParams.get("page"))
     : 1;

@@ -5,10 +5,12 @@ import {
   HiOutlinePlayCircle,
   HiOutlineVideoCamera,
 } from "react-icons/hi2";
-import DetailBox from "../../ui/DetailBox";
 import { dashboardColors } from "../../utils/constants";
 import { Link } from "react-router-dom";
+import DetailBox from "../../ui/DetailBox";
 
+// Props:
+// - counts: Object - An object containing properties for each item type count
 function TotalCounts({ counts }) {
   return (
     <>

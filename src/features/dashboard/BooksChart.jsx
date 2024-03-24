@@ -23,6 +23,8 @@ const ChartBox = styled.div`
   }
 `;
 
+// Props:
+// - data: Object - Array of objects, each object representing book count data for a specific year
 function BooksChart({ data }) {
   return (
     <ChartBox>

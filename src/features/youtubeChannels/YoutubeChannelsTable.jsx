@@ -1,8 +1,8 @@
+import { useYoutubeChannels } from "./useYoutubeChannels";
+import YoutubeChannelRow from "./YoutubeChannelRow";
 import Pagination from "../../ui/Pagination";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
-import YoutubeChannelRow from "./YoutubeChannelRow";
-import { useYoutubeChannels } from "./useYoutubeChannels";
 
 function YoutubeChannelsTable() {
   const { isLoading, youtubeChannels, count } = useYoutubeChannels();

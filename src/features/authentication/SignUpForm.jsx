@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { isValidEmail } from "../../utils/helpers";
+import { useSignup } from "./useSignup";
 import Form from "../../ui/Form";
 import Error from "../../ui/Error";
 import Label from "../../ui/Label";
 import Input from "../../ui/Input";
-import { isValidEmail } from "../../utils/helpers";
 import FormRowVertical from "../../ui/FormRowVertical";
 import Button from "../../ui/Button";
-import { Link } from "react-router-dom";
-import { useSignup } from "./useSignup";
 import SpinnerMini from "../../ui/SpinnerMini";
 import RoundBox from "../../ui/RoundBox";
 import PasswordInput from "../../ui/PasswordInput";

@@ -1,9 +1,14 @@
 import supabase from "./supabase";
 
+// Params:
+// - fullName: String - The full name of the user
+// - email: String - The email address of the user
+// - password: String - The password for the user's account
 export async function signup({ fullName, email, password }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
+    // In the data property additional information about the user can be added
     options: {
       data: {
         fullName,
@@ -16,6 +21,9 @@ export async function signup({ fullName, email, password }) {
   return data;
 }
 
+// Params:
+// - email: String - The email address of the user
+// - password: String - The password for the user's account
 export async function login({ email, password }) {
   let { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -28,6 +36,7 @@ export async function login({ email, password }) {
 }
 
 export async function getCurrentUser() {
+  // To check if there is a current user
   const { data: session } = await supabase.auth.getSession();
 
   if (!session.session) return null;
@@ -45,6 +54,9 @@ export async function logout() {
   if (error) throw new Error(error.message);
 }
 
+// Params:
+// - password: String - The new password for the user's account
+// - fullName: String - The new full name of the user
 export async function updateCurrentUser({ password, fullName }) {
   let updateData;
 
@@ -58,7 +70,12 @@ export async function updateCurrentUser({ password, fullName }) {
   return data;
 }
 
+// Params:
+// - password: String - The password for the user's account
 export async function deleteAccount(password) {
+  // The stored procedure verifies whether the provided password matches the one associated with the currently logged-in user
+  // It enables the user to delete their account securely
+  // For detailed explanations of the stored procedure, refer to the documentation file: "storedProcedures.md"
   const { data, error } = await supabase.rpc("verify_user_password", {
     password,
   });
@@ -67,6 +84,7 @@ export async function deleteAccount(password) {
 
   if (!data) throw new Error("Provided password is incorrect");
 
+  // For detailed explanations of the stored procedure, refer to the documentation file: "storedProcedures.md"
   const { error: errorDelete } = await supabase.rpc("delete_user");
 
   if (errorDelete) throw new Error(errorDelete.message);

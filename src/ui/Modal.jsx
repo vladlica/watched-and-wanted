@@ -42,7 +42,7 @@ const StyledModal = styled.div`
   }
 `;
 
-const Button = styled.button`
+const CloseButton = styled.button`
   background: none;
   border: none;
   position: absolute;
@@ -68,13 +68,19 @@ const Button = styled.button`
   }
 `;
 
+// Props:
+// - children: ReactNode - Content to be displayed inside the modal
+// - onClose: Object - Function to be called when the modal is closed
 function Modal({ children, onClose }) {
+  // Create a portal to render the modal outside the component hierarchy
   return createPortal(
+    // Clicking outside the modal closes the modal
     <Overlay onClick={onClose}>
+      {/* Clicking inside the modal does not close it */}
       <StyledModal onClick={(e) => e.stopPropagation()}>
-        <Button onClick={onClose}>
+        <CloseButton onClick={onClose}>
           <HiXMark />
-        </Button>
+        </CloseButton>
         {children}
       </StyledModal>
     </Overlay>,

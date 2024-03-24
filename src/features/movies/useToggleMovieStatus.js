@@ -9,7 +9,7 @@ export function useToggleMovieStatus() {
     mutationFn: ({ id, obj }) => updateMovie(id, obj),
     onSuccess: (data) => {
       toast.success(`Movie marked as ${data.status}`);
-
+      // Invalidating the movies query to trigger a refetch and keep the data fresh 
       queryClient.invalidateQueries({
         queryKey: ["movies"],
       });

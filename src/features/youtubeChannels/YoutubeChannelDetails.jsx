@@ -1,8 +1,8 @@
 import { useYoutubeChannel } from "./useYoutubeChannel";
-import Spinner from "../../ui/Spinner";
-import Row from "../../ui/Row";
 import YoutubeChannelDetailsHeader from "./YoutubeChannelDetailsHeader";
 import YoutubeChannelDetailsStats from "./YoutubeChannelDetailsStats";
+import Spinner from "../../ui/Spinner";
+import Row from "../../ui/Row";
 
 function YoutubeChannelDetails() {
   const { isLoading, isError, error, youtubeChannel } = useYoutubeChannel();

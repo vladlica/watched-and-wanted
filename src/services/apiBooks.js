@@ -1,8 +1,14 @@
 import { differenceInDays, format } from "date-fns";
 import { PAGE_SIZE } from "../utils/constants";
-import supabase from "./supabase";
 import { checkIfLongestAndShortestBook } from "../utils/helpers";
+import supabase from "./supabase";
 
+// Params:
+// - filter: Object - Containing field and value to filter by
+// - sortBy: Object - Containing field and direction to sort by
+// - page: Number - Indicating the page of results to retrieve
+// - search: String - Used to perform a case-insensitive search on books authors, titles and series
+// - currentUserId: String - Representing the ID of the current user
 export async function getBooks({
   filter,
   sortBy,
@@ -12,6 +18,9 @@ export async function getBooks({
 }) {
   let query = supabase
     .from("books")
+    // Using extra_info(*), we retrieve additional details associated with
+    // each book item from the related "extra_info" table, leveraging the
+    // foreign key relationship between the two tables
     .select("*, extra_info(*)", { count: "exact" });
 
   if (currentUserId) query = query.eq("userId", currentUserId);
@@ -20,6 +29,7 @@ export async function getBooks({
   if (filter) query = query.eq(filter.field, filter.value);
 
   if (search)
+    // The search query should match the author, title, or series partially or entirely
     query = query.or(
       `author.ilike.%${search}%, title.ilike.%${search}%, series.ilike.%${search}%`
     );
@@ -45,9 +55,14 @@ export async function getBooks({
   return { data, count };
 }
 
+// Params:
+// - id: String - Unique identifier for a book item
 export async function getBook(id) {
   const { data, error } = await supabase
     .from("books")
+    // Using extra_info(*), we retrieve additional details associated with
+    // the book item from the related "extra_info" table, leveraging the
+    // foreign key relationship between the two tables
     .select("*, extra_info(*)")
     .eq("id", id)
     .single();
@@ -102,6 +117,7 @@ export async function getBook(id) {
     const { data: booksSameYear, error: error3 } = await supabase
       .from("books")
       .select("*")
+      .eq("status", "read")
       .gte("finishDate", startDate.toISOString())
       .lt("finishDate", endDate.toISOString())
       .eq("userId", data.userId)
@@ -135,13 +151,18 @@ export async function getBook(id) {
   return data;
 }
 
+// Params:
+// - newBook - Object - Containing info about the book item to be created
+// - extraInfo - Object - Array of extra info items about the book to be created
 export async function createBook(newBook, extraInfo) {
   let query = supabase;
-
+  // If there are extra information associated with the book, a stored procedure is used for transactional integrity,
+  // otherwise, the book is inserted using the Supabase JavaScript Client
+  // For detailed explanations of the stored procedure, refer to the documentation file: "storedProcedures.md"
   if (extraInfo?.length)
     query = query.rpc("insert_book_and_extra_info", {
       p_book_data: [newBook],
-      p_extra_info_data: [extraInfo],
+      p_extra_info_data: extraInfo,
     });
   else query = query.from("books").insert([newBook]).select().single();
 
@@ -155,14 +176,22 @@ export async function createBook(newBook, extraInfo) {
   return data;
 }
 
+// Params:
+// - id: String - Unique identifier for a book item
+// - bookUpdates - Object - Containing info about the book item to be updated
+// - extraInfo - Object - Array of extra info items about the book to be updated
 export async function updateBook(id, bookUpdates, extraInfo) {
   let query = supabase;
-
+  // If the update operation involves modifying the entire book item,
+  // a stored procedure is used to ensure transactional integrity
+  // Otherwise, if only the status is being toggled, the update is executed
+  // directly using the Supabase JavaScript Client
+  // For detailed information about the stored procedure, please refer to the documentation file: "storedProcedures.md"
   if (Boolean(extraInfo)) {
     query = query.rpc("update_book_and_extra_info", {
       p_book_id: id,
       p_book_data: [bookUpdates],
-      p_extra_info_data: [extraInfo],
+      p_extra_info_data: extraInfo,
     });
   } else {
     query = query
@@ -183,6 +212,8 @@ export async function updateBook(id, bookUpdates, extraInfo) {
   return data;
 }
 
+// Params:
+// - id: String - Unique identifier for a book item
 export async function deleteBook(id) {
   const { data, error } = await supabase.from("books").delete().eq("id", id);
 

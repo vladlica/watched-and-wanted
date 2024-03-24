@@ -1,5 +1,7 @@
 import styled, { css } from "styled-components";
 
+// Props:
+// - $size: String - Size of the form ("large" for a larger form)
 const Form = styled.form`
   display: flex;
   flex-direction: column;

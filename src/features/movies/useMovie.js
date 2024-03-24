@@ -16,6 +16,7 @@ export function useMovie() {
     queryKey: ["movie", movieId],
     queryFn: () => getMovie(movieId),
     onSuccess: (data) => {
+      // Prevents users from viewing details of a movie added by another user
       if (data.userId !== currentUserId) navigate("/movies");
     },
     retry: false,

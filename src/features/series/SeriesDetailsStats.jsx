@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import DetailsContainer from "../../ui/DetailsContainer";
 import DetailBox from "../../ui/DetailBox";
 
+// Props:
+// - series: Object - Containing information about the series item
 function SeriesDetailsStats({ series }) {
   return (
     <DetailsContainer>
@@ -31,6 +33,7 @@ function SeriesDetailsStats({ series }) {
             {
               label: extraInfo.link ? "Link" : "Comment",
               value: extraInfo.link ? (
+                // Determines if the provided link is internal or external
                 extraInfo.link.includes(baseUrl) ? (
                   <Link to={`${extraInfo.link}`}>
                     {extraInfo.text || extraInfo.link}

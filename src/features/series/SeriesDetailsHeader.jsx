@@ -1,16 +1,18 @@
-import Tag from "../../ui/Tag";
-import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Modal from "../../ui/Modal";
-import CreateEditSeriesForm from "./CreateEditSeriesForm";
+import { statusToTagColor } from "../../utils/constants";
 import { useDeleteSeries } from "./useDeleteSeries";
+import CreateEditSeriesForm from "./CreateEditSeriesForm";
+import Tag from "../../ui/Tag";
+import Button from "../../ui/Button";
+import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import TagsList from "../../ui/TagsList";
 import HeaderDetails from "../../ui/HeaderDetails";
 import ButtonsList from "../../ui/ButtonsList";
-import { statusToTagColor } from "../../utils/constants";
 
+// Props:
+// - series: Object - Containing information about the series item
 function SeriesDetailsHeader({ series }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -74,7 +76,7 @@ function SeriesDetailsHeader({ series }) {
               onClose={() => setIsDeleteModalOpen(false)}
               onConfirmDelete={() =>
                 deleteSeries(series.id, {
-                  onSettled: () => navigate("/series", { replace: true }),
+                  onSuccess: () => navigate("/series", { replace: true }),
                 })
               }
               disabled={isDeleting}

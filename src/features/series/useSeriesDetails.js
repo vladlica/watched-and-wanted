@@ -16,6 +16,7 @@ export function useSeriesDetails() {
     queryKey: ["seriesDetails", seriesId],
     queryFn: () => getSeriesDetails(seriesId),
     onSuccess: (data) => {
+      // Prevents users from viewing details of a series added by another user
       if (data.userId !== currentUserId) navigate("/series");
     },
     retry: false,

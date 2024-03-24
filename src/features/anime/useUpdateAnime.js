@@ -10,11 +10,10 @@ export function useUpdateAnime() {
       updateAnimeApi(id, updatedAnime, extraInfo),
     onSuccess: (data) => {
       toast.success(`Anime successfully updated`);
-
+      // Invalidating the anime and animeDetails queries to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({
         queryKey: ["anime"],
       });
-
       queryClient.invalidateQueries({
         queryKey: ["animeDetails", String(data.id)],
       });

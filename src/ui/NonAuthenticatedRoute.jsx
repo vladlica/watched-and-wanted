@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useEffect } from "react";
 import { useUser } from "../features/authentication/useUser";
 import Spinner from "./Spinner";
-import { useEffect } from "react";
 
 const FullPage = styled.div`
   height: 100vh;
@@ -12,7 +12,10 @@ const FullPage = styled.div`
   justify-content: center;
 `;
 
-function ProtectedAuthenticatedRoute({ children }) {
+// Restricts access to the login or signup pages for authenticated users until they log out
+// Props:
+// - children: ReactNode - The component to be rendered if the user is not authenticated
+function NonAuthenticatedRoute({ children }) {
   const navigate = useNavigate();
   const { isLoading, isAuthenticated } = useUser();
 
@@ -33,4 +36,4 @@ function ProtectedAuthenticatedRoute({ children }) {
   if (!isAuthenticated) return children;
 }
 
-export default ProtectedAuthenticatedRoute;
+export default NonAuthenticatedRoute;

@@ -9,7 +9,7 @@ export function useDeleteSeries() {
     mutationFn: deleteSeriesApi,
     onSuccess: () => {
       toast.success("Series successfully deleted");
-
+      // Invalidating the series query to trigger a refetch and keep the data fresh 
       queryClient.invalidateQueries({
         queryKey: ["series"],
       });

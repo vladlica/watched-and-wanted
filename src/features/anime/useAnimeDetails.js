@@ -16,6 +16,7 @@ export function useAnimeDetails() {
     queryKey: ["animeDetails", animeId],
     queryFn: () => getAnimeDetails(animeId),
     onSuccess: (data) => {
+      // Prevents users from viewing details of an anime added by another user
       if (data.userId !== currentUserId) navigate("/anime");
     },
     retry: false,

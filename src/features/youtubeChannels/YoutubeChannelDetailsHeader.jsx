@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { statusToTagColor } from "../../utils/constants";
 import { useDeleteYoutubeChannel } from "./useDeleteYoutubeChannel";
+import CreateEditYoutubeChannelsForm from "./CreateEditYoutubeChannelsForm";
 import HeaderDetails from "../../ui/HeaderDetails";
 import TagsList from "../../ui/TagsList";
 import Tag from "../../ui/Tag";
-import { statusToTagColor } from "../../utils/constants";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
-import CreateEditYoutubeChannelsForm from "./CreateEditYoutubeChannelsForm";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 
+// Props:
+// - youtubeChannel: Object - Containing information about the youtube channel item
 function YoutubeChannelDetailsHeader({ youtubeChannel }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -58,7 +60,7 @@ function YoutubeChannelDetailsHeader({ youtubeChannel }) {
               onClose={() => setIsDeleteModalOpen(false)}
               onConfirmDelete={() =>
                 deleteYoutubeChannel(youtubeChannel.id, {
-                  onSettled: () => navigate("/channels", { replace: true }),
+                  onSuccess: () => navigate("/channels", { replace: true }),
                 })
               }
               disabled={isDeleting}

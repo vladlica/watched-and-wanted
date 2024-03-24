@@ -10,6 +10,7 @@ export function useCreateSeries() {
       createSeriesApi(newSeries, extraInfo),
     onSuccess: () => {
       toast.success("New series successfully created");
+      // Invalidating the series query to trigger a refetch and keep the data fresh 
       queryClient.invalidateQueries({ queryKey: ["series"] });
     },
     onError: (err) => toast.error(err.message),

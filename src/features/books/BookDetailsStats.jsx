@@ -1,5 +1,3 @@
-import { format } from "date-fns";
-import Tag from "../../ui/Tag";
 import { Link } from "react-router-dom";
 import {
   HiOutlineBookOpen,
@@ -9,13 +7,16 @@ import {
   HiOutlineLink,
   HiOutlineUser,
 } from "react-icons/hi2";
+import { format } from "date-fns";
 import { baseUrl, statusToTagColor } from "../../utils/constants";
 import DetailsContainer from "../../ui/DetailsContainer";
-
 import DetailBox from "../../ui/DetailBox";
 import DetailsListContainer from "../../ui/DetailsListContainer";
 import DetailsList from "../../ui/DetailsList";
+import Tag from "../../ui/Tag";
 
+// Props:
+// - book: Object - Containing information about the book item
 function BookDetailsStats({ book }) {
   return (
     <DetailsContainer>
@@ -59,6 +60,7 @@ function BookDetailsStats({ book }) {
                 {extraInfo.link ? (
                   <>
                     <HiOutlineLink />
+                    {/* Determines if the provided link is internal or external */}
                     {extraInfo.link.includes(baseUrl) ? (
                       <Link to={`${extraInfo.link}`}>
                         {extraInfo.text || extraInfo.link}

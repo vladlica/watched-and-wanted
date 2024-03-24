@@ -1,5 +1,8 @@
 import styled, { css } from "styled-components";
 
+// Props:
+// - $size: String - Size of the button ("small", "medium")
+// - $variation: String - Visual variation of the button ("primary", "secondary", "danger")
 const Button = styled.button`
   border-radius: 25px;
   transition: all 0.3s;
@@ -60,6 +63,7 @@ const Button = styled.button`
 `;
 
 Button.defaultProps = {
+  $variation: "primary",
   $size: "medium",
 };
 

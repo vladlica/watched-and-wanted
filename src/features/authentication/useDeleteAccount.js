@@ -9,6 +9,7 @@ export function useDeleteAccount() {
   const { mutate: deleteAccount, isLoading: isDeleting } = useMutation({
     mutationFn: deleteAccountApi,
     onSuccess: () => {
+      // Remove any cached queries related to the user's account
       queryClient.removeQueries();
       navigate("/login", { replace: true });
       toast.success("Account successfully deleted");

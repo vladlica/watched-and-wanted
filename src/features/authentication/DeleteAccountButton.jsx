@@ -1,7 +1,7 @@
 import { useState } from "react";
+import DeleteAccountForm from "./DeleteAccountForm";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
-import DeleteAccountForm from "./DeleteAccountForm";
 
 function DeleteAccountButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);

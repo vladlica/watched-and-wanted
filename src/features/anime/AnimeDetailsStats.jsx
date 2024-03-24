@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { baseUrl } from "../../utils/constants";
 import {
   HiOutlineChatBubbleOvalLeft,
   HiOutlineLink,
@@ -5,9 +7,9 @@ import {
 } from "react-icons/hi2";
 import DetailBox from "../../ui/DetailBox";
 import DetailsContainer from "../../ui/DetailsContainer";
-import { Link } from "react-router-dom";
-import { baseUrl } from "../../utils/constants";
 
+// Props:
+// - anime: Object - Containing information about the anime item
 function AnimeDetailsStats({ anime }) {
   return (
     <DetailsContainer>
@@ -26,6 +28,7 @@ function AnimeDetailsStats({ anime }) {
             {
               label: extraInfo.link ? "Link" : "Comment",
               value: extraInfo.link ? (
+                // Determines if the provided link is internal or external
                 extraInfo.link.includes(baseUrl) ? (
                   <Link to={`${extraInfo.link}`}>
                     {extraInfo.text || extraInfo.link}

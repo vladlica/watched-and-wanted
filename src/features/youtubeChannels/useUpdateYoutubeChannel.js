@@ -10,7 +10,7 @@ export function useUpdateYoutubeChannel() {
       updateYoutubeChannelApi(id, updatedYoutubeChannel, extraInfo),
     onSuccess: (data) => {
       toast.success(`Youtube channel successfully updated`);
-
+      // Invalidating the youtubeChannels and youtubeChannel queries to trigger a refetch and keep the data fresh
       queryClient.invalidateQueries({
         queryKey: ["youtubeChannels"],
       });

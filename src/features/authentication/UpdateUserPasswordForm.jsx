@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
+import { useUpdateUser } from "./useUpdateUser";
 import FormRow from "../../ui/FormRow";
 import Error from "../../ui/Error";
 import Label from "../../ui/Label";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
-import { useUpdateUser } from "./useUpdateUser";
 import PasswordInput from "../../ui/PasswordInput";
 import RoundBox from "../../ui/RoundBox";
 

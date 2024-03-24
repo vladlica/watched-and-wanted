@@ -63,7 +63,6 @@ const GlobalStyles = createGlobalStyle`
      
     }
     
-
     &.dark-mode{
       --color-grey-0: #18212f;
       --color-grey-50: #111827;
@@ -125,7 +124,7 @@ const GlobalStyles = createGlobalStyle`
       --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
       --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.4);
 
-
+      /* Adjusts the opacity of disabled checkbox inputs to enhance visibility in dark mode */
       input[type="checkbox"]:disabled {
         opacity: 0.3;
       }
@@ -154,10 +153,6 @@ const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     line-height: 1.5;
     font-size: 1.6rem;
-  }
-
-  title svg{
-    color: var(--color-orange-600);
   }
 
   input,
@@ -211,7 +206,7 @@ const GlobalStyles = createGlobalStyle`
   }
    
 
-  /* Datepicker */
+  /* Datepicker customization*/
   .p-inputtext{
     background-color: var(--color-grey-0);
     border: 1px solid var(--color-grey-400);
@@ -280,9 +275,6 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     gap: 0.5rem;
   }
-
-  
-
 
 `;
 

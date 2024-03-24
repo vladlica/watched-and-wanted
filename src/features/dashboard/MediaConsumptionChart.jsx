@@ -27,6 +27,12 @@ const ChartBox = styled.div`
   }
 `;
 
+// Props:
+// - data: Object - Array of object, each object represents an item type (e.g., "books", "movies"),
+//   along with the count of consumed and wanted items of that type.
+//   Each object in the array should have the following structure: { type: string, consumed: number, wanted: number}
+// - max: Number - The maximum value for the radar chart's range, typically representing the highest
+//   count of items among all types
 function MediaConsumptionChart({ data: { data, max } }) {
   return (
     <ChartBox>

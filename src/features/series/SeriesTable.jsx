@@ -1,8 +1,8 @@
+import { useSeries } from "./useSeries";
+import SeriesRow from "./SeriesRow";
 import Pagination from "../../ui/Pagination";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
-import SeriesRow from "./SeriesRow";
-import { useSeries } from "./useSeries";
 
 function SeriesTable() {
   const { isLoading, series, count } = useSeries();

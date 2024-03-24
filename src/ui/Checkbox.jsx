@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Label from "./Label";
 import { Controller } from "react-hook-form";
+import Label from "./Label";
 
 const CheckboxContainer = styled.div`
   display: flex;
@@ -21,6 +21,11 @@ const CheckboxContainer = styled.div`
   }
 `;
 
+// Props:
+// - id: String - Unique identifier for the checkbox
+// - label: String - Text label associated with the checkbox
+// - control: Object - Form control object provided by react-hook-form library
+// - disabled: Boolean - Indicating whether the checkbox is disabled
 function Checkbox({ id, label, control, disabled }) {
   return (
     <CheckboxContainer>

@@ -1,20 +1,24 @@
 import { useState } from "react";
-import { useDeleteAnime } from "./useDeleteAnime";
 import { useNavigate } from "react-router-dom";
+import { useDeleteAnime } from "./useDeleteAnime";
+import { statusToTagColor } from "../../utils/constants";
+import CreateEditAnimeForm from "./CreateEditAnimeForm";
 import HeaderDetails from "../../ui/HeaderDetails";
 import TagsList from "../../ui/TagsList";
 import Tag from "../../ui/Tag";
-import { statusToTagColor } from "../../utils/constants";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
-import CreateEditAnimeForm from "./CreateEditAnimeForm";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 
+// Props:
+// - anime: Object - Containing information about the anime item
 function AnimeDetailsHeader({ anime }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const { isDeleting, deleteAnime } = useDeleteAnime();
+
   const navigate = useNavigate();
 
   return (
@@ -62,7 +66,7 @@ function AnimeDetailsHeader({ anime }) {
               onClose={() => setIsDeleteModalOpen(false)}
               onConfirmDelete={() =>
                 deleteAnime(anime.id, {
-                  onSettled: () => navigate("/anime", { replace: true }),
+                  onSuccess: () => navigate("/anime", { replace: true }),
                 })
               }
               disabled={isDeleting}

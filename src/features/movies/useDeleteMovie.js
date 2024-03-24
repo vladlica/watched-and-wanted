@@ -9,7 +9,7 @@ export function useDeleteMovie() {
     mutationFn: deleteMovieApi,
     onSuccess: () => {
       toast.success("Movie successfully deleted");
-
+      // Invalidating the movies query to trigger a refetch and keep the data fresh 
       queryClient.invalidateQueries({
         queryKey: ["movies"],
       });

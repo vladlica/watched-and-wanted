@@ -15,11 +15,15 @@ const StyledSortBy = styled.select`
   }
 `;
 
+// Props:
+// - options: Object - Array of sort options containing label and value (the value structure: columnName-asc/desc)
 function SortBy({ options }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const sortBy = searchParams.get("sortBy") || options.at(0).value;
 
   function handleChange(e) {
+    // If the user is sorting data and is currently on a page greater than 1,
+    // it's beneficial to redirect them to the first page to maintain context
     if (searchParams.get("page")) searchParams.set("page", 1);
 
     searchParams.set("sortBy", e.target.value);

@@ -168,7 +168,7 @@ function EditBookForm({ book, onCloseEditModal }) {
         <Select
           id="status"
           options={["wanted", "read"]}
-          register={{ ...register("status") }}
+          register={register}
           disabled={isEditing}
         ></Select>
       </FormRow>

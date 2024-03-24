@@ -1,28 +1,30 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
+import { DarkModeProvider } from "./context/DarkModeContext";
+import GlobalStyles from "./styles/GlobalStyles";
 import Dashboard from "./pages/Dashboard";
-import Books from "./pages/Books";
 import Book from "./pages/Book";
+import Books from "./pages/Books";
 import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import SeriesDetailsPage from "./pages/SeriesDetailsPage";
 import YoutubeChannels from "./pages/YoutubeChannels";
 import Account from "./pages/Account";
-import PageNotFound from "./pages/PageNotFound";
-import AppLayout from "./ui/AppLayout";
 import Anime from "./pages/Anime";
-import GlobalStyles from "./styles/GlobalStyles";
-import { Toaster } from "react-hot-toast";
+import PageNotFound from "./pages/PageNotFound";
 import Movie from "./pages/Movie";
 import AnimeDetailsPage from "./pages/AnimeDetailsPage";
 import YoutubeChannel from "./pages/YoutubeChannel";
 import Login from "./pages/Login";
-import ProtectedRoute from "./ui/ProtectedRoute";
 import SignUp from "./pages/SignUp";
-import ProtectedAuthenticatedRoute from "./ui/ProtectedAuthenticatedRoute";
-import { DarkModeProvider } from "./context/DarkModeContext";
+import AppLayout from "./ui/AppLayout";
+import ProtectedRoute from "./ui/ProtectedRoute";
+import NonAuthenticatedRoute from "./ui/NonAuthenticatedRoute";
 
+// Setting staleTime to 0 ensures that data is always considered stale, triggering a re-fetch
+// whenever a change occurs, thus keeping the data up-to-date with the latest changes
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -63,17 +65,17 @@ function App() {
             <Route
               path="/login"
               element={
-                <ProtectedAuthenticatedRoute>
+                <NonAuthenticatedRoute>
                   <Login />
-                </ProtectedAuthenticatedRoute>
+                </NonAuthenticatedRoute>
               }
             />
             <Route
               path="/signup"
               element={
-                <ProtectedAuthenticatedRoute>
+                <NonAuthenticatedRoute>
                   <SignUp />
-                </ProtectedAuthenticatedRoute>
+                </NonAuthenticatedRoute>
               }
             />
             <Route path="*" element={<PageNotFound />} />

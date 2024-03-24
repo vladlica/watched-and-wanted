@@ -1,8 +1,8 @@
+import { useAnime } from "./useAnime";
+import AnimeRow from "./AnimeRow";
 import Pagination from "../../ui/Pagination";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
-import AnimeRow from "./AnimeRow";
-import { useAnime } from "./useAnime";
 
 function AnimeTable() {
   const { isLoading, anime, count } = useAnime();

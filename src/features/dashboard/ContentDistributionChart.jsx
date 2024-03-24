@@ -35,6 +35,8 @@ const ChartBox = styled.div`
   }
 `;
 
+// This code is adapted from the Recharts documentation:
+// https://recharts.org/en-US/examples/PieChartWithCustomizedLabel
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -42,7 +44,6 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index,
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -63,6 +64,10 @@ const renderCustomizedLabel = ({
   );
 };
 
+// Props:
+// - data: Object - Array of object, each object represents an item type (e.g., "books", "movies"),
+//   the corresponding count of items of that type and also the color to use in the pie chart.
+//   Each object in the array should have the following structure: { type: string, value: number, color: string }
 function ContentDistributionChart({ data }) {
   return (
     <ChartBox>

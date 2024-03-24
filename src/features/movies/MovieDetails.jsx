@@ -1,8 +1,8 @@
-import Row from "../../ui/Row";
-import Spinner from "../../ui/Spinner";
+import { useMovie } from "./useMovie";
 import MovieDetailsHeader from "./MovieDetailsHeader";
 import MovieDetailsStats from "./MovieDetailsStats";
-import { useMovie } from "./useMovie";
+import Row from "../../ui/Row";
+import Spinner from "../../ui/Spinner";
 
 function MovieDetails() {
   const { isLoading, isError, movie, error } = useMovie();

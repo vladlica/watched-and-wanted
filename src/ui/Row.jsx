@@ -1,5 +1,7 @@
 import styled, { css } from "styled-components";
 
+// Props:
+// - direction: String - Determines the direction of the flex container (horizontal or vertical)
 const Row = styled.div`
   display: flex;
 

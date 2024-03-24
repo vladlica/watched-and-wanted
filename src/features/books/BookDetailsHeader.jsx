@@ -1,17 +1,19 @@
-import Tag from "../../ui/Tag";
-import { format } from "date-fns";
-import Button from "../../ui/Button";
-import CreateEditBookForm from "./CreateEditBookForm";
-import ConfirmDelete from "../../ui/ConfirmDelete";
-import Modal from "../../ui/Modal";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDeleteBook } from "./useDeleteBook";
+import { statusToTagColor } from "../../utils/constants";
+import { format } from "date-fns";
+import CreateEditBookForm from "./CreateEditBookForm";
+import Tag from "../../ui/Tag";
+import Button from "../../ui/Button";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Modal from "../../ui/Modal";
 import HeaderDetails from "../../ui/HeaderDetails";
 import TagsList from "../../ui/TagsList";
 import ButtonsList from "../../ui/ButtonsList";
-import { statusToTagColor } from "../../utils/constants";
 
+// Props:
+// - book: Object - Containing information about the book item
 function BookDetailsHeader({ book }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -77,7 +79,7 @@ function BookDetailsHeader({ book }) {
               onClose={() => setIsDeleteModalOpen(false)}
               onConfirmDelete={() =>
                 deleteBook(book.id, {
-                  onSettled: () => navigate("/books", { replace: true }),
+                  onSuccess: () => navigate("/books", { replace: true }),
                 })
               }
               disabled={isDeleting}

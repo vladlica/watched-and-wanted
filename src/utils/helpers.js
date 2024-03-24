@@ -1,6 +1,8 @@
 import { differenceInDays, format } from "date-fns";
 import { dashboardColors } from "./constants";
 
+// Params:
+// - fullName: String - The full name of the user from which to extract initials
 export function getInitials(fullName) {
   if (!fullName) return "";
   return fullName
@@ -10,6 +12,12 @@ export function getInitials(fullName) {
     .join("");
 }
 
+// Params:
+// - books: Object - Array of book objects
+// - series: Object - Array of series objects
+// - movies: Object - Array of movie objects
+// - anime: Object - Array of anime objects
+// - youtubeChannels: Object - Array of Youtube channel objects
 export function computeMediaConsumption(
   books,
   series,
@@ -101,31 +109,40 @@ export function computeMediaConsumption(
   return { data, max };
 }
 
+// Params:
+// - booksCount: Number - The number of books
+// - seriesCount: Number - The number of series
+// - moviesCount: Number - The number of movies
+// - animeCount: Number - The number of anime
+// - youtubeChannelsCount: Number - The number of Youtube channels
 export function computeContentDistribution({
-  books,
-  series,
-  movies,
-  anime,
-  youtubeChannels,
+  books: booksCount,
+  series: seriesCount,
+  movies: moviesCount,
+  anime: animeCount,
+  youtubeChannels: youtubeChannelsCount,
 }) {
   return [
-    { type: "Books", value: books, color: dashboardColors.books.value },
-    { type: "Series", value: series, color: dashboardColors.series.value },
-    { type: "Movies", value: movies, color: dashboardColors.movies.value },
-    { type: "Anime", value: anime, color: dashboardColors.anime.value },
+    { type: "Books", value: booksCount, color: dashboardColors.books.value },
+    { type: "Series", value: seriesCount, color: dashboardColors.series.value },
+    { type: "Movies", value: moviesCount, color: dashboardColors.movies.value },
+    { type: "Anime", value: animeCount, color: dashboardColors.anime.value },
     {
       type: "Youtube Channels",
-      value: youtubeChannels,
+      value: youtubeChannelsCount,
       color: dashboardColors.youtubeChannels.value,
     },
   ].filter((item) => item.value > 0);
 }
 
+// Params:
+// books: Object - Array of book objects
 export function computeBooksAndPagesReadOverTheYears(books) {
   return books
     .filter((book) => book.status !== "wanted" && book.finishDate)
     .reduce((acc, value) => {
       const year = format(new Date(value.finishDate), "yyyy");
+      // Check if the year has already an entry in the array
       const item = acc.find((item) => item.year === year);
       if (item) {
         item.books += 1;
@@ -137,34 +154,54 @@ export function computeBooksAndPagesReadOverTheYears(books) {
     .sort((a, b) => a.year - b.year);
 }
 
+// Params:
+// books: Object - Array of book objects
 export function computeMostReadAuthor(books) {
-  return Object.entries(
-    books
-      .filter((book) => book.status !== "wanted")
-      .reduce((acc, value) => {
-        const author = value.author.trim();
-        acc[author] = acc[author] + 1 || 1;
-        return acc;
-      }, {})
-  )
-    .sort((a, b) => b[1] - a[1])
-    .filter((item, _, arr) => item[1] === arr[0][1]);
+  // Using Object.entries to convert each author object to an array of key-value pairs
+  // This transformation allows for sorting and filtering operations to be performed effectively
+  return (
+    Object.entries(
+      // Create an object of authors with their respective counts
+      books
+        .filter((book) => book.status !== "wanted")
+        .reduce((acc, value) => {
+          const author = value.author.trim();
+          acc[author] = acc[author] + 1 || 1;
+          return acc;
+        }, {})
+    )
+      // Sort the entries based on the count in descending order
+      .sort((a, b) => b[1] - a[1])
+      // Filter the entries to include only those with the highest count
+      .filter((item, _, arr) => item[1] === arr[0][1])
+  );
 }
 
+// Params:
+// books: Object - Array of book objects
 export function computeLongestSeries(books) {
-  return Object.entries(
-    books
-      .filter((book) => book.status !== "wanted" && book.series)
-      .reduce((acc, value) => {
-        const series = value.series.trim();
-        acc[series] = acc[series] + 1 || 1;
-        return acc;
-      }, {})
-  )
-    .sort((a, b) => b[1] - a[1])
-    .filter((item, _, arr) => item[1] === arr[0][1]);
+  // Using Object.entries to convert each series object to an array of key-value pairs
+  // This transformation allows for sorting and filtering operations to be performed effectively
+  return (
+    Object.entries(
+      // Create an object of series with their respective counts
+      books
+        .filter((book) => book.status !== "wanted" && book.series)
+        .reduce((acc, value) => {
+          const series = value.series.trim();
+          acc[series] = acc[series] + 1 || 1;
+          return acc;
+        }, {})
+    )
+      // Sort the entries based on the count in descending order
+      .sort((a, b) => b[1] - a[1])
+      // Filter the entries to include only those with the highest count
+      .filter((item, _, arr) => item[1] === arr[0][1])
+  );
 }
 
+// Params:
+// books: Object - Array of book objects
 export function computeFastestSlowestRead(books) {
   const readInDates = books
     .filter((book) => book.finishDate && book.startDate)
@@ -179,16 +216,21 @@ export function computeFastestSlowestRead(books) {
           ) + 1,
       };
     });
-  const fastestRead = readInDates
+  const fastestRead = [...readInDates]
     .sort((a, b) => a.readIn - b.readIn)
+    // Filter the entries to include only those with the lowest count for the read duration
     .filter((item, _, arr) => item.readIn === arr[0].readIn);
-  const slowestRead = readInDates
+
+  const slowestRead = [...readInDates]
     .sort((a, b) => b.readIn - a.readIn)
+    // Filter the entries to include only those with the highest count for the read duration
     .filter((item, _, arr) => item.readIn === arr[0].readIn);
 
   return { fastestRead, slowestRead };
 }
 
+// Params:
+// books: Object - Array of series objects
 export function computeTotalSeasons(series) {
   return series.reduce(
     (acc, value) => (value.status !== "wanted" ? acc + value.numSeasons : acc),
@@ -196,6 +238,8 @@ export function computeTotalSeasons(series) {
   );
 }
 
+// Params:
+// books: Object - Array of series objects
 export function computeTotalEpisodesSeries(series) {
   return series.reduce(
     (acc, value) => (value.status !== "wanted" ? acc + value.numEpisodes : acc),
@@ -203,6 +247,8 @@ export function computeTotalEpisodesSeries(series) {
   );
 }
 
+// Params:
+// books: Object - Array of anime objects
 export function computeTotalEpisodesAnime(anime) {
   return anime.reduce(
     (acc, value) => (value.status !== "wanted" ? acc + value.numEpisodes : acc),
@@ -210,6 +256,8 @@ export function computeTotalEpisodesAnime(anime) {
   );
 }
 
+// Params:
+// books: Object - Array of movies objects
 export function computeTotalWatchTime(movies) {
   const totalMinutes = movies.reduce(
     (acc, value) => (value.status !== "wanted" ? acc + value.duration : acc),
@@ -224,31 +272,37 @@ export function computeTotalWatchTime(movies) {
   const value = `${days > 0 ? `${days} ${daysString}` : ""} ${
     hours > 0 ? `${hours} ${hoursString}` : ""
   }`;
-  return value;
+  return value.trim();
 }
 
+// Params:
+// - numPages: Number - The number of pages in the book to be checked
+// - booksSameYear: Object - An array of book objects read in the same year as the book to be checked
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
-  const isLongestBook = !booksSameYear.some(
-    (item) => item.status === "read" && item.numPages > numPages
-  );
+  const isLongestBook = !booksSameYear.some((item) => item.numPages > numPages);
 
   const isShortestBook = !booksSameYear.some(
-    (item) => item.status === "read" && item.numPages < numPages
+    (item) => item.numPages < numPages
   );
 
   return { isLongestBook, isShortestBook };
 }
 
+// Params:
+// - string: String - The input string to be capitalized
 export function capitalizeFirstWord(string) {
   if (string === "") return "";
   return string.at(0).toUpperCase() + string.slice(1);
 }
 
+// Params:
+// - obj: Object - Containing the extra info. The object has the following structure: {1comment: someText, 2comment: someText, 3altText: someText, 3link: someLink}
 export function convertExtraInfoObjectToArray(obj) {
   return Object.entries(obj).reduce((acc, [key, value]) => {
     if (key.includes("comment")) acc.push({ text: value, link: `` });
     else if (key.includes("link"))
       acc.push({
+        // Extract the corresponding alt text from the object and use it as the text for the link
         text: obj[`${parseInt(key)}altText`],
         link: value,
       });
@@ -256,6 +310,8 @@ export function convertExtraInfoObjectToArray(obj) {
   }, []);
 }
 
+// Params:
+// array: Object - Array of extra info objects
 export function convertExtraInfoFromDatabase(array) {
   return array.reduce((acc, value) => {
     if (!value.link)
@@ -272,6 +328,8 @@ export function convertExtraInfoFromDatabase(array) {
   }, []);
 }
 
+// Params:
+// - str: String - The input string to be validated
 export function isHttpValid(str) {
   try {
     const newUrl = new URL(str);
@@ -281,6 +339,8 @@ export function isHttpValid(str) {
   }
 }
 
+// Params:
+// - email: String - The input email to be validated
 export function isValidEmail(email) {
   var reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
 
@@ -291,9 +351,10 @@ export function isValidEmail(email) {
   return true;
 }
 
+// Params:
+// - date: Date - The input date object to be converted
 export function convertDateToISO(date) {
   if (!date) return null;
-
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();

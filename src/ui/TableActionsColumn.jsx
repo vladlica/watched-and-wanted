@@ -5,11 +5,20 @@ import {
   HiOutlinePlusCircle,
   HiOutlineTrash,
 } from "react-icons/hi2";
-import ButtonIcon from "./ButtonIcon";
 import React, { useState } from "react";
-import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
+import ButtonIcon from "./ButtonIcon";
+import Modal from "./Modal";
 
+// Props:
+// - type: String - Type of item (e.g., "book", "movie", etc.)
+// - isConsumed: Boolean - Indicating if the content is consumed
+// - consumeType: String - Type of consumption action (e.g., "watched", "read")
+// - toggleOnClick: Object - Function to toggle consumption status
+// - viewPath: String - Path to view details about the item
+// - contentEditModal: JSX.Element - Modal content for editing the item
+// - contentDeleteModal: JSX.Element - Modal content for deleting the item
+// - disabled: Boolean - Indicating if the buttons are disabled
 function TableActionsColumn({
   type,
   isConsumed,
@@ -54,6 +63,7 @@ function TableActionsColumn({
       </ButtonIcon>
       {isEditModalOpen && (
         <Modal onClose={() => setIsEditModalOpen(false)}>
+          {/* Clone the contentEditModal for passing the function that allows closing the modal as a prop */}
           {React.cloneElement(contentEditModal, {
             onClose: () => setIsEditModalOpen(false),
           })}
@@ -70,6 +80,7 @@ function TableActionsColumn({
       </ButtonIcon>
       {isDeleteModalOpen && (
         <Modal onClose={() => setIsDeleteModalOpen(false)}>
+          {/* Clone the contentDeleteModal element to pass the function that allows closing the modal and the type of the item as props */}
           {React.cloneElement(contentDeleteModal, {
             onClose: () => setIsDeleteModalOpen(false),
             type,

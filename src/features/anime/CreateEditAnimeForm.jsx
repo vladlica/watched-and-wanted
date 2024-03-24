@@ -1,5 +1,14 @@
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import {
+  capitalizeFirstWord,
+  convertExtraInfoFromDatabase,
+  convertExtraInfoObjectToArray,
+} from "../../utils/helpers";
+import { useCreateAnime } from "./useCreateAnime";
+import { useUpdateAnime } from "./useUpdateAnime";
+import ButtonsList from "../../ui/ButtonsList";
+import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import Error from "../../ui/Error";
 import FormRow from "../../ui/FormRow";
@@ -7,21 +16,16 @@ import Label from "../../ui/Label";
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
 import FormExtraInfoList from "../../ui/FormExtraInfoList";
-import {
-  capitalizeFirstWord,
-  convertExtraInfoFromDatabase,
-  convertExtraInfoObjectToArray,
-} from "../../utils/helpers";
-import ButtonsList from "../../ui/ButtonsList";
-import Button from "../../ui/Button";
-import { useCreateAnime } from "./useCreateAnime";
-import { useUpdateAnime } from "./useUpdateAnime";
 
+// Props:
+// - anime: Object - The anime data to be edited, if provided
+// - onClose: Object - Function to close the form
 function CreateEditAnimeForm({ anime, onClose }) {
   const scrollRef = useRef(null);
 
   const { isCreating, createAnime } = useCreateAnime();
   const { isUpdating, updateAnime } = useUpdateAnime();
+
   const isEditSession = Boolean(anime?.id);
 
   const {
@@ -42,6 +46,7 @@ function CreateEditAnimeForm({ anime, onClose }) {
 
   const { errors } = formState;
 
+  // Watches changes in the "status" field and updates accordingly
   const watchFields = watch(["status"]);
 
   const isWatched = watchFields[0] === "watched";
@@ -66,14 +71,7 @@ function CreateEditAnimeForm({ anime, onClose }) {
       status,
     };
 
-    if (isEditSession) {
-      delete extraInfoData.extra_info;
-      delete extraInfoData.id;
-      delete extraInfoData.created_at;
-    }
-
     const extraInfoArray = convertExtraInfoObjectToArray(extraInfoData);
-
 
     if (isEditSession)
       updateAnime(
@@ -115,7 +113,7 @@ function CreateEditAnimeForm({ anime, onClose }) {
         <Select
           id="status"
           options={["wanted", "watched"]}
-          register={{ ...register("status") }}
+          register={register}
           disabled={isCreating || isUpdating}
         ></Select>
       </FormRow>
@@ -151,6 +149,7 @@ function CreateEditAnimeForm({ anime, onClose }) {
         unregister={unregister}
         errors={errors}
         ref={scrollRef}
+        // If it's an editing session converts the array of extra info from the database to an array which has the expected structure for the FormExtraInfoList component
         defaultValue={
           isEditSession ? convertExtraInfoFromDatabase(anime.extra_info) : []
         }

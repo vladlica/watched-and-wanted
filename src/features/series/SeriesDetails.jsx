@@ -1,8 +1,8 @@
-import Row from "../../ui/Row";
-import Spinner from "../../ui/Spinner";
+import { useSeriesDetails } from "./useSeriesDetails";
 import SeriesDetailsHeader from "./SeriesDetailsHeader";
 import SeriesDetailsStats from "./SeriesDetailsStats";
-import { useSeriesDetails } from "./useSeriesDetails";
+import Row from "../../ui/Row";
+import Spinner from "../../ui/Spinner";
 
 function SeriesDetails() {
   const { isLoading, series, error, isError } = useSeriesDetails();

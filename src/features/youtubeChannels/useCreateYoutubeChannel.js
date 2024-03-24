@@ -10,6 +10,7 @@ export function useCreateYoutubeChannel() {
       createYoutubeChannelApi(newYoutubeChannel, extraInfo),
     onSuccess: () => {
       toast.success("New Youtube channel successfully created");
+      // Invalidating the youtubeChannels query to trigger a refetch and keep the data fresh 
       queryClient.invalidateQueries({ queryKey: ["youtubeChannels"] });
     },
     onError: (err) => toast.error(err.message),

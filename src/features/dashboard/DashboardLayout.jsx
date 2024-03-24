@@ -1,12 +1,5 @@
 import styled from "styled-components";
-import TotalCounts from "./TotalCounts";
-import MediaConsumptionChart from "./MediaConsumptionChart";
-import ContentDistributionChart from "./ContentDistributionChart";
-import PagesChart from "./PagesChart";
-import BooksChart from "./BooksChart";
-import Stats from "./Stats";
 import { useBooks } from "../books/useBooks";
-import Spinner from "../../ui/Spinner";
 import { useSeries } from "../series/useSeries";
 import { useMovies } from "../movies/useMovies";
 import { useAnime } from "../anime/useAnime";
@@ -23,6 +16,13 @@ import {
   computeTotalSeasons,
   computeTotalWatchTime,
 } from "../../utils/helpers";
+import TotalCounts from "./TotalCounts";
+import MediaConsumptionChart from "./MediaConsumptionChart";
+import ContentDistributionChart from "./ContentDistributionChart";
+import PagesChart from "./PagesChart";
+import BooksChart from "./BooksChart";
+import Stats from "./Stats";
+import Spinner from "../../ui/Spinner";
 
 const StyledDashboardLayout = styled.div`
   display: grid;

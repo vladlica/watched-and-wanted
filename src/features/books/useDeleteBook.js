@@ -9,7 +9,7 @@ export function useDeleteBook() {
     mutationFn: deleteBookApi,
     onSuccess: () => {
       toast.success("Book successfully deleted");
-
+      // Invalidating the books query to trigger a refetch and keep the data fresh 
       queryClient.invalidateQueries({
         queryKey: ["books"],
       });

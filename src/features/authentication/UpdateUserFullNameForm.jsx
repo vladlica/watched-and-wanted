@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { useOutletContext } from "react-router-dom";
+import { useUpdateUser } from "./useUpdateUser";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Label from "../../ui/Label";
@@ -6,8 +8,6 @@ import Error from "../../ui/Error";
 import Input from "../../ui/Input";
 import ButtonsList from "../../ui/ButtonsList";
 import Button from "../../ui/Button";
-import { useUpdateUser } from "./useUpdateUser";
-import { useOutletContext } from "react-router-dom";
 import RoundBox from "../../ui/RoundBox";
 
 function UpdateUserFullNameForm() {

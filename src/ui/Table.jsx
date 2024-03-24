@@ -7,6 +7,8 @@ const StyledTable = styled.div`
   overflow: hidden;
 `;
 
+// Props:
+// - $columns: String - Indicating the grid template columns for defining column widths
 const StyledHeader = styled.div`
   display: grid;
   grid-template-columns: ${(props) => props.$columns};
@@ -28,6 +30,8 @@ const StyledBody = styled.div`
   background-color: var(--color-grey-0);
 `;
 
+// Props:
+// - $columns: String - Indicating the grid template columns for defining column widths
 const StyledRow = styled.div`
   display: grid;
   grid-template-columns: ${(props) => props.$columns};
@@ -65,6 +69,9 @@ const Empty = styled.p`
 
 const TableContext = createContext();
 
+// Props:
+// - columns: String - Indicating the grid template columns for the table
+// - children: ReactNode - Child elements to be rendered inside the table
 function Table({ columns, children }) {
   return (
     <TableContext.Provider value={{ columns }}>
@@ -73,6 +80,8 @@ function Table({ columns, children }) {
   );
 }
 
+// Props:
+// - children: ReactNode - Child elements to be rendered inside the header
 function Header({ children }) {
   const { columns } = useContext(TableContext);
   return (
@@ -82,6 +91,8 @@ function Header({ children }) {
   );
 }
 
+// Props:
+// - children: ReactNode - Child elements to be rendered inside the row
 function Row({ children }) {
   const { columns } = useContext(TableContext);
   return (
@@ -91,6 +102,9 @@ function Row({ children }) {
   );
 }
 
+// Props:
+// - data: Object - Array of items to be rendered inside the body
+// - render: Object - Callback function to render each data item
 function Body({ data, render }) {
   if (!data.length) return <Empty>No data to show. </Empty>;
   return <StyledBody>{data.map(render)}</StyledBody>;

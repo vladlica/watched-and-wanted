@@ -1,29 +1,38 @@
 import React, { useEffect, useState, forwardRef } from "react";
 import styled from "styled-components";
-import ButtonIcon from "./ButtonIcon";
-import FormRow from "./FormRow";
-import ButtonsList from "./ButtonsList";
-import Label from "./Label";
-import Input from "./Input";
 import {
   HiOutlineChatBubbleOvalLeft,
   HiOutlineLink,
   HiXMark,
 } from "react-icons/hi2";
 import { capitalizeFirstWord, isHttpValid } from "../utils/helpers";
+import ButtonIcon from "./ButtonIcon";
+import FormRow from "./FormRow";
+import ButtonsList from "./ButtonsList";
+import Label from "./Label";
+import Input from "./Input";
 import Error from "./Error";
 
 const ExtraInfoContainer = styled.div`
   position: relative;
 `;
 
+// This component renders extra information such as comments and links associated with an item,
+// allowing the addition and deletion of any piece of extra information
+// Props:
+// - register: Object - Function to register inputs provided by react-hook-form library
+// - unregister: Object - Function to unregister inputs provided by react-hook-form library
+// - errors: Object - Containing validation errors for form inputs, provided by react-hook-form library
+// - disabled: Boolean - Indicating whether the elements in the form are disabled
+// - defaultValue: Object - Array of comments and links (comment structure: { type: 'comment', text: 'Comment text', valid: true }, link structure: { type: 'link', link: 'http://example.com', text: 'Link text', valid: true })
+// - ref: RefObject - Ref forwarded from parent component pointing to the form element
 const FormExtraInfoList = forwardRef(function (
   { register, unregister, errors, disabled, defaultValue = [] },
   ref
 ) {
   const [extraInfo, setExtraInfo] = useState(defaultValue);
 
-  // to keep the scroll to the bottom
+  // Keep the scroll to the bottom when extra info is added
   useEffect(
     function () {
       if (extraInfo.length) ref.current.scrollTop = ref.current.scrollHeight;
@@ -32,10 +41,14 @@ const FormExtraInfoList = forwardRef(function (
   );
 
   function removeExtraInfo(index, type) {
-    unregister(`${index + 1}${type}`);
-
+    // To remove it from the data retrieved when submitting the form
+    unregister(`${index}${type}`);
+    // Removing a piece of extra information by setting its "valid" property to false,
+    // because removing it from the array would cause the index for each element to modify
     setExtraInfo((extraInfo) =>
-      extraInfo.map((info, i) => (i === index ? info.valid === false : info))
+      extraInfo.map((info, i) =>
+        i + 1 === index ? info.valid === false : info
+      )
     );
   }
 
@@ -63,6 +76,7 @@ const FormExtraInfoList = forwardRef(function (
                 <ExtraInfoContainer>
                   <Input
                     type="text"
+                    // Using the index to have an unique id in case there are multiple comments or links
                     id={`${i + 1}${info.type}`}
                     defaultValue={
                       info.type === "comment" ? info?.text : info?.link
@@ -70,6 +84,7 @@ const FormExtraInfoList = forwardRef(function (
                     placeholder={capitalizeFirstWord(info.type)}
                     {...register(`${i + 1}${info.type}`, {
                       required: "This field is required",
+                      // Check if the provided link is a valid one
                       validate: (value) =>
                         info.type === "link"
                           ? isHttpValid(value) ||
@@ -81,7 +96,7 @@ const FormExtraInfoList = forwardRef(function (
                   <ButtonIcon
                     $place="input"
                     type="button"
-                    onClick={() => removeExtraInfo(i, info.type)}
+                    onClick={() => removeExtraInfo(i + 1, info.type)}
                     title={`Remove ${info.type}`}
                     disabled={disabled}
                   >
@@ -92,6 +107,7 @@ const FormExtraInfoList = forwardRef(function (
                   <Error>{errors[`${i + 1}${info.type}`].message}</Error>
                 )}
               </FormRow>
+
               {info.type === "link" && (
                 <FormRow>
                   <Label htmlFor={`${i + 1}altText`}>Alternative text</Label>

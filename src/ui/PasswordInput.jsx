@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Input from "./Input";
 import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
+import Input from "./Input";
 
 const StyledPasswordInput = styled.div`
   display: flex;
@@ -41,8 +41,16 @@ const ShowPasswordButton = styled.button`
   }
 `;
 
+// Props:
+// - id: String - Unique identifier for the input field
+// - placeholder: String - Placeholder text for the input field
+// - register: Object - Function to register inputs provided by react-hook-form library
+// - rules: Object - Containing validation rules for the input field
+// - disabled: Boolean - Indicating whether the input field and the button are disabled
 function PasswordInput({ id, placeholder, register, rules, disabled }) {
+  // State to manage password visibility
   const [showPassword, setShowPassword] = useState(false);
+
   return (
     <StyledPasswordInput>
       <Input
@@ -56,6 +64,7 @@ function PasswordInput({ id, placeholder, register, rules, disabled }) {
         title={showPassword ? "Hide password" : "Show password"}
         onClick={() => setShowPassword((show) => !show)}
         type="button"
+        disabled={disabled}
       >
         {showPassword ? <HiOutlineEyeSlash /> : <HiOutlineEye />}
       </ShowPasswordButton>

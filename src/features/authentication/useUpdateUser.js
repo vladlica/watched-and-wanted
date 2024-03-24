@@ -9,7 +9,10 @@ export function useUpdateUser() {
     mutationFn: updateCurrentUser,
     onSuccess: (user) => {
       toast.success("User account successfully updated");
-      queryClient.setQueryData(["user"], user.user);
+      // Invalidating the user query to trigger a refetch and keep the data fresh
+      queryClient.invalidateQueries({
+        queryKey: ["user"],
+      });
     },
     onError: (err) => toast.error(err.message),
   });
