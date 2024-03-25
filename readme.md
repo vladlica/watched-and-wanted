@@ -36,6 +36,8 @@ To get started with Watched and Wanted, follow these simple steps:
 
 4. **Explore and Enjoy**: Explore the features of Watched and Wanted, start tracking your media consumption, and discover new favorites!
 
+5. **Deployed Version**: Check out the live version of Watched and Wanted deployed on Netlify: https://watchedandwanted.netlify.app/ or on Vercel: https://watched-and-wanted.vercel.app/
+
 ---
 
 Start tracking your media consumption today with Watched and Wanted! 📚🎬📺🍿🎧
