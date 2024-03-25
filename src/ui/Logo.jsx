@@ -1,4 +1,5 @@
 import { HiOutlineShare } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledLogo = styled.div`
@@ -25,15 +26,17 @@ const ColoredLetter = styled.span`
 
 function Logo() {
   return (
-    <StyledLogo>
-      <HiOutlineShare />
-      <Text>
-        <ColoredLetter>W</ColoredLetter>
-        atched&
-        <ColoredLetter>W</ColoredLetter>
-        anted
-      </Text>
-    </StyledLogo>
+    <Link to="/dashboard">
+      <StyledLogo>
+        <HiOutlineShare />
+        <Text>
+          <ColoredLetter>W</ColoredLetter>
+          atched&
+          <ColoredLetter>W</ColoredLetter>
+          anted
+        </Text>
+      </StyledLogo>
+    </Link>
   );
 }
 
