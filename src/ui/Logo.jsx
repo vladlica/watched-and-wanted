@@ -33,7 +33,7 @@ function Logo() {
           <ColoredLetter>W</ColoredLetter>
           atched&
           <ColoredLetter>W</ColoredLetter>
-          antedTest
+          anted
         </Text>
       </StyledLogo>
     </Link>
