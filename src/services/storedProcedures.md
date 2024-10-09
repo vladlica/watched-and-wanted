@@ -49,11 +49,11 @@ $$ LANGUAGE plpgsql;
 This stored procedure deletes the account of the current user.
 
 ```sql
-CREATE OR REPLACE FUNCTION delete_user()
+CREATE OR REPLACE FUNCTION delete_user(user_id UUID)
 RETURNS VOID
 LANGUAGE SQL SECURITY DEFINER
 AS $$
-   DELETE FROM auth.users WHERE id = auth.uid();
+   DELETE FROM auth.users WHERE id = user_id;
 $$;
 ```
 

@@ -72,7 +72,7 @@ export async function updateCurrentUser({ password, fullName }) {
 
 // Params:
 // - password: String - The password for the user's account
-export async function deleteAccount(password) {
+export async function deleteAccount({ password, userId }) {
   // The stored procedure verifies whether the provided password matches the one associated with the currently logged-in user
   // It enables the user to delete their account securely
   // For detailed explanations of the stored procedure, refer to the documentation file: "storedProcedures.md"
@@ -84,12 +84,14 @@ export async function deleteAccount(password) {
 
   if (!data) throw new Error("Provided password is incorrect");
 
-  // For detailed explanations of the stored procedure, refer to the documentation file: "storedProcedures.md"
-  const { error: errorDelete } = await supabase.rpc("delete_user");
-
-  if (errorDelete) throw new Error(errorDelete.message);
-
   const { error: errorSignOut } = await supabase.auth.signOut();
 
   if (errorSignOut) throw new Error(errorSignOut.message);
+
+  // For detailed explanations of the stored procedure, refer to the documentation file: "storedProcedures.md"
+  const { error: errorDelete } = await supabase.rpc("delete_user", {
+    user_id: userId,
+  });
+
+  if (errorDelete) throw new Error(errorDelete.message);
 }

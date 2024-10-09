@@ -8,7 +8,7 @@ export function getInitials(fullName) {
   return fullName
     .split(" ")
     .slice(0, 2)
-    .map((name) => name.at(0).toUpperCase())
+    .map(name => name.at(0).toUpperCase())
     .join("");
 }
 
@@ -132,18 +132,18 @@ export function computeContentDistribution({
       value: youtubeChannelsCount,
       color: dashboardColors.youtubeChannels.value,
     },
-  ].filter((item) => item.value > 0);
+  ].filter(item => item.value > 0);
 }
 
 // Params:
 // books: Object - Array of book objects
 export function computeBooksAndPagesReadOverTheYears(books) {
   return books
-    .filter((book) => book.status !== "wanted" && book.finishDate)
+    .filter(book => book.status !== "wanted" && book.finishDate)
     .reduce((acc, value) => {
       const year = format(new Date(value.finishDate), "yyyy");
       // Check if the year has already an entry in the array
-      const item = acc.find((item) => item.year === year);
+      const item = acc.find(item => item.year === year);
       if (item) {
         item.books += 1;
         item.pages += value.numPages;
@@ -163,7 +163,7 @@ export function computeMostReadAuthor(books) {
     Object.entries(
       // Create an object of authors with their respective counts
       books
-        .filter((book) => book.status !== "wanted")
+        .filter(book => book.status !== "wanted")
         .reduce((acc, value) => {
           const author = value.author.trim();
           acc[author] = acc[author] + 1 || 1;
@@ -186,7 +186,7 @@ export function computeLongestSeries(books) {
     Object.entries(
       // Create an object of series with their respective counts
       books
-        .filter((book) => book.status !== "wanted" && book.series)
+        .filter(book => book.status !== "wanted" && book.series)
         .reduce((acc, value) => {
           const series = value.series.trim();
           acc[series] = acc[series] + 1 || 1;
@@ -204,8 +204,8 @@ export function computeLongestSeries(books) {
 // books: Object - Array of book objects
 export function computeFastestSlowestRead(books) {
   const readInDates = books
-    .filter((book) => book.finishDate && book.startDate)
-    .map((book) => {
+    .filter(book => book.finishDate && book.startDate)
+    .map(book => {
       return {
         id: book.id,
         title: book.title,
@@ -279,11 +279,9 @@ export function computeTotalWatchTime(movies) {
 // - numPages: Number - The number of pages in the book to be checked
 // - booksSameYear: Object - An array of book objects read in the same year as the book to be checked
 export function checkIfLongestAndShortestBook(numPages, booksSameYear = []) {
-  const isLongestBook = !booksSameYear.some((item) => item.numPages > numPages);
+  const isLongestBook = !booksSameYear.some(item => item.numPages > numPages);
 
-  const isShortestBook = !booksSameYear.some(
-    (item) => item.numPages < numPages
-  );
+  const isShortestBook = !booksSameYear.some(item => item.numPages < numPages);
 
   return { isLongestBook, isShortestBook };
 }

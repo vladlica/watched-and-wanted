@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDeleteAccount } from "./useDeleteAccount";
+import { useOutletContext } from "react-router-dom";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Label from "../../ui/Label";
@@ -18,10 +19,12 @@ function DeleteAccountForm({ onClose }) {
     },
   });
 
+  const { id: userId } = useOutletContext();
+
   const { errors } = formState;
 
   function onSubmit({ password }) {
-    deleteAccount(password, { onSettled: () => reset() });
+    deleteAccount({ password, userId }, { onSettled: () => reset() });
   }
   return (
     <>
